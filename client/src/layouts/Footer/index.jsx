@@ -64,7 +64,7 @@ export function Footer() {
 
         <section className='mb-4'>
           <p>
-          The website that I designed is centered around the theme of cat adoption/sponsorship. However, I must clarify that the website is not functional and cannot provide any real aid to cats. Its purpose is purely for showcasing my design skills, and the theme of cat adoption/sponsorship was chosen for demonstration purposes. Although the idea of cat adoption/sponsorship is noble, this website is not intended for production and should not be relied upon for any practical use in the real world.
+          Summary text about the project.
           </p>
         </section>
 
