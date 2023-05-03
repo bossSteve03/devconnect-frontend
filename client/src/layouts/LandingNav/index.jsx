@@ -3,6 +3,8 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Footer } from '../Footer';
+import { BrandName } from '../../components'
+import './index.modules.css'
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -16,11 +18,11 @@ export default function LandingNav() {
 
   return (
     <>
-      <Navbar bg="light" variant="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg">
       <div className="container-fluid">
-        <div className='d-flex flex-row'>
-          <Navbar.Brand as={Link} to="/">DevConnect</Navbar.Brand>
-          <Navbar.Text className="text-light">Unleash your potential</Navbar.Text>
+        <div className='d-flex flex-row align-items-center'>
+          <Navbar.Brand as={Link} to="/"><BrandName /></Navbar.Brand>
+          <Navbar.Text className="text-dark">Unleash your potential</Navbar.Text>
         </div>
         <Navbar.Toggle aria-controls="navbarSupportedContent" />
         <Navbar.Collapse id="navbarSupportedContent">

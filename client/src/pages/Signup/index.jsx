@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrandName } from "../../components"
+import './index.modules.css'
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -13,36 +14,36 @@ export default function Login() {
 
   return (
     <>
-    <BrandName />
-    <form onSubmit={handleSubmit}>
-      <label className="form-label">
-        Username:
+    <form className="signup-form" onSubmit={handleSubmit}>
+      <br />
+      <h1 className="signup-text">Sign Up!</h1>
+      <br />
         <input
+          className="form-input"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          placeholder="username"
         />
-      </label>
       <br />
-      <label className="form-label">
-        Email:
         <input
+          className="form-input"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="email"
         />
-      </label>
       <br />
-      <label className="form-label">
-        Password:
         <input
+          className="form-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="password"
         />
-      </label>
       <br />
       <button className="submit-btn" type="submit">Submit</button>
+      <br />
     </form>
     </>
   );

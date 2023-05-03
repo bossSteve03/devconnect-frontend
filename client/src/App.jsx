@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
 import { Landing, NotFound, AboutUs, ContactUs, Signup, Login } from './pages'
 
 function App() {
+  const [user, setUser] = useState('')
 
   return (
     <>
