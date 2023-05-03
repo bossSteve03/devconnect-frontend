@@ -1,7 +1,8 @@
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react'
+import { useEffect } from 'react';
+import { Footer } from '../Footer';
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -15,7 +16,7 @@ export default function LandingNav() {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar bg="light" variant="light" expand="lg">
       <div className="container-fluid">
         <div className='d-flex flex-row'>
           <Navbar.Brand as={Link} to="/">DevConnect</Navbar.Brand>
@@ -32,6 +33,7 @@ export default function LandingNav() {
       </div>
     </Navbar>
     <Outlet />
+    <Footer />
     </>
   )
 }
