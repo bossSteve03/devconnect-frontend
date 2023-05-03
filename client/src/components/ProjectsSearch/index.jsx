@@ -12,12 +12,10 @@ export default function ProjectsSearch() {
       try {
         const response = await fetch("https://swapi.dev/api/films");
         const data = await response.json();
-        const mapProjects = data.results.map((project) => {
-          return {
-            title: project.title,
-            description: project.opening_crawl,
-          };
-        });
+        const mapProjects = data.results.map((project) => ({
+          title: project.title,
+          description: project.opening_crawl,
+        }));
         setProjects(mapProjects);
         setIsLoading(false);
       } catch (error) {
@@ -27,9 +25,8 @@ export default function ProjectsSearch() {
     };
 
     getProjects();
-  }, []);
+  }, [setProjects]);
 
-  const keys = ["title", "description"];
   useEffect(() => {
     const filteredProjects = projects.filter((project) =>
       keys.some((key) =>
@@ -37,27 +34,32 @@ export default function ProjectsSearch() {
       )
     );
     setFilteredProjects(filteredProjects);
-  }, [query]);
+  }, [query, projects]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const keys = ["title", "description"];
 
   const searchHandler = (e) => {
     setQuery(e.target.value);
   };
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <h2>SearchBar</h2>
       <input type="text" placeholder="Search" onChange={searchHandler} />
-      {filteredProjects &&
+      {projects.length === 0 ? (
+        <p>No projects found.</p>
+      ) : (
         filteredProjects.map((project, i) => (
           <div key={i}>
             <h3>{project.title}</h3>
             <p>{project.description}</p>
           </div>
-        ))}
+        ))
+      )}
     </>
   );
 }
