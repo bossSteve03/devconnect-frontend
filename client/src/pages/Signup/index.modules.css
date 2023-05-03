@@ -1,0 +1,13 @@
+.form-input {
+  width: 576px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.49);
+  border-radius: 30px;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  /* gap: px; */
+  align-items: center;
+}

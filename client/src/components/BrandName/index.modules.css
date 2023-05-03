@@ -1,0 +1,21 @@
+.title1 {
+  color: #72FF75;
+  font-size: 24px;
+}
+
+.title2 {
+ color: #FFF;
+ font-size: 24px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+}
