@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
+import { ProjectsProvider } from "../src/context";
 import {
   Landing,
   NotFound,
@@ -12,7 +13,6 @@ import {
   Project,
   Projects,
 } from "./pages";
-import { ProjectsProvider } from "../src/context";
 
 function App() {
   const [user, setUser] = useState("");

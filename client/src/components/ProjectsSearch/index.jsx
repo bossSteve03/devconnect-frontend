@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useProjects } from "../../context";
+import { useProjects } from "../../context/index";
 
 export default function ProjectsSearch() {
-  const { projectsContext, setProjects } = useProjects();
+  const { projects, setProjects } = useProjects();
   const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -17,26 +19,40 @@ export default function ProjectsSearch() {
           };
         });
         setProjects(mapProjects);
-        setIsLoading(false); // Set loading state to false once the data is fetched
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
-        setIsLoading(false); // Set loading state to false in case of an error
+        setIsLoading(false);
       }
     };
 
     getProjects();
   }, []);
 
+  const keys = ["title", "description"];
+  useEffect(() => {
+    const filteredProjects = projects.filter((project) =>
+      keys.some((key) =>
+        project[key].toLowerCase().includes(query.toLowerCase())
+      )
+    );
+    setFilteredProjects(filteredProjects);
+  }, [query]);
+
   if (isLoading) {
-    return <p>Loading...</p>; // Display a loading state
+    return <p>Loading...</p>;
   }
 
-  console.log(projectsContext);
+  const searchHandler = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <>
       <h2>SearchBar</h2>
-      {projectsContext &&
-        projectsContext.map((project, i) => (
+      <input type="text" placeholder="Search" onChange={searchHandler} />
+      {filteredProjects &&
+        filteredProjects.map((project, i) => (
           <div key={i}>
             <h3>{project.title}</h3>
             <p>{project.description}</p>
