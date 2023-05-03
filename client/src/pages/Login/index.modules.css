@@ -5,7 +5,7 @@
   background: #FFF;
   border-radius: 30px;
   border: transparent;
-  padding-left: 20px;
+  padding: 0px 20px;
   color: #000;
 }
 
@@ -31,7 +31,6 @@
   margin-top: 86px;
   display: flex;
   flex-direction: column;
-  /* gap: px; */
   align-items: center;
   height: 90vh;
 }

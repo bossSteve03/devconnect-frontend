@@ -15,6 +15,7 @@ import {
   FaGithub
 } from 'react-icons/fa';
 
+import './index.modules.css';
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS

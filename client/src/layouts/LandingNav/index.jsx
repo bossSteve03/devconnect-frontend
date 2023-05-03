@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Footer } from '../Footer';
 import { BrandName } from '../../components'
-import './index.modules.css'
-
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import './index.modules.css'
 
 export default function LandingNav() {
   useEffect(() => {
@@ -21,7 +20,7 @@ export default function LandingNav() {
     <>
       <Navbar variant="dark" expand="lg" id='Navbar'>
       <div className="container-fluid">
-        <div className='d-flex flex-row align-items-center'>
+        <div className='d-flex flex-row'>
           <Navbar.Brand as={Link} to="/"><BrandName /></Navbar.Brand>
           <Navbar.Text className="text-light">Unleash your potential</Navbar.Text>
         </div>
