@@ -1,3 +1,4 @@
+
 import { Outlet } from 'react-router';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -5,20 +6,21 @@ import { useEffect } from 'react';
 import { Footer } from '../Footer';
 import { BrandName } from '../../components'
 import './index.modules.css'
+
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 export default function LandingNav() {
-
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
+
       <div className="container-fluid">
         <div className='d-flex flex-row align-items-center'>
           <Navbar.Brand as={Link} to="/"><BrandName /></Navbar.Brand>
@@ -37,5 +39,5 @@ export default function LandingNav() {
     <Outlet />
     <Footer />
     </>
-  )
+  );
 }
