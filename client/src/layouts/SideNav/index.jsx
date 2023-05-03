@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
+import { BrandName } from '../../components'
 import { Link } from 'react-router-dom';
 import './index.modules.css'
   
@@ -15,7 +16,7 @@ export default function Sidebar() {
   return (
     <>
     <div id="sidebar">
-      <h3>Sidebar</h3>
+      <BrandName />
       <ul>
         <li><a href="#">Link 1</a></li>
         <li><a href="#">Link 2</a></li>
