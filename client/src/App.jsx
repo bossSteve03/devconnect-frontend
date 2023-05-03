@@ -1,11 +1,19 @@
-
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
-import { Landing, NotFound, AboutUs, ContactUs, Signup, Login } from './pages'
+import {
+  Landing,
+  NotFound,
+  AboutUs,
+  ContactUs,
+  Signup,
+  Login,
+  User,
+  Project,
+} from "./pages";
 
 function App() {
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState("");
   return (
     <>
       <Routes>
@@ -17,7 +25,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/project" element={<Project />} />
         </Route>
         <Route path="/auth" element={<SideNav />}>
           {/* <Route path='/dashboard' element={<Dashboard />} />
