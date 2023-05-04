@@ -14,6 +14,7 @@ import {
   Projects,
 } from "./pages";
 
+
 function App() {
   const [user, setUser] = useState("");
   return (
@@ -25,18 +26,17 @@ function App() {
             <Route path="/*" element={<NotFound />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route path="/user" element={<User />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/new-project" element={<Project />} />
-            <Route path="/projects" element={<Projects />} />
           </Route>
           <Route path="/auth" element={<SideNav />}>
-            {/* <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/team' element={<CurrentTeam />} />
-            <Route path="/*" element={<NotFound />} />
-            <Route path='/calendar' element={<Calendar />} />
-            <Route path='/user' element={<UserProfile />} /> */}
+            {/* <Route path='/auth/dashboard' element={<Dashboard />} />
+            <Route path='/auth/team' element={<CurrentTeam />} />
+            <Route path="/auth/*" element={<NotFound />} />
+            <Route path='/auth/calendar' element={<Calendar />} /> */}
+            <Route path="/auth/user" element={<User />} />
+            <Route path="/auth/new-project" element={<Project />} />
+            <Route path="/auth/projects" element={<Projects />} />
           </Route>
         </Routes>
       </ProjectsProvider>
