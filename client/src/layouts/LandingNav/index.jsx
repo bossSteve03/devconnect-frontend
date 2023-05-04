@@ -2,7 +2,7 @@
 import { Outlet } from 'react-router';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Footer } from '../Footer';
 import { BrandName } from '../../components'
 // Bootstrap CSS
@@ -12,6 +12,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import './index.modules.css'
 
 export default function LandingNav() {
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -26,7 +27,8 @@ export default function LandingNav() {
         </div>
         <Navbar.Toggle aria-controls="navbarSupportedContent" />
         <Navbar.Collapse id="navbarSupportedContent">
-          <Nav className="ms-auto mb-2 mb-lg-0 text-center justify-content-lg-end">
+          <Nav className="ms-auto mb-2 mb-lg-0 me-lg-0 me-sm-2 text-center justify-content-end">
+            <hr />
             <Nav.Link as={Link} to="/" exact>Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/login">Login</Nav.Link>

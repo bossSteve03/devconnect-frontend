@@ -1,10 +1,18 @@
 .form-input {
   width: 432px;
   height: 48px;
-  background: rgba(255, 255, 255, 0.49);
+  /* background: rgba(255, 255, 255, 0.49); */
+  background: #FFF;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 30px;
   border: transparent;
   padding: 0px 20px;
+  transition: 0.3s;
+}
+
+.form-input:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
 }
 
 ::placeholder {
@@ -18,11 +26,32 @@
   border-radius: 30px;
   border: transparent;
   padding: 5px;
-  color: #000
+  color: #000;
+  transition: 0.3s;
+}
+
+.submit-btn:active {
+  background-color:#72FF75;
+}
+
+.submit-btn:hover {
+  background-color:#72FF75;
+  transform: scale(1.1);
+  transition: 0.3s;
 }
 
 .form-input:first-of-type {
   margin-top: 64px;
+}
+
+.form-input:active {
+  border:#72FF75 3px solid;
+  outline: none;
+}
+
+.form-input:focus {
+  border:#72FF75 3px solid;
+  outline: none;
 }
 
 .signup-form {
