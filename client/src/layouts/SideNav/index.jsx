@@ -4,7 +4,7 @@ import { BrandName } from '../../components';
 import { Link } from 'react-router-dom';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IconContext } from 'react-icons';
-import './index.modules.css';
+import styles from './index.module.css';
   
 
 export default function Sidebar() {
@@ -17,8 +17,8 @@ export default function Sidebar() {
 
   return (
     <>
-    <div id='whole-page'>
-    <div id="sidebar">
+    <div className={styles['whole-page']}>
+    <div className={styles["sidebar"]}>
       <BrandName />
       <IconContext.Provider value={{ color: 'white', size: 32}}>
       <RxHamburgerMenu className='' onClick={setOpen}/>
@@ -29,8 +29,8 @@ export default function Sidebar() {
         <li><a href="#">Link 3</a></li>
       </ul>
     </div>
-    <div id="content">
-      <Outlet />
+    <div className={styles["content"]}>
+    <Outlet />
     </div>
     </div>
     </>

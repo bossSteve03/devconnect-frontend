@@ -9,7 +9,7 @@ import { BrandName } from '../../components'
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import './index.modules.css'
+import styles from './index.module.css';
 
 export default function LandingNav() {
 
@@ -19,7 +19,7 @@ export default function LandingNav() {
 
   return (
     <>
-      <Navbar variant="dark" expand="lg" id='Navbar'>
+      <Navbar variant="dark" expand="lg" id={styles['Navbar']}>
       <div className="container-fluid">
         <div className='d-flex flex-row'>
           <Navbar.Brand as={Link} to="/"><BrandName /></Navbar.Brand>
@@ -28,7 +28,6 @@ export default function LandingNav() {
         <Navbar.Toggle aria-controls="navbarSupportedContent" />
         <Navbar.Collapse id="navbarSupportedContent">
           <Nav className="ms-auto mb-2 mb-lg-0 me-lg-0 me-sm-2 text-center justify-content-end">
-            <hr />
             <Nav.Link as={Link} to="/" exact>Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
