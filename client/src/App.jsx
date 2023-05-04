@@ -12,8 +12,8 @@ import {
   User,
   Project,
   Projects,
+  Kanban,
 } from "./pages";
-
 
 function App() {
   const [user, setUser] = useState("");
@@ -37,6 +37,7 @@ function App() {
             <Route path="/auth/user" element={<User />} />
             <Route path="/auth/new-project" element={<Project />} />
             <Route path="/auth/projects" element={<Projects />} />
+            <Route path="/auth/kanban" element={<Kanban />} />
           </Route>
         </Routes>
       </ProjectsProvider>

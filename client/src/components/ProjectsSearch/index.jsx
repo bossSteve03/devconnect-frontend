@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useProjects } from "../../context/index";
+import "./searchform.css";
 
 export default function ProjectsSearch() {
   const { projects, setProjects } = useProjects();
@@ -46,17 +47,25 @@ export default function ProjectsSearch() {
     return <p>Loading...</p>;
   }
 
+  const handleApply = (e) => {
+    e.preventDefault();
+    console.log("Apply button clicked");
+  };
+
   return (
     <>
-      <h2>SearchBar</h2>
+      <h2 className="page-heading">SearchBar</h2>
       <input type="text" placeholder="Search" onChange={searchHandler} />
       {projects.length === 0 ? (
         <p>No projects found.</p>
       ) : (
         filteredProjects.map((project, i) => (
           <div key={i}>
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
+            <h3 className="project-title">{project.title}</h3>
+            <p className="project-description">{project.description}</p>
+            <button className="apply-button" onClick={handleApply}>
+              Apply
+            </button>
           </div>
         ))
       )}
