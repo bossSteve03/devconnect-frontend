@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './index.modules.css'
+import styles from './index.module.css'
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -14,16 +14,16 @@ export default function Login() {
 
   return (
     <>
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form className={styles["signup-form"]} onSubmit={handleSubmit}>
       <br />
-      <div className="signup-text">
-      <h1 className="signup-text">Sign Up!</h1>
-      <h1 className="signup-text">Sign Up!</h1>
+      <div className={styles["signup-text"]}>
+      <h1 className={styles["signup-text"]}>Sign Up!</h1>
+      <h1 className={styles["signup-text"]}>Sign Up!</h1>
       </div>
       <br />
       <br />
         <input
-          className="form-input"
+          className={styles["form-input"]}
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -31,7 +31,7 @@ export default function Login() {
         />
       <br />
         <input
-          className="form-input"
+          className={styles["form-input"]}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -39,18 +39,18 @@ export default function Login() {
         />
       <br />
         <input
-          className="form-input"
+          className={styles["form-input"]}
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="password"
         />
       <br />
-      <button className="submit-btn" type="submit">Submit</button>
+      <button className={styles["submit-btn"]} type="submit">Submit</button>
       <br />
-      <div className="login">
-        <p className="login">Already have an account?</p>
-        <Link to="/login" className="login-link">Log In!</Link>
+      <div className={styles["login"]}>
+        <p className={styles["login"]}>Already have an account?</p>
+        <Link to="/login" className={styles["login-link"]}>Log In!</Link>
       </div>
     </form>
     </>

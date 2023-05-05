@@ -1,4 +1,4 @@
-import "./project_form.css";
+import styles from "./index.module.css";
 import { useState } from "react";
 
 export default function ProjectForm() {
@@ -63,47 +63,47 @@ export default function ProjectForm() {
   return (
     <>
       <h1>Project Form</h1>
-      <form className="project-form-container">
-        <label className="project-form-label">Title</label>
+      <form className={styles["project-form-container"]}>
+        <label className={styles["project-form-label"]}>Title</label>
         <input
-          className="project-form-input"
+          className={styles["project-form-input"]}
           type="text"
           onChange={titleHandler}
         />
-        <label className="project-form-label">Description</label>
+        <label className={styles["project-form-label"]}>Description</label>
         <input
-          className="project-form-input"
+          className={styles["project-form-input"]}
           type="text"
           onChange={descriptionHandler}
         />
-        <label className="project-form-label">Duration</label>
+        <label className={styles["project-form-label"]}>Duration</label>
         <input
-          className="project-form-input"
+          className={styles["project-form-input"]}
           type="text"
           onChange={durationHandler}
         />
-        <label className="project-form-label">Number of Collaborators</label>
+        <label className={styles["project-form-label"]}>Number of Collaborators</label>
         <input
-          className="project-form-input"
+          className={styles["project-form-input"]}
           type="number"
           onChange={collaboratorsHandler}
         />
-        <label className="project-form-label">Tech stack</label>
+        <label className={styles["project-form-label"]}>Tech stack</label>
         <input
-          className="project-form-input"
+          className={styles["project-form-input"]}
           type="text"
           placeholder="JS, C#"
           onChange={techStackHandler}
         />
-        <label className="project-form-label">Positions</label>
+        <label className={styles["project-form-label"]}>Positions</label>
         <input
-          className="positions-input"
+          className={styles["positions-input"]}
           type="text"
           placeholder="Frontend, UX designer"
           onChange={positionsHandler}
         />
         <button
-          className="project-form-button"
+          className={styles["project-form-button"]}
           type="submit"
           onClick={submitHandler}
         >

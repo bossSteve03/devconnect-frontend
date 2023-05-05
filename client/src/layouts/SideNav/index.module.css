@@ -1,15 +1,15 @@
-#whole-page {
+.whole-page {
   display: flex;
 }
 
-#sidebar {
+.sidebar {
   position: absolute;
   width: 200px;
   height: 100vh;
   background-color: #012326;
   padding: 20px;
 }
-#content {
+.content {
   margin-left: 200px;
   padding: 20px;
   width: 100%;
