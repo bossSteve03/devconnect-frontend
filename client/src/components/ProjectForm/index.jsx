@@ -64,44 +64,68 @@ export default function ProjectForm() {
     <>
       <h1>Project Form</h1>
       <form className={styles["project-form-container"]}>
-        <label className={styles["project-form-label"]}>Title</label>
+        <label htmlFor="title" className={styles["project-form-label"]}>
+          Title
+        </label>
         <input
+          id="title"
           className={styles["project-form-input"]}
           type="text"
           onChange={titleHandler}
         />
-        <label className={styles["project-form-label"]}>Description</label>
+
+        <label htmlFor="description" className={styles["project-form-label"]}>
+          Description
+        </label>
         <input
+          id="description"
           className={styles["project-form-input"]}
           type="text"
           onChange={descriptionHandler}
         />
-        <label className={styles["project-form-label"]}>Duration</label>
+
+        <label htmlFor="duration" className={styles["project-form-label"]}>
+          Duration
+        </label>
         <input
+          id="duration"
           className={styles["project-form-input"]}
           type="text"
           onChange={durationHandler}
         />
-        <label className={styles["project-form-label"]}>Number of Collaborators</label>
+
+        <label htmlFor="collaborators" className={styles["project-form-label"]}>
+          Number of Collaborators
+        </label>
         <input
+          id="collaborators"
           className={styles["project-form-input"]}
           type="number"
           onChange={collaboratorsHandler}
         />
-        <label className={styles["project-form-label"]}>Tech stack</label>
+
+        <label htmlFor="techStack" className={styles["project-form-label"]}>
+          Tech stack
+        </label>
         <input
+          id="techStack"
           className={styles["project-form-input"]}
           type="text"
           placeholder="JS, C#"
           onChange={techStackHandler}
         />
-        <label className={styles["project-form-label"]}>Positions</label>
+
+        <label htmlFor="positions" className={styles["project-form-label"]}>
+          Positions
+        </label>
         <input
+          id="positions"
           className={styles["positions-input"]}
           type="text"
           placeholder="Frontend, UX designer"
           onChange={positionsHandler}
         />
+
         <button
           className={styles["project-form-button"]}
           type="submit"
