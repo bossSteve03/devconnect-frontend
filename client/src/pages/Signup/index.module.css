@@ -79,9 +79,9 @@
   color: #72FF75;
 }
 
-h1, h2, h3, h4, h5, p, a, button, input {
-  color: #FFF;
-}
+/* h1, h2, h3, h4, h5, p, a, button, input { */
+  /* color: #FFF; */
+/* } */
 
 body {
   background: #012326;

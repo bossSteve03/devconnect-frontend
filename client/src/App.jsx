@@ -9,12 +9,12 @@ import {
   Signup,
   Login,
   User,
+  Kanban,
   CreateProject,
   CurrentProject,
   SearchProjects,
   Dashboard
 } from "./pages";
-
 
 function App() {
   const [user, setUser] = useState("");
@@ -35,9 +35,9 @@ function App() {
             {/* <Route path='/auth/calendar' element={<Calendar />} /> */}
             <Route path="/auth/*" element={<NotFound />} />
             <Route path="/auth/user" element={<User />} />
+            <Route path="/auth/kanban" element={<Kanban />} />
             <Route path="/auth/new-project" element={<CreateProject />} />
             <Route path="/auth/projects" element={<SearchProjects />} />
-            {/* <Route path="/auth/kanban" element={<Kanban />} /> */}
           </Route>
         </Routes>
       </ProjectsProvider>
