@@ -1,0 +1,27 @@
+.icon-btn {
+  /* color: #fff; */
+  font-size: 32px;
+}
+
+.icon-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.icon-list > a, .icon-btn {
+  align-self: center;
+  /* color:rgb(170, 170, 170); */
+  color: #fff;
+  transition: 0.5s;
+}
+
+.icon-list > a:hover, .icon-btn:hover {
+  color: #72FF75;
+  transition: 0.5s;
+}
+
+/* a.active {
+  color: #fff;
+} */

@@ -7,6 +7,12 @@
   border: transparent;
   padding: 0px 20px;
   color: #000;
+  transition: 0.5s;
+}
+
+.form-input:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
 }
 
 .form-input:first-of-type {
@@ -24,7 +30,32 @@
   border-radius: 30px;
   border: transparent;
   padding: 5px;
-  color: #000
+  color: #000;
+  transition: 0.3s;
+}
+
+.submit-btn:active {
+  background-color:#72FF75;
+}
+
+.submit-btn:hover {
+  background-color:#72FF75;
+  transform: scale(1.07);
+  transition: 0.3s;
+}
+
+.form-input:first-of-type {
+  margin-top: 64px;
+}
+
+.form-input:active {
+  border:#72FF75 3px solid;
+  outline: none;
+}
+
+.form-input:focus {
+  border:#72FF75 3px solid;
+  outline: none;
 }
 
 .login-form {

@@ -8,10 +8,11 @@
   border: transparent;
   padding: 0px 20px;
   transition: 0.3s;
+  color:#000;
 }
 
 .form-input:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   transition: 0.3s;
 }
 
@@ -36,7 +37,7 @@
 
 .submit-btn:hover {
   background-color:#72FF75;
-  transform: scale(1.1);
+  transform: scale(1.07);
   transition: 0.3s;
 }
 

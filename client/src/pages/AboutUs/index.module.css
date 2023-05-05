@@ -1,0 +1,21 @@
+.page-content {
+  background-color: #FFF;
+}
+
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5,
+.page-content p {
+  color: #000;
+}
+
+#brand-bs-btn {
+  background-color:#5FD562;
+  border:#4CAA4E;
+}
+
+#brand-bs-btn:hover {
+  background-color: #4CAA4E;
+}

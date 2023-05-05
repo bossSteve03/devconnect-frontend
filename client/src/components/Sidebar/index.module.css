@@ -1,0 +1,40 @@
+.link-list {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 25px;
+  align-content: start;
+}
+
+.icon-btn {
+  color: #fff;
+  font-size: 32px;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.link-list > a, p {
+  text-decoration: none;
+  width: 200px;
+  font-size: 20px;
+  transition: 0.5s;
+}
+
+/* .link-list > a::first-letter {
+  color: #72FF75;
+} */
+
+.link-list > a:hover {
+  color: #72FF75;
+  transition: 0.5s;
+}
+
+.link-list > icon-btn:hover {
+  color: #72FF75;
+  transition: 0.5s;
+}
