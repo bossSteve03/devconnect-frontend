@@ -4,13 +4,19 @@ import { RxDashboard } from 'react-icons/rx';
 import { IoCreateOutline } from 'react-icons/io5';
 import { RiTeamFill } from 'react-icons/ri';
 import { TbListSearch } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.css';
+import  tokenService from "../../services/tokenService"
+
 
 export default function SidebarCollapsed() {
+  const { removeToken } = tokenService();
+  const navigate = useNavigate();
 
   function logout() {
-    return null;
+    removeToken();
+    navigate('/')
+    window.location.reload();
   }
 
   return (
