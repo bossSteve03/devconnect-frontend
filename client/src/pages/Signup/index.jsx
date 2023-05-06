@@ -1,15 +1,37 @@
 import { useState } from "react";
 import styles from './index.module.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted:", { username, email, password });
+
+    const payload =  JSON.stringify({
+      username: username,
+      email: email,
+      password: password
+    });
+
+    await handleUserCreation(payload);
+  };
+
+  const handleUserCreation = async (payload) => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+    };
+    const response = await fetch("http://localhost:8000/user/", options);
+    if (response.ok) {
+      navigate('/login');
+    } else {
+      alert('Error creation user'); // TODO : Find a fancier thing
+    }
   };
 
   return (

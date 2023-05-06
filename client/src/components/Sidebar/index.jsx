@@ -4,13 +4,18 @@ import { RxDashboard } from 'react-icons/rx';
 import { IoCreateOutline } from 'react-icons/io5';
 import { RiTeamFill } from 'react-icons/ri';
 import { TbListSearch } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.css';
+import  tokenService from "../../services/tokenService"
 
 export default function Sidebar() {
+  const { removeToken } = tokenService();
+  const navigate = useNavigate();
 
   function logout() {
-    return null;
+    removeToken();
+    navigate('/')
+    window.location.reload();
   }
 
   return (
@@ -20,7 +25,7 @@ export default function Sidebar() {
       <Link to='/auth/team'><div className={styles['list-item']}><RiTeamFill className={styles['icon-btn']}/>Your Team</div></Link>
       <Link to='/auth/new-project'><div className={styles['list-item']}><IoCreateOutline className={styles['icon-btn']}/>Create Project</div></Link>
       <Link to='/auth/projects'><div className={styles['list-item']}><TbListSearch className={styles['icon-btn']}/>Search Projects</div></Link>
-      <div className={styles['list-item']}><BiLogOut className={styles['icon-btn']} onClick={logout}/><p>Log Out</p></div>
+      <p className={styles['list-item']}><BiLogOut className={styles['icon-btn']} onClick={logout}/>Log out</p>
     </div>
   )
 }

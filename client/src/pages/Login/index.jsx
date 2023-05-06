@@ -1,14 +1,37 @@
 import { useState } from "react";
 import styles from './index.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { Buffer } from 'buffer'
+import  tokenService from "../../services/tokenService"
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setToken } = tokenService();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted:", { username, password });
+    await handleLogin(new Buffer.from(`${username}:${password}`).toString("base64"));
+  };
+
+  const handleLogin = async (auth) => {
+    const options = {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json" ,
+        Authorization: `Basic ${auth}`
+      }      
+    };
+    const response = await fetch("http://localhost:8000/user/login", options);
+    if (response.ok) {
+      let data = await response.json();
+      setToken(data.token);
+      navigate('/auth/dashboard');
+      window.location.reload();
+    } else {
+      alert('Invalid Credentials');
+    }
   };
 
   return (
