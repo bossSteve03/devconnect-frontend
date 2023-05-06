@@ -20,12 +20,12 @@ export default function Sidebar() {
 
   return (
     <div className={styles['link-list']}>
-      <Link to='/auth/dashboard'><div className={styles['list-item']}><RxDashboard className={styles['icon-btn']}/>Dashboard</div></Link>
-      <Link to='/auth/kanban'><div className={styles['list-item']}><BsKanban className={styles['icon-btn']}/>Kanban</div></Link>
-      <Link to='/auth/team'><div className={styles['list-item']}><RiTeamFill className={styles['icon-btn']}/>Your Team</div></Link>
-      <Link to='/auth/new-project'><div className={styles['list-item']}><IoCreateOutline className={styles['icon-btn']}/>Create Project</div></Link>
-      <Link to='/auth/projects'><div className={styles['list-item']}><TbListSearch className={styles['icon-btn']}/>Search Projects</div></Link>
-      <p className={styles['list-item']}><BiLogOut className={styles['icon-btn']} onClick={logout}/>Log out</p>
+      <Link to='/auth/dashboard'><div className={styles['list-item']}><RxDashboard className={styles['icon-btn']}/><p>Dashboard</p></div></Link>
+      <Link to='/auth/kanban'><div className={styles['list-item']}><BsKanban className={styles['icon-btn']}/><p>Kanban</p></div></Link>
+      <Link to='/auth/team'><div className={styles['list-item']}><RiTeamFill className={styles['icon-btn']}/><p>Your Team</p></div></Link>
+      <Link to='/auth/new-project'><div className={styles['list-item']}><IoCreateOutline className={styles['icon-btn']}/><p>Create Project</p></div></Link>
+      <Link to='/auth/projects'><div className={styles['list-item']}><TbListSearch className={styles['icon-btn']}/><p>Search Projects</p></div></Link>
+      <p className={styles['list-item']} onClick={logout}><BiLogOut className={styles['icon-btn']}/>Log out</p>
     </div>
   )
 }

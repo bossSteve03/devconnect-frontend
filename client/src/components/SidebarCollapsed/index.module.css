@@ -1,6 +1,7 @@
 .icon-btn {
   /* color: #fff; */
   font-size: 32px;
+  cursor: pointer;
 }
 
 .icon-list {
@@ -25,3 +26,44 @@
 /* a.active {
   color: #fff;
 } */
+
+.icon-list {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 25px;
+  align-content: start;
+}
+
+.icon-btn {
+  color: #fff;
+  font-size: 32px;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.icon-list a {
+  text-decoration: none;
+}
+
+.icon-list p {
+  width: 200px;
+  font-size: 20px;
+  transition: 0.5s;
+  color: #FFF
+}
+
+/* .icon-list > a::first-letter {
+  color: #72FF75;
+} */
+
+.icon-list > a:hover, p:hover {
+  color: #72FF75;
+  transition: 0.5s;
+  cursor: pointer;
+}

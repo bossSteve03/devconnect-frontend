@@ -8,7 +8,7 @@
 }
 
 .icon-btn {
-  color: #fff;
+  /* color: #fff; */
   font-size: 32px;
 }
 
@@ -16,25 +16,26 @@
   display: flex;
   flex-direction: row;
   gap: 15px;
+  color: #fff;
+  transition: 0.5s;
 }
 
-.link-list > a, p {
+.list-item:hover {
+  color: #72FF75;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.link-list a {
   text-decoration: none;
+}
+
+.link-list p {
   width: 200px;
   font-size: 20px;
-  transition: 0.5s;
+  /* color: #FFF */
 }
 
 /* .link-list > a::first-letter {
   color: #72FF75;
 } */
-
-.link-list > a:hover {
-  color: #72FF75;
-  transition: 0.5s;
-}
-
-.link-list > icon-btn:hover {
-  color: #72FF75;
-  transition: 0.5s;
-}

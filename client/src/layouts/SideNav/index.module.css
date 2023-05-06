@@ -7,6 +7,15 @@
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .whole-page {
   display: flex;
 }
@@ -22,30 +31,52 @@
   align-items: flex-start;
   transition: transform 0.5s ease;
   transform: translateX(0);
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  overflow: hidden;
+  overflow-x: hidden;
 }
+
+.sidebar p {
+  animation-name: fadeIn;
+  animation-duration: 1.5s;
+  margin: 0;
+}
+
+.sidebarCollapsed p {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  margin: 0;
+}
+
+.sidebarCollapsed h1 {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+h1 {
+  animation-name: fadeIn;
+  animation-duration: 1.5s;
+}
+
 .sidebarCollapsed {
   display: flex;
   flex-direction: column;
   position: absolute;
   width: 75px;
   height: 100vh;
-  padding: 20px 5px 5px 5px;
+  padding: 20px 5px 20px 20px;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   transition: width 1s ease, transform 0.5s ease, padding 1s ease;
-  animation-name: fadeIn;
-  animation-duration: 1s;
   transform: translateX(0);
+  overflow: hidden;
 }
 
 .top {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 50px;
+  gap: 15px;
 }
 
 .burger-btn {
@@ -55,7 +86,7 @@
 
 .sidebar-space {
   color: transparent;
-  size: 32px;
+  font-size: 32px;
 }
 
 .burger-btn:hover {
