@@ -15,12 +15,12 @@ export default function SidebarCollapsed() {
 
   return (
     <div className={styles['icon-list']}>
-      <Link to='/auth/dashboard'><RxDashboard className={styles['icon-btn']}/></Link>
-      <Link to='/auth/kanban'><BsKanban className={styles['icon-btn']}/></Link>
-      <Link to='/auth/team'><RiTeamFill className={styles['icon-btn']}/></Link>
-      <Link to='/auth/new-project'><IoCreateOutline className={styles['icon-btn']}/></Link>
-      <Link to='/auth/projects'><TbListSearch className={styles['icon-btn']}/></Link>
-      <BiLogOut className={styles['icon-btn']} onClick={logout}/>
+      <Link to='/auth/dashboard'><div className={styles['list-item']}><RxDashboard className={styles['icon-btn']}/><p>Dashboard</p></div></Link>
+      <Link to='/auth/kanban'><div className={styles['list-item']}><BsKanban className={styles['icon-btn']}/><p>Kanban</p></div></Link>
+      <Link to='/auth/team'><div className={styles['list-item']}><RiTeamFill className={styles['icon-btn']}/><p>Your Team</p></div></Link>
+      <Link to='/auth/new-project'><div className={styles['list-item']}><IoCreateOutline className={styles['icon-btn']}/><p>Create Project</p></div></Link>
+      <Link to='/auth/projects'><div className={styles['list-item']}><TbListSearch className={styles['icon-btn']}/><p>Search Projects</p></div></Link>
+      <div className={styles['list-item']}><BiLogOut className={styles['icon-btn']} onClick={logout}/><p>Log Out</p></div>
     </div>
   )
 }
