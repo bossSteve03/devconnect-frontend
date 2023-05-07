@@ -49,6 +49,11 @@
   width: 12%;
 }
 
+.deleteBtn:hover,
+.updateBtn:hover {
+  background-color: #e0e0e0;
+}
+
 .taskContainer {
   display: flex;
   flex-direction: column;
