@@ -11,11 +11,12 @@ export default function ProjectsSearch() {
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const response = await fetch("https://swapi.dev/api/films");
+        const response = await fetch("http://127.0.0.1:8000/project/1");
         const data = await response.json();
-        const mapProjects = data.results.map((project) => ({
+        // console.log(data['user projects'][0]);
+        const mapProjects = data['user projects'].map((project) => ({
           title: project.title,
-          description: project.opening_crawl,
+          description: project.description,
         }));
         setProjects(mapProjects);
         setIsLoading(false);

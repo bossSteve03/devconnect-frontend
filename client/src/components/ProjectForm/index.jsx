@@ -8,6 +8,7 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
+  const [kanbanId, setKanbanId] = useState("");
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -40,19 +41,39 @@ export default function ProjectForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // we might need to rename the keys to match the backend
+          // we will need to get chat room key from the backend
+          user_id: 1,
           title: title,
           description: description,
+          number_of_collaborators: collaborators,
           duration: duration,
-          collaborators: collaborators,
-          techStack: techStack,
+          tech_stack: techStack,
+          chatroom_key: "123c",
           positions: positions,
         }),
       };
-      const response = await fetch("/api/projects", options);
+      const response = await fetch("http://127.0.0.1:8000/project/1", options);
       if (response.ok) {
+        const data = await response.json();
+        setKanbanId(data["Project ID"]);
         console.log("Project created successfully");
-        window.location.assign = "/dashboard";
+        const createKanban = async () => {
+          const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          };
+          const response = await fetch(
+            `http://127.0.0.1:8000/kanban/${kanbanId}`,
+            options
+          );
+          if (response.ok) {
+            console.log("Kanban created successfully");
+          } else {
+            console.log("Kanban creation failed");
+          }
+        };
+        createKanban();
+        // window.location.assign = "/dashboard";
       } else {
         console.log("Project creation failed");
       }
