@@ -13,7 +13,7 @@ import {
   CreateProject,
   CurrentProject,
   SearchProjects,
-  Dashboard
+  Dashboard,
 } from "./pages";
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
           </Route>
           <Route path="/auth" element={<SideNav />}>
-            <Route path='/auth/team' element={<CurrentProject />} />
-            <Route path='/auth/dashboard' element={<Dashboard />} />
+            <Route path="/auth/team" element={<CurrentProject />} />
+            <Route path="/auth/dashboard" element={<Dashboard />} />
             {/* <Route path='/auth/calendar' element={<Calendar />} /> */}
             <Route path="/auth/*" element={<NotFound />} />
             <Route path="/auth/user" element={<User />} />

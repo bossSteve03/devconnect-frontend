@@ -13,8 +13,9 @@ export default function ProjectsSearch() {
       try {
         const response = await fetch("http://127.0.0.1:8000/project/1");
         const data = await response.json();
-        // console.log(data['user projects'][0]);
-        const mapProjects = data['user projects'].map((project) => ({
+        console.log(typeof data["user projects"]);
+        const mapProjects = data["user projects"].map((project) => ({
+          id: project.id,
           title: project.title,
           description: project.description,
         }));
@@ -52,6 +53,7 @@ export default function ProjectsSearch() {
     e.preventDefault();
     console.log("Apply button clicked");
   };
+
 
   return (
     <>

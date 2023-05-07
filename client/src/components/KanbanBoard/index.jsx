@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+// import { useProjects } from "../../context";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Modal from "../Modal";
 import styles from "./index.module.css";
 
 // Task component
+const handleDelete = async () => {
+  try {
+    const response = await fetch(`http://`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const Task = ({ task, index }) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleUpdate = () => {
+    setOpenModal(true);
+  };
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -13,7 +28,14 @@ const Task = ({ task, index }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {task.title}
+          <div className={styles.taskContainer}>
+            <button className={styles.deleteBtn}>X</button>
+            {task.title}
+            <button className={styles.updateBtn} onClick={handleUpdate}>
+              U
+            </button>
+            {openModal && <Modal closeModal={setOpenModal} />}
+          </div>
         </div>
       )}
     </Draggable>
@@ -28,10 +50,13 @@ const Column = ({ title, tasks, index }) => {
       <Droppable droppableId={title}>
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            {tasks.map((task, index) => (
-              <Task key={task.id} task={task} index={index} />
-            ))}
-            {provided.placeholder}
+            <div>
+              {tasks &&
+                tasks.map((task, index) => (
+                  <Task key={task.id} task={task} index={index} />
+                ))}
+              {provided.placeholder}
+            </div>
           </div>
         )}
       </Droppable>
@@ -41,31 +66,100 @@ const Column = ({ title, tasks, index }) => {
 
 // Board component
 const KanbanBoard = () => {
-  const [columns, setColumns] = useState([
-    {
-      title: "Todo",
-      tasks: [
-        { id: "task-1", title: "Task 1" },
-        { id: "task-2", title: "Task 2" },
-        { id: "task-3", title: "Task 3" },
-      ],
-    },
-    {
-      title: "In Progress",
-      tasks: [
-        { id: "task-4", title: "Task 4" },
-        { id: "task-5", title: "Task 5" },
-      ],
-    },
-    {
-      title: "Done",
-      tasks: [
-        { id: "task-6", title: "Task 6" },
-        { id: "task-7", title: "Task 7" },
-        { id: "task-8", title: "Task 8" },
-      ],
-    },
-  ]);
+  const [kanbanId, setKanbanId] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [columns, setColumns] = useState([]);
+
+  // const [projectID, setProjectID] = useProjects();
+  // console.log(projectID);
+
+  useEffect(() => {
+    const getKanban = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/kanban/6");
+        const data = await response.json();
+        setKanbanId(data["id"]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getKanban();
+  });
+
+  const handlerTaskInput = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handlerTaskCategory = (e) => {
+    setCategory(e.target.value);
+  };
+
+  const handlerAdd = async (e) => {
+    e.preventDefault();
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: title,
+        category: category,
+        objective: "objective",
+        kanban_id: kanbanId,
+      }),
+    };
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${kanbanId}`,
+        options
+      );
+      if (response.ok) {
+        setTitle("");
+      }
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const getTasks = async () => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${kanbanId}`
+      );
+      const data = await response.json();
+      const tasks = data["All tasks"];
+      // Create a map to store the columns
+      const columnMap = {};
+      tasks.forEach((task) => {
+        task.forEach((t) => {
+          const category = t.category;
+          // If the column for the category doesn't exist, create a new column
+          if (!columnMap[category]) {
+            columnMap[category] = {
+              category: category,
+              tasks: [],
+            };
+          }
+          // Add the task to the column
+          columnMap[category].tasks.push({
+            id: t.id.toString(),
+            title: t.name,
+          });
+        });
+      });
+
+      // Convert the column map to an array
+      const columns = Object.keys(columnMap).map((category) => {
+        return columnMap[category];
+      });
+
+      // Update the columns state with the new columns
+      setColumns(columns);
+    };
+    getTasks();
+  }, [kanbanId, title, category]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -83,14 +177,30 @@ const KanbanBoard = () => {
       return;
     }
 
+    // Find source column
+    const sourceColumn = columns.find(
+      (column) => column.category === source.droppableId
+    );
+    if (!sourceColumn) {
+      console.error(
+        `Could not find column with category ${source.droppableId}`
+      );
+      return;
+    }
+
+    // Find destination column
+    const destinationColumn = columns.find(
+      (column) => column.category === destination.droppableId
+    );
+    if (!destinationColumn) {
+      console.error(
+        `Could not find column with category ${destination.droppableId}`
+      );
+      return;
+    }
+
     // Update columns state
     const newColumns = [...columns];
-    const sourceColumn = newColumns.find(
-      (column) => column.title === source.droppableId
-    );
-    const destinationColumn = newColumns.find(
-      (column) => column.title === destination.droppableId
-    );
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
     destinationColumn.tasks.splice(destination.index, 0, removed);
     setColumns(newColumns);
@@ -101,13 +211,29 @@ const KanbanBoard = () => {
       <div className={styles.board}>
         {columns.map((column, index) => (
           <Column
-            key={column.title}
-            title={column.title}
+            key={column.category}
+            title={column.category}
             tasks={column.tasks}
             index={index}
           />
         ))}
       </div>
+      <form>
+        <input
+          type="text"
+          placeholder="your task"
+          onChange={handlerTaskInput}
+        />
+        <select onChange={handlerTaskCategory} id="categories">
+          <option value="Category">Category</option>
+          <option value="Todo">Todo</option>
+          <option value="In Progess">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+        <button type="submit" onClick={handlerAdd}>
+          Add
+        </button>
+      </form>
     </DragDropContext>
   );
 };

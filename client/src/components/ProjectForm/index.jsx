@@ -1,5 +1,6 @@
 import styles from "./index.module.css";
 import { useState } from "react";
+// import { useProjectsID } from "../../context/index";
 
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
@@ -8,7 +9,7 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
-  const [kanbanId, setKanbanId] = useState("");
+  const [projectId, setProjectId] = useState("");
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -55,7 +56,8 @@ export default function ProjectForm() {
       const response = await fetch("http://127.0.0.1:8000/project/1", options);
       if (response.ok) {
         const data = await response.json();
-        setKanbanId(data["Project ID"]);
+        console.log(data["Project ID"]);
+        setProjectId(data["Project ID"]);
         console.log("Project created successfully");
         const createKanban = async () => {
           const options = {
@@ -63,9 +65,10 @@ export default function ProjectForm() {
             headers: { "Content-Type": "application/json" },
           };
           const response = await fetch(
-            `http://127.0.0.1:8000/kanban/${kanbanId}`,
+            `http://127.0.0.1:8000/kanban/${projectId}`,
             options
           );
+          console.log(response);
           if (response.ok) {
             console.log("Kanban created successfully");
           } else {
