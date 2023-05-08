@@ -22,8 +22,8 @@ export default function SideNav() {
       <div className={styles['whole-page']}>
   <div className={`${collapsed ? styles['sidebar'] : styles['sidebarCollapsed']}`}>
     <div className={styles["top"]}>
-      {collapsed ? <BrandName /> : <></>}
       <RxHamburgerMenu className={styles["burger-btn"]} onClick={handleCollapsed}/>
+      <BrandName className={styles['BN']} />
     </div>
     {collapsed ? <Sidebar /> : <SidebarCollapsed />}
     <RxHamburgerMenu className={styles['sidebar-space']}/>

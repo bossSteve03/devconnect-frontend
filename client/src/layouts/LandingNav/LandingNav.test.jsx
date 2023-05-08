@@ -37,6 +37,18 @@ describe('LandingNav layout', () => {
     expect(navEl).toBeInTheDocument();
   });
   
+  it('renders Dev text', () => {
+    const navEl = screen.getByText(/Dev/i)
+    const nav = navEl.firstElementChild;
+    expect(nav).toBeInTheDocument();
+  });
+  
+  it('renders Connect text', () => {
+    const navEl = screen.getByText(/Connect/i)
+    const nav = navEl.firstElementChild;
+    expect(nav).toBeInTheDocument();
+  });
+  
   it('relocates window correctly with Home link', () => {
   const navEl = screen.getByText(/Home/i);
   fireEvent.click(navEl);
