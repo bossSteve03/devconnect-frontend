@@ -6,14 +6,16 @@ import styles from "./index.module.css";
 
 // Task component
 const handleDelete = async (id) => {
+  console.log("here!", id)
   try {
-    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`);
+    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`,{method :"DELETE"});
+    window.location.reload()
   } catch (error) {
     console.log(error);
   }
 };
 
-const Task = ({ task, index }) => {
+const Task = ({ task, index ,key }) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleUpdate = () => {
@@ -29,7 +31,7 @@ const Task = ({ task, index }) => {
           ref={provided.innerRef}
         >
           <div className={styles.taskContainer}>
-            <button className={styles.deleteBtn}>X</button>
+            <button className={styles.deleteBtn} onClick={()=>handleDelete(task.id)}>X</button>
             {task.title}
             <button className={styles.updateBtn} onClick={handleUpdate}>
               U
@@ -97,6 +99,21 @@ const KanbanBoard = () => {
 
   const handlerAdd = async (e) => {
     e.preventDefault();
+    /* ADD THIS TO BACKEND below POST : (this will return missing field incase of error! :)
+            info = request.json
+            required_fields = ["name", "category", "objective", "complete"]
+            name = info.get("name")
+            category = info.get("category")
+            objective = info.get("objective")
+            complete = info.get("complete")
+            kanban_id = id
+        
+            missing_fields = [field for field in required_fields if field not in info]
+
+            if missing_fields:
+               raise ValueError("Missing fields: {}".format(", ".join(missing_fields)))            
+            complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
+    */
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -104,7 +121,8 @@ const KanbanBoard = () => {
         name: title,
         category: category,
         objective: "obj",
-      }),
+        complete : "false"
+      })
     };
     try {
       const response = await fetch(
@@ -114,8 +132,9 @@ const KanbanBoard = () => {
       if (response.ok) {
         setTitle("");
       }
-      console.log(response);
+      console.log("resp for post",response);
       const data = await response.json();
+      console.log(data)
     } catch (error) {
       console.log(error);
     }
@@ -127,6 +146,7 @@ const KanbanBoard = () => {
         `http://127.0.0.1:8000/kanban/task/${kanbanId}`
       );
       const data = await response.json();
+      console.log("data retrieved !", data)
       const tasks = data;
       // Create a map to store the columns
       const columnMap = {};
@@ -221,8 +241,7 @@ const KanbanBoard = () => {
           placeholder="your task"
           onChange={handlerTaskInput}
         />
-        <select onChange={handlerTaskCategory} id="categories">
-          <option value="Category">Category</option>
+        <select onChange={handlerTaskCategory} id="categories" placeholder="Category">
           <option value="Todo">Todo</option>
           <option value="In Progess">In Progress</option>
           <option value="Done">Done</option>
