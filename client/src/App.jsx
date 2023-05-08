@@ -14,7 +14,7 @@ import {
   CreateProject,
   CurrentProject,
   SearchProjects,
-  Dashboard
+  Dashboard,
 } from "./pages";
 
 function App() {

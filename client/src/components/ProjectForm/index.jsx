@@ -1,5 +1,6 @@
 import styles from "./index.module.css";
 import { useState } from "react";
+// import { useProjectsID } from "../../context/index";
 
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
@@ -8,6 +9,7 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
+  const [projectId, setProjectId] = useState("");
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -40,19 +42,41 @@ export default function ProjectForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // we might need to rename the keys to match the backend
+          // we will need to get chat room key from the backend
+          user_id: 1,
           title: title,
           description: description,
+          number_of_collaborators: collaborators,
           duration: duration,
-          collaborators: collaborators,
-          techStack: techStack,
+          tech_stack: techStack,
+          chatroom_key: "123c",
           positions: positions,
         }),
       };
-      const response = await fetch("/api/projects", options);
+      const response = await fetch("http://127.0.0.1:8000/project/1", options);
       if (response.ok) {
+        const data = await response.json();
+        console.log(data["Project ID"]);
+        setProjectId(data["Project ID"]);
         console.log("Project created successfully");
-        window.location.assign = "/dashboard";
+        const createKanban = async () => {
+          const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          };
+          const response = await fetch(
+            `http://127.0.0.1:8000/kanban/${projectId}`,
+            options
+          );
+          console.log(response);
+          if (response.ok) {
+            console.log("Kanban created successfully");
+          } else {
+            console.log("Kanban creation failed");
+          }
+        };
+        createKanban();
+        // window.location.assign = "/dashboard";
       } else {
         console.log("Project creation failed");
       }
@@ -64,44 +88,68 @@ export default function ProjectForm() {
     <>
       <h1>Project Form</h1>
       <form className={styles["project-form-container"]}>
-        <label className={styles["project-form-label"]}>Title</label>
+        <label htmlFor="title" className={styles["project-form-label"]}>
+          Title
+        </label>
         <input
+          id="title"
           className={styles["project-form-input"]}
           type="text"
           onChange={titleHandler}
         />
-        <label className={styles["project-form-label"]}>Description</label>
+
+        <label htmlFor="description" className={styles["project-form-label"]}>
+          Description
+        </label>
         <input
+          id="description"
           className={styles["project-form-input"]}
           type="text"
           onChange={descriptionHandler}
         />
-        <label className={styles["project-form-label"]}>Duration</label>
+
+        <label htmlFor="duration" className={styles["project-form-label"]}>
+          Duration
+        </label>
         <input
+          id="duration"
           className={styles["project-form-input"]}
           type="text"
           onChange={durationHandler}
         />
-        <label className={styles["project-form-label"]}>Number of Collaborators</label>
+
+        <label htmlFor="collaborators" className={styles["project-form-label"]}>
+          Number of Collaborators
+        </label>
         <input
+          id="collaborators"
           className={styles["project-form-input"]}
           type="number"
           onChange={collaboratorsHandler}
         />
-        <label className={styles["project-form-label"]}>Tech stack</label>
+
+        <label htmlFor="techStack" className={styles["project-form-label"]}>
+          Tech stack
+        </label>
         <input
+          id="techStack"
           className={styles["project-form-input"]}
           type="text"
           placeholder="JS, C#"
           onChange={techStackHandler}
         />
-        <label className={styles["project-form-label"]}>Positions</label>
+
+        <label htmlFor="positions" className={styles["project-form-label"]}>
+          Positions
+        </label>
         <input
+          id="positions"
           className={styles["positions-input"]}
           type="text"
           placeholder="Frontend, UX designer"
           onChange={positionsHandler}
         />
+
         <button
           className={styles["project-form-button"]}
           type="submit"

@@ -10,5 +10,4 @@ export const ProjectsProvider = ({ children }) => {
     </ProjectsContext.Provider>
   );
 };
-
 export const useProjects = () => useContext(ProjectsContext);
