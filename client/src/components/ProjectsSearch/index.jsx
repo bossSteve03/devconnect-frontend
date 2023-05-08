@@ -13,11 +13,13 @@ export default function ProjectsSearch() {
       try {
         const response = await fetch("http://127.0.0.1:8000/project/1");
         const data = await response.json();
-        console.log(typeof data["user projects"]);
+        console.log(data["user projects"]);
         const mapProjects = data["user projects"].map((project) => ({
           id: project.id,
           title: project.title,
           description: project.description,
+          positions: project.positions,
+          duration: project.duration,
         }));
         setProjects(mapProjects);
         setIsLoading(false);
@@ -39,7 +41,7 @@ export default function ProjectsSearch() {
     setFilteredProjects(filteredProjects);
   }, [query, projects]);
 
-  const keys = ["title", "description"];
+  const keys = ["title", "description", "positions", "duration"];
 
   const searchHandler = (e) => {
     setQuery(e.target.value);
@@ -54,7 +56,6 @@ export default function ProjectsSearch() {
     console.log("Apply button clicked");
   };
 
-
   return (
     <>
       <h2 className="page-heading">SearchBar</h2>
@@ -66,6 +67,8 @@ export default function ProjectsSearch() {
           <div key={i}>
             <h3 className="project-title">{project.title}</h3>
             <p className="project-description">{project.description}</p>
+            <p className="project-description">{project.positions}</p>
+            <p className="project-description">{project.duration} days</p>
             <button className="apply-button" onClick={handleApply}>
               Apply
             </button>
