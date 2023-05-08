@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-// import { useProjects } from "../../context";
+import { useProjects } from "../../context";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Modal from "../Modal";
 import styles from "./index.module.css";
 
 // Task component
-const handleDelete = async () => {
+const handleDelete = async (id) => {
   try {
-    const response = await fetch(`http://`);
+    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -71,15 +71,15 @@ const KanbanBoard = () => {
   const [category, setCategory] = useState("");
   const [columns, setColumns] = useState([]);
 
-  // const [projectID, setProjectID] = useProjects();
-  // console.log(projectID);
+  const { projects } = useProjects();
+  console.log(projects);
 
   useEffect(() => {
     const getKanban = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/kanban/6");
+        const response = await fetch("http://127.0.0.1:8000/kanban/1");
         const data = await response.json();
-        setKanbanId(data["id"]);
+        setKanbanId(data["ID"]);
       } catch (error) {
         console.log(error);
       }
@@ -103,8 +103,7 @@ const KanbanBoard = () => {
       body: JSON.stringify({
         name: title,
         category: category,
-        objective: "objective",
-        kanban_id: kanbanId,
+        objective: "obj",
       }),
     };
     try {
@@ -117,7 +116,6 @@ const KanbanBoard = () => {
       }
       console.log(response);
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -129,24 +127,22 @@ const KanbanBoard = () => {
         `http://127.0.0.1:8000/kanban/task/${kanbanId}`
       );
       const data = await response.json();
-      const tasks = data["All tasks"];
+      const tasks = data;
       // Create a map to store the columns
       const columnMap = {};
       tasks.forEach((task) => {
-        task.forEach((t) => {
-          const category = t.category;
-          // If the column for the category doesn't exist, create a new column
-          if (!columnMap[category]) {
-            columnMap[category] = {
-              category: category,
-              tasks: [],
-            };
-          }
-          // Add the task to the column
-          columnMap[category].tasks.push({
-            id: t.id.toString(),
-            title: t.name,
-          });
+        const category = task.category;
+        // If the column for the category doesn't exist, create a new column
+        if (!columnMap[category]) {
+          columnMap[category] = {
+            category: category,
+            tasks: [],
+          };
+        }
+        // Add the task to the column
+        columnMap[category].tasks.push({
+          id: task.id.toString(),
+          title: task.name,
         });
       });
 
@@ -208,6 +204,7 @@ const KanbanBoard = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <h1>Kanban Board</h1>
       <div className={styles.board}>
         {columns.map((column, index) => (
           <Column
