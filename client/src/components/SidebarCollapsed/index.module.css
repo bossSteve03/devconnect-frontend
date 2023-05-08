@@ -62,7 +62,7 @@
   color: #72FF75;
 } */
 
-.icon-list > a:hover, p:hover {
+.icon-list > a:hover, .iconlist > p:hover {
   color: #72FF75;
   transition: 0.5s;
   cursor: pointer;

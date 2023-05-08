@@ -1,0 +1,8 @@
+export { default as HasName } from './NN'
+export { default as NeedsName } from './NN'
+export { default as HasSkillLevel } from './NSL'
+export { default as NeedsSkillLevel } from './NSL'
+export { default as HasSkills } from './NS'
+export { default as NeedsSkills } from './NS'
+export { default as HasRole } from './NR'
+export { default as NeedsRole } from './NR'

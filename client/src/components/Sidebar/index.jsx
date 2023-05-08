@@ -2,7 +2,7 @@ import { BsKanban } from 'react-icons/bs';
 import { BiLogOut } from 'react-icons/bi';
 import { RxDashboard } from 'react-icons/rx';
 import { IoCreateOutline } from 'react-icons/io5';
-import { RiTeamFill } from 'react-icons/ri';
+import { RiTeamFill, RiUserLine } from 'react-icons/ri';
 import { TbListSearch } from 'react-icons/tb';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.css';
@@ -25,7 +25,8 @@ export default function Sidebar() {
       <Link to='/auth/team'><div className={styles['list-item']}><RiTeamFill className={styles['icon-btn']}/><p>Your Team</p></div></Link>
       <Link to='/auth/new-project'><div className={styles['list-item']}><IoCreateOutline className={styles['icon-btn']}/><p>Create Project</p></div></Link>
       <Link to='/auth/projects'><div className={styles['list-item']}><TbListSearch className={styles['icon-btn']}/><p>Search Projects</p></div></Link>
-      <p className={styles['list-item']} onClick={logout}><BiLogOut className={styles['icon-btn']}/>Log out</p>
+      <Link to='/auth/user'><div className={styles['list-item']}><RiUserLine className={styles['icon-btn']}/><p>User Profile</p></div></Link>
+      <div className={styles['list-item']} onClick={logout}><BiLogOut className={styles['icon-btn']}/><p>Log Out</p></div>
     </div>
   )
 }

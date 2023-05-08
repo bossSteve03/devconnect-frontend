@@ -1,0 +1,56 @@
+.messageContainer {
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #FFF;
+  color: #000;
+}
+
+.containerBorder {
+  background: linear-gradient(to bottom right, #FF2121, #BF1919);
+  margin: 5px 0;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.containerBorderH {
+  background: linear-gradient(to bottom right, #72FF75, #4CAA4E);
+  margin: 5px 0;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.messageTitle {
+  padding: 0;
+  margin: 0;
+
+}
+
+.messageContent {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+
+}
+
+.messageTitleN {
+  padding: 0;
+  margin: 0;
+
+}
+
+.messageContentN {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+
+}
+
+.messageContent a:hover, .messageContentN a:hover {
+  transition: 0.3s;
+  color: #72FF75;
+}
+
+.messageContent a, .messageContentN a {
+  transition: 0.3s;
+  color: #000;
+}
