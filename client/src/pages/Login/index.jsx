@@ -24,9 +24,11 @@ export default function Login() {
       }      
     };
     const response = await fetch("http://localhost:8000/user/login", options);
+    console.log(response)
     if (response.ok) {
       let data = await response.json();
       setToken(data.token);
+      sessionStorage.setItem('username', username);
       navigate('/auth/dashboard');
       window.location.reload();
     } else {

@@ -53,7 +53,7 @@
   animation-fill-mode: forwards;
 }
 
-h1 {
+.sidebar h1 {
   animation-name: fadeIn;
   animation-duration: 1.5s;
 }

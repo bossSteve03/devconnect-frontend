@@ -59,7 +59,6 @@
   margin-top: 64px;
   display: flex;
   flex-direction: column;
-  /* gap: px; */
   align-items: center;
   height: 90vh;
 }
@@ -71,7 +70,8 @@
 .login {
   display: flex;
   flex-direction: row;
-  gap: 2px;
+  gap: 5px;
+  color: #fff;
 }
 
 .login a {

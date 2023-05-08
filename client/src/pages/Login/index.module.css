@@ -74,7 +74,8 @@
 .signup {
   display: flex;
   flex-direction: row;
-  gap: 2px;
+  gap: 5px;
+  color: #fff;
 }
 
 .signup a {
