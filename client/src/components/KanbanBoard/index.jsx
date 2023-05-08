@@ -9,17 +9,39 @@ const handleDelete = async (id) => {
   console.log("here!", id)
   try {
     const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`,{method :"DELETE"});
-    window.location.reload()
+    window.location.reload() //find better method to reload! :)
   } catch (error) {
     console.log(error);
   }
 };
 
-const Task = ({ task, index ,key }) => {
-  const [openModal, setOpenModal] = useState(false);
-
-  const handleUpdate = () => {
-    setOpenModal(true);
+const Task = ({ task, index ,key, category }) => {
+  const [inputbox, setInputBox] = useState(false)
+  const handleUpdate = async(e,id,category) => {
+    setInputBox(!inputbox)
+    console.log(category)
+    const options = {
+      method : "PUT",
+      headers: {
+        "Content-type" : "application/json"
+      },
+    body : JSON.stringify({
+      name : e.target.input.value,
+      category :category ,
+      objective  :"asd",
+      complete : "false"
+    })}
+    console.log(options)
+    try{
+      const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
+      if (resp.ok){
+        console.log(await resp.json())
+        window.location.reload(true)
+      }
+    }
+    catch (e){
+      console.log(e)
+    }
   };
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -30,22 +52,24 @@ const Task = ({ task, index ,key }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div className={styles.taskContainer}>
+          <form className={styles.taskContainer} onSubmit={(e)=>{e.preventDefault(); if (inputbox == true){ handleUpdate(e,task.id,category);}}}>
+            {inputbox ? (<> <input name = "input" type = "text" placeholder={task.title} style = {{width : '70%'}}/><button type = "submit" style = {{width : '20%'}}>Y</button></>) : ( <span onDoubleClick={()=>setInputBox(true)}>{task.title}</span>) }
             <button className={styles.deleteBtn} onClick={()=>handleDelete(task.id)}>X</button>
-            {task.title}
-            <button className={styles.updateBtn} onClick={handleUpdate}>
-              U
-            </button>
-            {openModal && <Modal closeModal={setOpenModal} />}
-          </div>
+          </form>
         </div>
       )}
     </Draggable>
   );
-};
+}
+
+            // <button className={styles.updateBtn} onClick={()=>{setInputBox(false)}}>
+            //   U
+            // </button>
+//{openModal && <Modal closeModal={setOpenModal} />}
 
 // Column component
 const Column = ({ title, tasks, index }) => {
+  console.log("title!",title)
   return (
     <div className={styles.column}>
       <h3>{title}</h3>
@@ -55,7 +79,7 @@ const Column = ({ title, tasks, index }) => {
             <div>
               {tasks &&
                 tasks.map((task, index) => (
-                  <Task key={task.id} task={task} index={index} />
+                  <Task category = {title} key={task.id} task={task} index={index} />
                 ))}
               {provided.placeholder}
             </div>
@@ -70,7 +94,7 @@ const Column = ({ title, tasks, index }) => {
 const KanbanBoard = () => {
   const [kanbanId, setKanbanId] = useState("");
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Todo");
   const [columns, setColumns] = useState([]);
 
   const { projects } = useProjects();
@@ -114,6 +138,8 @@ const KanbanBoard = () => {
                raise ValueError("Missing fields: {}".format(", ".join(missing_fields)))            
             complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
     */
+    setTitle("")
+    console.log("cat",category)
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -239,6 +265,7 @@ const KanbanBoard = () => {
         <input
           type="text"
           placeholder="your task"
+          value={title}
           onChange={handlerTaskInput}
         />
         <select onChange={handlerTaskCategory} id="categories" placeholder="Category">

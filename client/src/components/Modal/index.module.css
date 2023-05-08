@@ -9,6 +9,9 @@
 }
 
 .modalContainer {
+  position: absolute;
+  top : 5%;
+  left: -5%;
   width: 500px;
   height: 500px;
   border-radius: 12px;

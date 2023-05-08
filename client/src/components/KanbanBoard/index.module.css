@@ -5,6 +5,7 @@
 }
 
 .column {
+
   width: 300px;
   padding: 10px;
   background-color: #f2f2f2;
@@ -43,6 +44,7 @@
   color: #8f8d8d;
   border: none;
   border-radius: 5px;
+  margin : 5px;
   padding: 2px 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -56,5 +58,5 @@
 
 .taskContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
