@@ -97,12 +97,14 @@ const KanbanBoard = () => {
   const [columns, setColumns] = useState([]);
   const { projects } = useProjects();
   const [loading, setloading] = useState(false)
+  const [have_cards,sethavecards] = useState(true)
+  console.log("have cards", have_cards)
   useEffect(() => {
     const getKanban = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/kanban/${projects[0].id}`);
         const data = await response.json();
-        console.log("here!", data);
+
         setKanbanId(data["ID"]);
         setloading(true)
         
@@ -127,11 +129,16 @@ const KanbanBoard = () => {
     setCategory(e.target.value);
   };
   const getTasks = async () => {
+    sethavecards(true)
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
     );
+    
     const data = await response.json();
-
+    if (response.status == 404 || data.length === 0){
+      sethavecards(false)
+    }
+    console.log("hasxd",data)
     const tasks = data;
     const columnMap = {};
     tasks.forEach((task) => {
@@ -259,14 +266,14 @@ const KanbanBoard = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <h1>Kanban Board</h1>
       <div className={styles.board}>
-        { loading ? columns.map((column, index) => (
+        { loading ?  have_cards ? columns.map((column, index) => (
           <Column
             key={column.category}
             title={column.category}
             tasks={column.tasks}
             index={index}
           />
-        )) : <h1>Loading Content</h1>}
+        )) : <h1>No current cards</h1> :<h1>Loading Content</h1> }
       </div>
       <form>
         <input
