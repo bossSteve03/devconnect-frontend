@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
-import { ProjectsProvider } from "../src/context";
+import { useProjects } from "../src/context";
 import  tokenService from "./services/tokenService";
+import { UserProvider } from "../src/context";
 import {
   Landing,
   NotFound,
@@ -22,7 +23,27 @@ function App() {
   const { token } = tokenService();
   const location = useLocation();
   const navigate = useNavigate();
+  const {projects , setProjects} = useProjects();
+  useEffect(() => {
+    const getProjects = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/project/1");
+        const data = await response.json();
+        const mapProjects = data["user projects"].map((project) => ({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          positions: project.positions,
+          duration: project.duration
+        }));
+        setProjects(mapProjects);
+      } catch (error) {
+        console.log(error); 
+      }
+    };
 
+    getProjects();
+  }, []);
   useEffect(() => {
     let isValid = (token !== null && token !== undefined);
     setUserIsLoggedIn(isValid);
@@ -34,7 +55,7 @@ function App() {
   
   return (
     <>
-      <ProjectsProvider>
+        <UserProvider>
         <Routes>
           <Route path="/" element={<LandingNav />}>
             <Route index element={<Landing />} />
@@ -56,7 +77,7 @@ function App() {
             </Route>
           }
         </Routes>
-      </ProjectsProvider>
+          </UserProvider>
     </>
   );
 }

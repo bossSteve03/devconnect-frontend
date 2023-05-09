@@ -1,36 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useProjects } from "../../context/index";
+import { useProjects, useUser } from "../../context/index";
 import "./searchform.css";
 
 export default function ProjectsSearch() {
-  const { projects, setProjects } = useProjects();
+  const { projects } = useProjects();
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const {user} = useUser()
 
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/project/1");
-        const data = await response.json();
-        const mapProjects = data["user projects"].map((project) => ({
-          id: project.id,
-          title: project.title,
-          description: project.description,
-          positions: project.positions,
-          duration: project.duration,
-        }));
-        console.log(mapProjects)
-        setProjects(mapProjects);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
-
-    getProjects();
-  }, [setProjects]);
+  useEffect(()=>{
+      projects.length > 0 && setIsLoading(false);
+     [projects];
+  },[projects])
 
   useEffect(() => {
     const filteredProjects = projects.filter((project) =>
@@ -38,7 +20,6 @@ export default function ProjectsSearch() {
         project[key].toLowerCase().includes(query.toLowerCase())
       )
     );
-    console.log("here!",projects)
     setFilteredProjects(filteredProjects);
   }, [query, projects]);
 
@@ -52,9 +33,14 @@ export default function ProjectsSearch() {
     return <p>Loading...</p>;
   }
 
-  const handleApply = (e) => {
+  const handleApply = async(e) => {
     e.preventDefault();
-    console.log("Apply button clicked");
+    try {
+     const resp = await fetch (`http://127.0.0.1:8000/teammember/${user.id}`)
+    }
+    catch (e){
+      console.log(e)
+    }
   };
 
   return (
@@ -67,9 +53,9 @@ export default function ProjectsSearch() {
         filteredProjects.map((project, i) => (
           <div key={i}>
             <h3 className="project-title">{project.title}</h3>
-            <p className="project-description">{project.description}</p>
-            <p className="project-description">{project.positions}</p>
-            <p className="project-description">{project.duration} days</p>
+            <p className="project-description">Description: {project.description}</p>
+            <p className="project-description">Pos: {project.positions}</p>
+            <p className="project-description">Duration: {project.duration} days</p>
             <button className="apply-button" onClick={handleApply}>
               Apply
             </button>

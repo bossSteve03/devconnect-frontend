@@ -31,6 +31,7 @@ const Task = ({ task, index ,key, category }) => {
       complete : "false"
     })}
     try{
+      console.log("Test id ",id)
       const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
       if (resp.ok){
         console.log(await resp.json())
@@ -96,21 +97,24 @@ const KanbanBoard = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Todo");
   const [columns, setColumns] = useState([]);
-
   const { projects } = useProjects();
 
   useEffect(() => {
     const getKanban = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/kanban/1`);
-        const data = await response.json();
-        setKanbanId(data["ID"]);
+        const response = await fetch(`http://127.0.0.1:8000/kanban/${projects[0].id}`);
+     
+          console.log("strange")
+          const data = await response.json();
+          console.log("here!",data)
+          setKanbanId(data["ID"]);
+
       } catch (error) {
         console.log(error);
       }
     };
     getKanban();
-  });
+  },[columns]);
 
   const handlerTaskInput = (e) => {
     setTitle(e.target.value);
@@ -120,6 +124,7 @@ const KanbanBoard = () => {
     setCategory(e.target.value);
   };
   const getTasks = async () => {
+    console.log(kanbanId)
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
     );
