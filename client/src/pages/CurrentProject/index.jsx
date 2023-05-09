@@ -32,14 +32,16 @@ export default function CurrentProject() {
     projectExists
     ?
     <div className={styles["page-container"]}>
-      <div className={styles["tasks-container"]}>
-
-      </div>
       <div className={styles["team-container"]}>
-
+      <p>team</p>
       </div>
-      <div className={styles["chat-container"]}>
-        <FirebaseChat />
+      <div className={styles["left-side"]}>
+        <div className={styles["tasks-container"]}>
+        <p>tasks</p>
+        </div>
+        <div className={styles["chat-container"]}>
+          <FirebaseChat />
+        </div>
       </div>
     </div>
     :
