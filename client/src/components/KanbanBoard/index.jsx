@@ -179,8 +179,7 @@ const KanbanBoard = () => {
       body: JSON.stringify({
         name: title,
         category: category,
-        objective: "obj",
-        complete : "false"
+        objective: "obj"
       })
     };
     try {
