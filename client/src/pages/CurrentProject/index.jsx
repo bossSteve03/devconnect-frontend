@@ -5,23 +5,31 @@ import styles from './index.module.css'
 export default function CurrentProject() {
 
   const [projectExists, setProjectExists] = useState(false)
+  const [data, setData] = useState({})
 
   async function getProjectMember() {
-    const response = fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`)
-    if (response.ok) {
-      setProjectExists(true)
-    } else {
-      setProjectExists(false)
-    }
+    const response = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`)
+    const responseData = await response.json()
+    setData(responseData)
   }
 
   useEffect(() => {
     getProjectMember()
   }, [])
 
+  useEffect(() => {
+    if (data) {
+      setProjectExists(true)
+    } else {
+      setProjectExists(false)
+      console.log('Not Found')
+    }
+  }, [data])
+
   return (
     <>
-    {projectExists
+    {
+    projectExists
     ?
     <div className={styles["page-container"]}>
       <div className={styles["tasks-container"]}>

@@ -21,50 +21,64 @@ export default function FirebaseChat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState(null);
+  const [projectId, setProjectId] = useState('')
+
 
   useEffect(() => {
-    // Reference the "messages" node in the Firebase Realtime Database
-    const messagesRef = ref(db, "messages");
+    async function getProjectId() {
+      const responsePI = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`);
+      const PI = await responsePI.json();
+      console.log(PI[0].project_id)
+      setProjectId(PI[0].project_id)
+    }
+    getProjectId()
+  }, [])
 
-    // Listen for new messages in the Firebase Realtime Database
-    onValue(messagesRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setMessages(Object.values(data));
-      }
-    });
+  useEffect(() => {
+    if (projectId !== '') {  
+      // Reference the "messages" node in the Firebase Realtime Database
+      const messagesRef = ref(db, `chatrooms/chatroom${projectId}/messages`);
 
-    // Listen for changes to the signed-in user
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
-    // Sign in anonymously and save the UID to the database
-    signInAnonymously(auth)
-      .then((userCredential) => {
-        const uid = userCredential.user.uid;
-        console.log("Signed in anonymously with UID:", uid);
-        console.log("Signed in anonymously with Username:", sessionStorage.getItem('username'));
-
-        // Save the UID and username to the "users" node in the Firebase Realtime Database
-        set(ref(db, `users/${uid}`), {
-          uid: uid,
-          username: sessionStorage.getItem('username')
-        });
-      })
-      .catch((error) => {
-        console.error("Error signing in anonymously:", error);
+      // Listen for new messages in the Firebase Realtime Database
+      onValue(messagesRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setMessages(Object.values(data));
+        }
       });
 
-    // Clean up the event listeners when the component unmounts
-    return () => {
-      // Detach the onValue listener
-      onValue(messagesRef);
+      // Listen for changes to the signed-in user
+      onAuthStateChanged(auth, (user) => {
+        setUser(user);
+      });
 
-      // Detach the onAuthStateChanged listener
-      onAuthStateChanged(auth);
-    };
-  }, []);
+      // Sign in anonymously and save the UID to the database
+      signInAnonymously(auth)
+        .then((userCredential) => {
+          const uid = userCredential.user.uid;
+          console.log("Signed in anonymously with UID:", uid);
+          console.log("Signed in anonymously with Username:", sessionStorage.getItem('username'));
+
+          // Save the UID and username to the "users" node in the Firebase Realtime Database
+          set(ref(db, `users/${uid}`), {
+            uid: uid,
+            username: sessionStorage.getItem('username')
+          });
+        })
+        .catch((error) => {
+          console.error("Error signing in anonymously:", error);
+        });
+
+      // Clean up the event listeners when the component unmounts
+      return () => {
+        // Detach the onValue listener
+        onValue(messagesRef);
+
+        // Detach the onAuthStateChanged listener
+        onAuthStateChanged(auth);
+      };
+    }
+  }, [projectId]);
 
   const handleNewMessage = (event) => {
     setNewMessage(event.target.value);
@@ -74,7 +88,7 @@ export default function FirebaseChat() {
     // Check if the user is signed in
     if (user) {
       // Push the new message to the "messages" node in the Firebase Realtime Database
-      push(ref(db, "messages"), {
+      push(ref(db, `chatrooms/chatroom${projectId}/messages`), {
         text: newMessage,
         timestamp: Date.now(),
         uid: user.uid,
