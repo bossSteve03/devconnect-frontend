@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useProjects } from "../../context";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Modal from "../Modal";
 import styles from "./index.module.css";
 
 // Task component
@@ -65,11 +64,12 @@ const Task = ({ task, index ,key, category }) => {
             //   U
             // </button>
 //{openModal && <Modal closeModal={setOpenModal} />}
-
 // Column component
 const Column = ({ title, tasks, index }) => {
   console.log("title!",title)
-  const classes  = `styles.column styles.${title}`
+  const style_title = title
+  console.log("yes",styles.todo)
+  console.log("here!",styles.column)
   return (
     <div className={styles.column}>
       <h3>{title}</h3>
@@ -98,7 +98,6 @@ const KanbanBoard = () => {
   const [columns, setColumns] = useState([]);
 
   const { projects } = useProjects();
-  console.log(projects);
 
   useEffect(() => {
     const getKanban = async () => {
