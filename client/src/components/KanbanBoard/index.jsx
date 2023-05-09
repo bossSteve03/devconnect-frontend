@@ -8,7 +8,6 @@ const handleDelete = async (id) => {
   console.log("here!", id)
   try {
     const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`,{method :"DELETE"});
-    window.location.reload() //find better method to reload! :)
   } catch (error) {
     console.log(error);
   }
@@ -31,11 +30,9 @@ const Task = ({ task, index ,key, category }) => {
       complete : "false"
     })}
     try{
-      console.log("Test id ",id)
       const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
       if (resp.ok){
         console.log(await resp.json())
-        window.location.reload(true)
       }
     }
     catch (e){
@@ -67,7 +64,6 @@ const Task = ({ task, index ,key, category }) => {
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
 const Column = ({ title, tasks, index }) => {
-  const style_title = title
 
   return (
     <div className={styles.column}>
@@ -98,15 +94,15 @@ const KanbanBoard = () => {
   const { projects } = useProjects();
   const [loading, setloading] = useState(false)
   const [have_cards,sethavecards] = useState(true)
-  console.log("have cards", have_cards)
+
   useEffect(() => {
     const getKanban = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/kanban/${projects[0].id}`);
         const data = await response.json();
-
-        setKanbanId(data["ID"]);
+        
         setloading(true)
+        setKanbanId(data["ID"]);
         
       } catch (error) {
         console.log(error);
@@ -118,30 +114,24 @@ const KanbanBoard = () => {
     } else {
       console.log("Passed", projects);
       getKanban();
+   
     }
   }, [projects]);
-  
-  const handlerTaskInput = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handlerTaskCategory = (e) => {
-    setCategory(e.target.value);
-  };
   const getTasks = async () => {
+    
     sethavecards(true)
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
-    );
-    
-    const data = await response.json();
-    if (response.status == 404 || data.length === 0){
-      sethavecards(false)
-    }
-    console.log("hasxd",data)
-    const tasks = data;
-    const columnMap = {};
-    tasks.forEach((task) => {
+      );
+      
+      const data = await response.json();
+      if (response.status == 404 || data.length === 0){
+        sethavecards(false)
+      }
+      console.log("hasxd",data)
+      const tasks = data;
+      const columnMap = {};
+      tasks.forEach((task) => {
       const category = task.category;
       if (!columnMap[category]) {
         columnMap[category] = {
@@ -155,14 +145,25 @@ const KanbanBoard = () => {
         title: task.name,
       });
     });
-
     // Convert the column map to an array
     const columns = Object.keys(columnMap).map((category) => {
       return columnMap[category];
     });
-
+    
     // Update the columns state with the new columns
     setColumns(columns);
+  };
+  
+  useEffect(()=>{
+    getTasks()
+  },[kanbanId])
+  
+  const handlerTaskInput = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handlerTaskCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   const handlerAdd = async (e) => {
@@ -184,7 +185,6 @@ const KanbanBoard = () => {
             complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
     */
     setTitle("")
-    console.log("cat",category)
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -215,7 +215,7 @@ const KanbanBoard = () => {
     console.log("loading?",loading)
     getTasks();
     
-  }, [kanbanId, title, category]);
+  }, [ category]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -266,14 +266,14 @@ const KanbanBoard = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <h1>Kanban Board</h1>
       <div className={styles.board}>
-        { loading ?  have_cards ? columns.map((column, index) => (
+        { loading ?  have_cards && !kanbanId == "" ? columns.map((column, index) => (
           <Column
             key={column.category}
             title={column.category}
             tasks={column.tasks}
             index={index}
           />
-        )) : <h1>No current cards</h1> :<h1>Loading Content</h1> }
+        )) : <h1>No current cards</h1> :<h1>Loading Content . . .</h1> }
       </div>
       <form>
         <input
