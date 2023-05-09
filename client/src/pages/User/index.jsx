@@ -53,27 +53,32 @@ export default function User() {
     const tokenData = sessionStorage.getItem("token");
     const token = tokenData.slice(1, -1);
 
-    fetch(`http://localhost:8000/user/${username}`, {
+    console.log(name, role, skillLevel, skills);
+    const options = {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
+      headers: { "Content-Type": "application/json", "x-access-token": token },
       body: JSON.stringify({
         name: name,
         role: role,
         skill_level: skillLevel,
         skills: skills,
       }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:8000/user/${username}`,
+        options
+      );
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   function handleShowForm() {
     setShowForm(!showForm);
-    console.log(role, name, skills, skillLevel);
   }
 
   function handleCloseForm() {
@@ -104,21 +109,31 @@ export default function User() {
     setRole((prevState) => [...prevState, event]);
   };
 
-  console.log(role);
-
   const handleSLChange = (event) => {
     setSkillLevel(event.target.value);
   };
 
+  const optionStacks = [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Express",
+    "MongoDB",
+    "SQL",
+    "Python",
+    "Java",
+    "C#",
+    "C++",
+    "Other",
+  ];
+
   const handleSChange = (event) => {
-    const value = event.target.value;
-    if (event.target.checked) {
-      // Add the selected value to the skills array
-      setSkills([...skills, value]);
-    } else {
-      // Remove the deselected value from the skills array
-      setSkills(skills.filter((skill) => skill !== value));
-    }
+    setSkills((prevState) => [...prevState, event]);
+  };
+
+  const handleRSkillChange = (event) => {
+    setSkills((prevState) => [...prevState, event]);
   };
 
   return (
@@ -129,6 +144,7 @@ export default function User() {
             id="name"
             type="text"
             placeholder={data.name ? data.name : "Enter name here."}
+            onChange={handleNChange}
           />
         ) : (
           <h1 className={styles["username"]}>
@@ -151,31 +167,35 @@ export default function User() {
             onRemove={handleRChange}
             onSelect={handleRemove}
             options={optionsRole}
+            placeholder="Choose your role."
           />
         ) : (
           <p>{data.role ? data.role : "no role yet"}</p>
         )}
         {showForm ? (
-          <input
+          <select
             id="skill_level"
             type="select"
             placeholder={
               data.skill_level ? data.skill_level : "Choose your skill level."
             }
-            multiple={false}
-          />
+            onChange={handleSLChange}
+          >
+            <option value="Skill Level"> Skill Level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
         ) : (
           <p>{data.skill_level ? data.skill_level : "no skill level yet"}</p>
         )}
         {showForm ? (
-          <input
-            id="skills"
-            type="text"
-            placeholder={
-              data.skills
-                ? data.skills
-                : "Write down a list of what languages you know here."
-            }
+          <Multiselect
+            placeholder="Choose your stacks"
+            isObject={false}
+            onRemove={handleSChange}
+            onSelect={handleRSkillChange}
+            options={optionStacks}
           />
         ) : (
           <p>{data.skills ? data.skills : "no skills yet"}</p>
