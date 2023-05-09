@@ -20,6 +20,7 @@ export default function ProjectsSearch() {
           positions: project.positions,
           duration: project.duration,
         }));
+        console.log(mapProjects)
         setProjects(mapProjects);
         setIsLoading(false);
       } catch (error) {
@@ -37,6 +38,7 @@ export default function ProjectsSearch() {
         project[key].toLowerCase().includes(query.toLowerCase())
       )
     );
+    console.log("here!",projects)
     setFilteredProjects(filteredProjects);
   }, [query, projects]);
 

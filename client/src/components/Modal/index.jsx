@@ -10,12 +10,12 @@ function Modal({ closeModal }) {
       <div className={styles.modalContainer}>
         <form>
           <input type="text" placeholder="your task" />
-          <select id="categories">
-            <option value="Category">Category</option>
+          <select id="categories" placeholder="Category">
             <option value="Todo">Todo</option>
             <option value="In Progess">In Progress</option>
             <option value="Done">Done</option>
           </select>
+          
           <button type="submit">Update</button>
           <button type="submit" onClick={handleClose}>
             Cancel
