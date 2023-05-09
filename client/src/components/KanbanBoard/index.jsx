@@ -5,40 +5,45 @@ import styles from "./index.module.css";
 
 // Task component
 const handleDelete = async (id) => {
-  console.log("here!", id)
+  console.log("here!", id);
   try {
-    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`,{method :"DELETE"});
-    window.location.reload() //find better method to reload! :)
+    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`, {
+      method: "DELETE",
+    });
+    window.location.reload(); //find better method to reload! :)
   } catch (error) {
     console.log(error);
   }
 };
 
-const Task = ({ task, index ,key, category }) => {
-  category = category
-  const [inputbox, setInputBox] = useState(false)
-  const handleUpdate = async(e,id,category) => {
-    setInputBox(!inputbox)
+const Task = ({ task, index, key, category }) => {
+  category = category;
+  const [inputbox, setInputBox] = useState(false);
+  const handleUpdate = async (e, id, category) => {
+    setInputBox(!inputbox);
     const options = {
-      method : "PUT",
+      method: "PUT",
       headers: {
-        "Content-type" : "application/json"
+        "Content-type": "application/json",
       },
-    body : JSON.stringify({
-      name : e.target.input.value,
-      category :category ,
-      objective  :"asd",
-      complete : "false"
-    })}
-    try{
-      const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
-      if (resp.ok){
-        console.log(await resp.json())
-        window.location.reload(true)
+      body: JSON.stringify({
+        name: e.target.input.value,
+        category: category,
+        objective: "asd",
+        complete: "false",
+      }),
+    };
+    try {
+      const resp = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${id}`,
+        options
+      );
+      if (resp.ok) {
+        console.log(await resp.json());
+        window.location.reload(true);
       }
-    }
-    catch (e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   };
   return (
@@ -50,26 +55,51 @@ const Task = ({ task, index ,key, category }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <form className={styles.taskContainer} onSubmit={(e)=>{e.preventDefault(); if (inputbox == true){ handleUpdate(e,task.id,category);}}}>
-            {inputbox ? (<> <input name = "input" type = "text" placeholder={task.title} style = {{width : '70%'}}/><button type = "submit" style = {{width : '20%'}}>Y</button></>) : ( <span onDoubleClick={()=>setInputBox(true)}>{task.title}</span>) }
-            <button className={styles.deleteBtn} onClick={()=>handleDelete(task.id)}>X</button>
+          <form
+            className={styles.taskContainer}
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (inputbox == true) {
+                handleUpdate(e, task.id, category);
+              }
+            }}
+          >
+            {inputbox ? (
+              <>
+                {" "}
+                <input
+                  name="input"
+                  type="text"
+                  placeholder={task.title}
+                  style={{ width: "70%" }}
+                />
+                <button type="submit" style={{ width: "20%" }}>
+                  Y
+                </button>
+              </>
+            ) : (
+              <span onDoubleClick={() => setInputBox(true)}>{task.title}</span>
+            )}
+            <button
+              className={styles.deleteBtn}
+              onClick={() => handleDelete(task.id)}
+            >
+              X
+            </button>
           </form>
         </div>
       )}
     </Draggable>
   );
-}
+};
 
-            // <button className={styles.updateBtn} onClick={()=>{setInputBox(false)}}>
-            //   U
-            // </button>
+// <button className={styles.updateBtn} onClick={()=>{setInputBox(false)}}>
+//   U
+// </button>
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
 const Column = ({ title, tasks, index }) => {
-  console.log("title!",title)
-  const style_title = title
-  console.log("yes",styles.todo)
-  console.log("here!",styles.column)
+  const style_title = title;
   return (
     <div className={styles.column}>
       <h3>{title}</h3>
@@ -79,7 +109,12 @@ const Column = ({ title, tasks, index }) => {
             <div>
               {tasks &&
                 tasks.map((task, index) => (
-                  <Task category = {title} key={task.id} task={task} index={index} />
+                  <Task
+                    category={title}
+                    key={task.id}
+                    task={task}
+                    index={index}
+                  />
                 ))}
               {provided.placeholder}
             </div>
@@ -98,6 +133,7 @@ const KanbanBoard = () => {
   const [columns, setColumns] = useState([]);
 
   const { projects } = useProjects();
+  console.log("projects", projects);
 
   useEffect(() => {
     const getKanban = async () => {
@@ -124,7 +160,6 @@ const KanbanBoard = () => {
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
     );
     const data = await response.json();
-    console.log("data retrieved !", data)
     const tasks = data;
     // Create a map to store the columns
     const columnMap = {};
@@ -155,24 +190,8 @@ const KanbanBoard = () => {
 
   const handlerAdd = async (e) => {
     e.preventDefault();
-    getTasks()
-    /* ADD THIS TO BACKEND below POST : (this will return missing field incase of error! :)
-            info = request.json
-            required_fields = ["name", "category", "objective", "complete"]
-            name = info.get("name")
-            category = info.get("category")
-            objective = info.get("objective")
-            complete = info.get("complete")
-            kanban_id = id
-        
-            missing_fields = [field for field in required_fields if field not in info]
-
-            if missing_fields:
-               raise ValueError("Missing fields: {}".format(", ".join(missing_fields)))            
-            complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
-    */
-    setTitle("")
-    console.log("cat",category)
+    getTasks();
+    setTitle("");
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -180,8 +199,8 @@ const KanbanBoard = () => {
         name: title,
         category: category,
         objective: "obj",
-        complete : "false"
-      })
+        complete: "false",
+      }),
     };
     try {
       const response = await fetch(
@@ -191,9 +210,9 @@ const KanbanBoard = () => {
       if (response.ok) {
         setTitle("");
       }
-      console.log("resp for post",response);
+      console.log("resp for post", response);
       const data = await response.json();
-      console.log(data)
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -268,7 +287,11 @@ const KanbanBoard = () => {
           value={title}
           onChange={handlerTaskInput}
         />
-        <select onChange={handlerTaskCategory} id="categories" placeholder="Category">
+        <select
+          onChange={handlerTaskCategory}
+          id="categories"
+          placeholder="Category"
+        >
           <option value="Todo">Todo</option>
           <option value="In Progress">In Progress</option>
           <option value="Testing">Testing</option>

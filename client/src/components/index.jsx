@@ -4,4 +4,3 @@ export { default as ProjectsSearch } from "./ProjectsSearch";
 export { default as KanbanBoard } from "./KanbanBoard";
 export { default as Sidebar } from "./Sidebar";
 export { default as SidebarCollapsed } from "./SidebarCollapsed";
-export { default as Modal } from "./Modal";
