@@ -16,10 +16,10 @@ const handleDelete = async (id) => {
 };
 
 const Task = ({ task, index ,key, category }) => {
+  category = category
   const [inputbox, setInputBox] = useState(false)
   const handleUpdate = async(e,id,category) => {
     setInputBox(!inputbox)
-    console.log(category)
     const options = {
       method : "PUT",
       headers: {
@@ -31,7 +31,6 @@ const Task = ({ task, index ,key, category }) => {
       objective  :"asd",
       complete : "false"
     })}
-    console.log(options)
     try{
       const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
       if (resp.ok){
@@ -70,6 +69,7 @@ const Task = ({ task, index ,key, category }) => {
 // Column component
 const Column = ({ title, tasks, index }) => {
   console.log("title!",title)
+  const classes  = `styles.column styles.${title}`
   return (
     <div className={styles.column}>
       <h3>{title}</h3>
@@ -120,9 +120,43 @@ const KanbanBoard = () => {
   const handlerTaskCategory = (e) => {
     setCategory(e.target.value);
   };
+  const getTasks = async () => {
+    const response = await fetch(
+      `http://127.0.0.1:8000/kanban/task/${kanbanId}`
+    );
+    const data = await response.json();
+    console.log("data retrieved !", data)
+    const tasks = data;
+    // Create a map to store the columns
+    const columnMap = {};
+    tasks.forEach((task) => {
+      const category = task.category;
+      // If the column for the category doesn't exist, create a new column
+      if (!columnMap[category]) {
+        columnMap[category] = {
+          category: category,
+          tasks: [],
+        };
+      }
+      // Add the task to the column
+      columnMap[category].tasks.push({
+        id: task.id.toString(),
+        title: task.name,
+      });
+    });
+
+    // Convert the column map to an array
+    const columns = Object.keys(columnMap).map((category) => {
+      return columnMap[category];
+    });
+
+    // Update the columns state with the new columns
+    setColumns(columns);
+  };
 
   const handlerAdd = async (e) => {
     e.preventDefault();
+    getTasks()
     /* ADD THIS TO BACKEND below POST : (this will return missing field incase of error! :)
             info = request.json
             required_fields = ["name", "category", "objective", "complete"]
@@ -167,39 +201,6 @@ const KanbanBoard = () => {
   };
 
   useEffect(() => {
-    const getTasks = async () => {
-      const response = await fetch(
-        `http://127.0.0.1:8000/kanban/task/${kanbanId}`
-      );
-      const data = await response.json();
-      console.log("data retrieved !", data)
-      const tasks = data;
-      // Create a map to store the columns
-      const columnMap = {};
-      tasks.forEach((task) => {
-        const category = task.category;
-        // If the column for the category doesn't exist, create a new column
-        if (!columnMap[category]) {
-          columnMap[category] = {
-            category: category,
-            tasks: [],
-          };
-        }
-        // Add the task to the column
-        columnMap[category].tasks.push({
-          id: task.id.toString(),
-          title: task.name,
-        });
-      });
-
-      // Convert the column map to an array
-      const columns = Object.keys(columnMap).map((category) => {
-        return columnMap[category];
-      });
-
-      // Update the columns state with the new columns
-      setColumns(columns);
-    };
     getTasks();
   }, [kanbanId, title, category]);
 
@@ -270,7 +271,8 @@ const KanbanBoard = () => {
         />
         <select onChange={handlerTaskCategory} id="categories" placeholder="Category">
           <option value="Todo">Todo</option>
-          <option value="In Progess">In Progress</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Testing">Testing</option>
           <option value="Done">Done</option>
         </select>
         <button type="submit" onClick={handlerAdd}>
