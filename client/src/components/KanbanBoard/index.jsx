@@ -67,10 +67,8 @@ const Task = ({ task, index ,key, category }) => {
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
 const Column = ({ title, tasks, index }) => {
-  console.log("title!",title)
   const style_title = title
-  console.log("yes",styles.todo)
-  console.log("here!",styles.column)
+
   return (
     <div className={styles.column}>
       <h3>{title}</h3>
@@ -98,24 +96,29 @@ const KanbanBoard = () => {
   const [category, setCategory] = useState("Todo");
   const [columns, setColumns] = useState([]);
   const { projects } = useProjects();
-
+  const [loading, setloading] = useState(false)
   useEffect(() => {
     const getKanban = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/kanban/${projects[0].id}`);
-     
-          console.log("strange")
-          const data = await response.json();
-          console.log("here!",data)
-          setKanbanId(data["ID"]);
-
+        const data = await response.json();
+        console.log("here!", data);
+        setKanbanId(data["ID"]);
+        setloading(true)
+        
       } catch (error) {
         console.log(error);
+        setloading(true)
       }
     };
-    getKanban();
-  },[columns]);
-
+    if (projects.length === 0) {
+      console.log("Loading projects...");
+    } else {
+      console.log("Passed", projects);
+      getKanban();
+    }
+  }, [projects]);
+  
   const handlerTaskInput = (e) => {
     setTitle(e.target.value);
   };
@@ -124,18 +127,15 @@ const KanbanBoard = () => {
     setCategory(e.target.value);
   };
   const getTasks = async () => {
-    console.log(kanbanId)
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
     );
     const data = await response.json();
-    console.log("data retrieved !", data)
+
     const tasks = data;
-    // Create a map to store the columns
     const columnMap = {};
     tasks.forEach((task) => {
       const category = task.category;
-      // If the column for the category doesn't exist, create a new column
       if (!columnMap[category]) {
         columnMap[category] = {
           category: category,
@@ -205,7 +205,9 @@ const KanbanBoard = () => {
   };
 
   useEffect(() => {
+    console.log("loading?",loading)
     getTasks();
+    
   }, [kanbanId, title, category]);
 
   const onDragEnd = (result) => {
@@ -257,14 +259,14 @@ const KanbanBoard = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <h1>Kanban Board</h1>
       <div className={styles.board}>
-        {columns.map((column, index) => (
+        { loading ? columns.map((column, index) => (
           <Column
             key={column.category}
             title={column.category}
             tasks={column.tasks}
             index={index}
           />
-        ))}
+        )) : <h1>Loading Content</h1>}
       </div>
       <form>
         <input
