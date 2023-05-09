@@ -31,29 +31,27 @@ export default function User() {
 
   useEffect(() => {
     if (loaded) {
-      if (data.name !== null) {
-        setName(data.name);
+      if (name !== null) {
+        setName(name);
       }
-      if (data.role !== undefined) {
-        setRole(data.role);
-        console.log(role);
+      if (role !== undefined) {
+        setRole(role);
       }
-      if (data.skill_level !== null) {
-        setSkillLevel(data.skill_level);
+      if (skillLevel !== null) {
+        setSkillLevel(skillLevel);
       }
-      if (data.skills !== undefined) {
-        setSkills(data.skills);
+      if (skills !== undefined) {
+        setSkills(skills);
       }
     }
     console.log(name, role, skillLevel, skills);
-  }, [data, loaded]);
+  }, [loaded]);
 
   const handleChanges = async () => {
     const username = sessionStorage.getItem("username");
     const tokenData = sessionStorage.getItem("token");
     const token = tokenData.slice(1, -1);
 
-    console.log(name, role, skillLevel, skills);
     const options = {
       method: "PATCH",
       headers: { "Content-Type": "application/json", "x-access-token": token },
@@ -110,6 +108,7 @@ export default function User() {
   };
 
   const handleSLChange = (event) => {
+    console.log(event.target.value);
     setSkillLevel(event.target.value);
   };
 
@@ -135,6 +134,8 @@ export default function User() {
   const handleRSkillChange = (event) => {
     setSkills((prevState) => [...prevState, event]);
   };
+
+  console.log(name, role, skillLevel, skills);
 
   return (
     <>
@@ -202,7 +203,14 @@ export default function User() {
         )}
         {showForm ? (
           <>
-            <button onClick={handleCloseForm}>Save changes</button>
+            <button
+              onClick={() => {
+                handleCloseForm();
+                window.location.reload();
+              }}
+            >
+              Save changes
+            </button>
             <button onClick={handleShowForm}>Cancel changes</button>
           </>
         ) : (
