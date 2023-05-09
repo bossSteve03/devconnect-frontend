@@ -102,7 +102,7 @@ const KanbanBoard = () => {
   useEffect(() => {
     const getKanban = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/kanban/1");
+        const response = await fetch(`http://127.0.0.1:8000/kanban/1`);
         const data = await response.json();
         setKanbanId(data["ID"]);
       } catch (error) {
