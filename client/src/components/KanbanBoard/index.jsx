@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useProjects } from "../../context";
+import { useProjects } from "../../context";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Modal from "../Modal";
 import styles from "./index.module.css";
@@ -71,8 +71,8 @@ const KanbanBoard = () => {
   const [category, setCategory] = useState("");
   const [columns, setColumns] = useState([]);
 
-  // const [projectID, setProjectID] = useProjects();
-  // console.log(projectID);
+  const [projects, setProjects] = useProjects();
+  console.log(projects);
 
   useEffect(() => {
     const getKanban = async () => {

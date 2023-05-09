@@ -1,6 +1,5 @@
 import styles from "./index.module.css";
 import { useState } from "react";
-// import { useProjectsID } from "../../context/index";
 
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
@@ -76,12 +75,43 @@ export default function ProjectForm() {
           }
         };
         createKanban();
+        const projectMemberSetup = async () => {
+          const tokenData = sessionStorage.getItem('token');
+          const token = tokenData.slice(1, -1);
+          const response2 = await fetch(`http://localhost:8000/user/${sessionStorage.getItem('username')}`, {
+            headers: {
+              'x-access-token': token
+            }
+          });
+          const userInfo = await response2.json();
+          console.log(userInfo)
+          const options2 = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              // we will need to get chat room key from the backend
+              project_id: JSON.parse(projectId),
+              user_id: userInfo.user_id,
+              name: sessionStorage.getItem('username'),
+              level: 4,
+              role: 'Project Owner'
+            })
+          };
+          const newResponse = fetch(`http://localhost:8000/teammember/${JSON.stringify(userInfo.user_id)}`, options2);
+          if (newResponse.ok) {
+            console.log('Team Member created successfully');
+          } else {
+            console.log('Team Member not created successfully');
+          };
+        };
+        projectMemberSetup();
         // window.location.assign = "/dashboard";
       } else {
         console.log("Project creation failed");
       }
     };
     projectSetup();
+    
   };
 
   return (
