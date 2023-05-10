@@ -36,7 +36,6 @@ const Task = ({ task, index, category, setSwitcher, switcher }) => {
         options
       );
       if (resp.ok) {
-        console.log(await resp.json());
         setSwitcher(!switcher);
       }
     } catch (e) {
@@ -98,10 +97,8 @@ const Task = ({ task, index, category, setSwitcher, switcher }) => {
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
 const Column = ({ title, tasks, switcher, setSwitcher }) => {
-  console.log(title);
-  console.log(styles[`${title}`], styles.column);
   return (
-    <div className={[styles[`${title}`], styles.column]}>
+    <div className={(styles[`${title}`], styles.column)}>
       <h3>{title}</h3>
       <Droppable droppableId={title}>
         {(provided) => (
@@ -250,11 +247,10 @@ const KanbanBoard = () => {
   };
 
   useEffect(() => {
-    console.log("loading?", loading);
     getTasks();
   }, [category, switcher]);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     const { source, destination } = result;
 
     // If dropped outside of droppable area
@@ -280,7 +276,7 @@ const KanbanBoard = () => {
       );
       return;
     }
-
+    console.log("asdasdasdasdas", source);
     // Find destination column
     const destinationColumn = columns.find(
       (column) => column.category === destination.droppableId
@@ -296,8 +292,37 @@ const KanbanBoard = () => {
     const newColumns = [...columns];
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
     destinationColumn.tasks.splice(destination.index, 0, removed);
+    console.log("here!", destinationColumn.category);
     setColumns(newColumns);
-
+    console.log("column", sourceColumn);
+    const last = destinationColumn.tasks.length;
+    console.log("asda", destinationColumn.tasks);
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: destinationColumn.tasks[last - 1].title,
+        category: destinationColumn.category,
+        objective: "asd",
+        complete: "false",
+      }),
+    };
+    try {
+      const resp = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${
+          destinationColumn.tasks[last - 1].id
+        }`,
+        options
+      );
+      if (resp.ok) {
+        console.log("UPDATED!");
+        setSwitcher(!switcher);
+      }
+    } catch (e) {
+      console.log(e);
+    }
     getTasks();
   };
 
