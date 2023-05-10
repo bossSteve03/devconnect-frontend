@@ -31,16 +31,16 @@ export default function User() {
 
   useEffect(() => {
     if (loaded) {
-      if (name !== null) {
+      if (name !== "") {
         setName(name);
       }
-      if (role !== undefined) {
+      if (role !== "") {
         setRole(role);
       }
-      if (skillLevel !== null) {
+      if (skillLevel !== "") {
         setSkillLevel(skillLevel);
       }
-      if (skills !== undefined) {
+      if (skills !== "") {
         setSkills(skills);
       }
     }
@@ -96,11 +96,11 @@ export default function User() {
     "UI",
     "QA",
     "DevOps",
-    "Data Science",
+    "DataScience",
     "Other",
   ];
   const handleRChange = (event) => {
-    setRole((prevState) => [...prevState, event]);
+    setRole(event);
   };
 
   const handleRemove = (event) => {
@@ -128,7 +128,7 @@ export default function User() {
   ];
 
   const handleSChange = (event) => {
-    setSkills((prevState) => [...prevState, event]);
+    setSkills(event);
   };
 
   const handleRSkillChange = (event) => {
@@ -165,13 +165,13 @@ export default function User() {
         {showForm ? (
           <Multiselect
             isObject={false}
-            onRemove={handleRChange}
-            onSelect={handleRemove}
+            onRemove={handleRemove}
+            onSelect={handleRChange}
             options={optionsRole}
             placeholder="Choose your role."
           />
         ) : (
-          <p>{data.role ? data.role : "no role yet"}</p>
+          <p>{data.role ? data.role.slice(1, -1) : "no role yet"}</p>
         )}
         {showForm ? (
           <select
@@ -194,12 +194,12 @@ export default function User() {
           <Multiselect
             placeholder="Choose your stacks"
             isObject={false}
-            onRemove={handleSChange}
-            onSelect={handleRSkillChange}
+            onRemove={handleRSkillChange}
+            onSelect={handleSChange}
             options={optionStacks}
           />
         ) : (
-          <p>{data.skills ? data.skills : "no skills yet"}</p>
+          <p>{data.skills ? data.skills.slice(1, -1) : "no skills yet"}</p>
         )}
         {showForm ? (
           <>
