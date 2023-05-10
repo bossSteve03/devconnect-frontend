@@ -7,12 +7,11 @@ export default function ProjectsSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const {user} = useUser()
+  const { user } = useUser();
 
-  useEffect(()=>{
-      projects.length > 0 && setIsLoading(false);
-     [projects];
-  },[projects])
+  useEffect(() => {
+    projects.length > 0 && setIsLoading(false);
+  }, [projects]);
 
   useEffect(() => {
     const filteredProjects = projects.filter((project) =>
@@ -33,14 +32,27 @@ export default function ProjectsSearch() {
     return <p>Loading...</p>;
   }
 
-  const handleApply = async(e) => {
-    e.preventDefault();
-    try {
-     const resp = await fetch (`http://127.0.0.1:8000/teammember/${user.id}`)
+  const handleApply = async () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        project_id: 2,
+        user_id: 2,
+        name: "silvia",
+        level: "junior",
+        role: "developer",
+      }),
+    };
+    const response = await fetch(
+      `http://127.0.0.1:8000/teammember/${user}`,
+      options
+    );
+    if (response.ok) {
+      alert("welcome to the Team!");
     }
-    catch (e){
-      console.log(e)
-    }
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
@@ -53,9 +65,13 @@ export default function ProjectsSearch() {
         filteredProjects.map((project, i) => (
           <div key={i}>
             <h3 className="project-title">{project.title}</h3>
-            <p className="project-description">Description: {project.description}</p>
+            <p className="project-description">
+              Description: {project.description}
+            </p>
             <p className="project-description">Pos: {project.positions}</p>
-            <p className="project-description">Duration: {project.duration} days</p>
+            <p className="project-description">
+              Duration: {project.duration} days
+            </p>
             <button className="apply-button" onClick={handleApply}>
               Apply
             </button>

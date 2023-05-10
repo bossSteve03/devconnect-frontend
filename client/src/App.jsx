@@ -17,9 +17,10 @@ import {
   SearchProjects,
   Dashboard,
 } from "./pages";
+import { useProjects } from "./context";
 
 function App() {
-  const [ userIsLoggedIn, setUserIsLoggedIn ] = useState(false);
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
   const { token } = tokenService();
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,14 +46,35 @@ function App() {
     getProjects();
   }, []);
   useEffect(() => {
-    let isValid = (token !== null && token !== undefined);
+    let isValid = token !== null && token !== undefined;
     setUserIsLoggedIn(isValid);
-    if ((isValid === false) && location.pathname.includes('/auth')) {
-      navigate('/login')
-      window.alert('You do not have access to this route and are being redirected to the log in page. Please log in and try again.')
+    if (isValid === false && location.pathname.includes("/auth")) {
+      navigate("/login");
+      window.alert(
+        "You do not have access to this route and are being redirected to the log in page. Please log in and try again."
+      );
     }
   }, []);
-  
+  useEffect(() => {
+    const getProjects = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/project/1");
+        const data = await response.json();
+        const mapProjects = data["user projects"].map((project) => ({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          positions: project.positions,
+          duration: project.duration,
+        }));
+        setProjects(mapProjects);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProjects();
+  }, []);
+
   return (
     <>
         <UserProvider>

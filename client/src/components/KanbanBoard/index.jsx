@@ -4,39 +4,43 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "./index.module.css";
 
 // Task component
-const Task = ({ task, index , category, setSwitcher, switcher }) => {
-
+const Task = ({ task, index, category, setSwitcher, switcher }) => {
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`,{method :"DELETE"});
-      setSwitcher(!switcher)
+      const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`, {
+        method: "DELETE",
+      });
+      setSwitcher(!switcher);
     } catch (error) {
       console.log(error);
     }
   };
-  const [inputbox, setInputBox] = useState(false)
-  const handleUpdate = async(e,id,category) => {
-    setInputBox(!inputbox)
+  const [inputbox, setInputBox] = useState(false);
+  const handleUpdate = async (e, id, category) => {
+    setInputBox(!inputbox);
     const options = {
-      method : "PUT",
+      method: "PUT",
       headers: {
-        "Content-type" : "application/json"
+        "Content-type": "application/json",
       },
-    body : JSON.stringify({
-      name : e.target.input.value,
-      category :category ,
-      objective  :"asd",
-      complete : "false"
-    })}
-    try{
-      const resp = await fetch (`http://127.0.0.1:8000/kanban/task/${id}`,options)
-      if (resp.ok){
-        console.log(await resp.json())
-        setSwitcher(!switcher)
+      body: JSON.stringify({
+        name: e.target.input.value,
+        category: category,
+        objective: "asd",
+        complete: "false",
+      }),
+    };
+    try {
+      const resp = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${id}`,
+        options
+      );
+      if (resp.ok) {
+        console.log(await resp.json());
+        setSwitcher(!switcher);
       }
-    }
-    catch (e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   };
   return (
@@ -48,26 +52,56 @@ const Task = ({ task, index , category, setSwitcher, switcher }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <form className={styles.taskContainer} onSubmit={(e)=>{e.preventDefault(); if (inputbox == true){ handleUpdate(e,task.id,category);}}}>
-            {inputbox ? (<> <input name = "input" type = "text" placeholder={task.title} style = {{width : '70%'}}/><button type = "submit" style = {{width : '20%'}}>Y</button></>) : ( <span onDoubleClick={()=>setInputBox(true)}>{task.title}</span>) }
-            <button className={styles.deleteBtn} onClick={()=>{handleDelete(task.id);}}>X</button>
+          <form
+            className={styles.taskContainer}
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (inputbox == true) {
+                handleUpdate(e, task.id, category);
+              }
+            }}
+          >
+            {inputbox ? (
+              <>
+                {" "}
+                <input
+                  name="input"
+                  type="text"
+                  placeholder={task.title}
+                  style={{ width: "70%" }}
+                />
+                <button type="submit" style={{ width: "20%" }}>
+                  Y
+                </button>
+              </>
+            ) : (
+              <span onDoubleClick={() => setInputBox(true)}>{task.title}</span>
+            )}
+            <button
+              className={styles.deleteBtn}
+              onClick={() => {
+                handleDelete(task.id);
+              }}
+            >
+              X
+            </button>
           </form>
         </div>
       )}
     </Draggable>
   );
-}
+};
 
-            // <button className={styles.updateBtn} onClick={()=>{setInputBox(false)}}>
-            //   U
-            // </button>
+// <button className={styles.updateBtn} onClick={()=>{setInputBox(false)}}>
+//   U
+// </button>
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
-const Column = ({ title, tasks, switcher,setSwitcher }) => {
-  console.log(title)
-  console.log(styles[`${title}`] , styles.column)
+const Column = ({ title, tasks, switcher, setSwitcher }) => {
+  console.log(title);
+  console.log(styles[`${title}`], styles.column);
   return (
-    <div className={styles[`${title}`] , styles.column}>
+    <div className={[styles[`${title}`], styles.column]}>
       <h3>{title}</h3>
       <Droppable droppableId={title}>
         {(provided) => (
@@ -75,7 +109,14 @@ const Column = ({ title, tasks, switcher,setSwitcher }) => {
             <div>
               {tasks &&
                 tasks.map((task, index) => (
-                  <Task setSwitcher = {setSwitcher} switcher = {switcher} category = {title} key={task.id} task={task} index={index} />
+                  <Task
+                    setSwitcher={setSwitcher}
+                    switcher={switcher}
+                    category={title}
+                    key={task.id}
+                    task={task}
+                    index={index}
+                  />
                 ))}
               {provided.placeholder}
             </div>
@@ -94,21 +135,22 @@ const KanbanBoard = () => {
   const [category, setCategory] = useState("Todo");
   const [columns, setColumns] = useState([]);
   const { projects } = useProjects();
-  const [loading, setloading] = useState(false)
-  const [have_cards,sethavecards] = useState(true)
+  const [loading, setloading] = useState(false);
+  const [have_cards, sethavecards] = useState(true);
 
   useEffect(() => {
     const getKanban = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/kanban/${projects[0].id}`);
+        const response = await fetch(
+          `http://127.0.0.1:8000/kanban/${projects[0].id}`
+        );
         const data = await response.json();
-        
-        setloading(true)
+
+        setloading(true);
         setKanbanId(data["ID"]);
-        
       } catch (error) {
         console.log(error);
-        setloading(true)
+        setloading(true);
       }
     };
     if (projects.length === 0) {
@@ -116,21 +158,20 @@ const KanbanBoard = () => {
     } else {
       console.log("Passed", projects);
       getKanban();
-   
     }
   }, [projects]);
   async function getTasks() {
-    sethavecards(true)
+    sethavecards(true);
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
-      );     
-      const data = await response.json();
-      if (response.status == 404 || data.length === 0){
-        sethavecards(false)
-      }
-      const tasks = data;
-      const columnMap = {};
-      tasks.forEach((task) => {
+    );
+    const data = await response.json();
+    if (response.status == 404 || data.length === 0) {
+      sethavecards(false);
+    }
+    const tasks = data;
+    const columnMap = {};
+    tasks.forEach((task) => {
       const category = task.category;
       if (!columnMap[category]) {
         columnMap[category] = {
@@ -148,15 +189,15 @@ const KanbanBoard = () => {
     const columns = Object.keys(columnMap).map((category) => {
       return columnMap[category];
     });
-    
+
     // Update the columns state with the new columns
     setColumns(columns);
-  };
-  
-  useEffect(()=>{
-    getTasks()
-  },[kanbanId,])
-  
+  }
+
+  useEffect(() => {
+    getTasks();
+  }, [kanbanId]);
+
   const handlerTaskInput = (e) => {
     setTitle(e.target.value);
   };
@@ -182,7 +223,7 @@ const KanbanBoard = () => {
                raise ValueError("Missing fields: {}".format(", ".join(missing_fields)))            
             complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
     */
-    setTitle("")
+    setTitle("");
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -190,8 +231,8 @@ const KanbanBoard = () => {
         name: title,
         category: category,
         objective: "obj",
-        complete : "false"
-      })
+        complete: "false",
+      }),
     };
     try {
       const response = await fetch(
@@ -202,17 +243,16 @@ const KanbanBoard = () => {
         setTitle("");
       }
       const data = await response.json();
-      getTasks()
+      getTasks();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    console.log("loading?",loading)
+    console.log("loading?", loading);
     getTasks();
-    
-  }, [category,switcher]);
+  }, [category, switcher]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -265,16 +305,24 @@ const KanbanBoard = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <h1>Kanban Board</h1>
       <div className={styles.board}>
-        { loading ?  have_cards && !kanbanId == "" ? columns.map((column, index) => (
-          <Column 
-            switcher={switcher}
-            setSwitcher={setSwitcher}
-            key={column.category}
-            title={column.category}
-            tasks={column.tasks}
-            index={index}
-          />
-        )) : <h1>No current cards</h1> :<h1>Loading Content . . .</h1> }
+        {loading ? (
+          have_cards && !kanbanId == "" ? (
+            columns.map((column, index) => (
+              <Column
+                switcher={switcher}
+                setSwitcher={setSwitcher}
+                key={column.category}
+                title={column.category}
+                tasks={column.tasks}
+                index={index}
+              />
+            ))
+          ) : (
+            <h1>No current cards</h1>
+          )
+        ) : (
+          <h1>Loading Content . . .</h1>
+        )}
       </div>
       <form>
         <input
@@ -283,7 +331,11 @@ const KanbanBoard = () => {
           value={title}
           onChange={handlerTaskInput}
         />
-        <select onChange={handlerTaskCategory} id="categories" placeholder="Category">
+        <select
+          onChange={handlerTaskCategory}
+          id="categories"
+          placeholder="Category"
+        >
           <option value="Todo">Todo</option>
           <option value="Progress">In Progress</option>
           <option value="Testing">Testing</option>
