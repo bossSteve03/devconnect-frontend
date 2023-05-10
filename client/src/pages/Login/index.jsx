@@ -1,15 +1,25 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import styles from "./index.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Buffer } from "buffer";
 import { useUser } from "../../context";
 import tokenService from "../../services/tokenService";
+=======
+import styles from './index.module.css'
+import { Link, useNavigate } from 'react-router-dom'
+import { Buffer } from 'buffer'
+import  tokenService from "../../services/tokenService"
+>>>>>>> dev
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = tokenService();
+<<<<<<< HEAD
   const { user, setUser } = useUser();
+=======
+>>>>>>> dev
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +41,7 @@ export default function Login() {
     if (response.ok) {
       let data = await response.json();
       const new_ops = {
+<<<<<<< HEAD
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,6 +55,17 @@ export default function Login() {
       if (get_user_id.ok) {
         const data = await get_user_id.json();
         setUser(data.user_id);
+=======
+      method : "GET",
+      headers : {
+        "Content-Type" : "application/json",
+        "x-access-token" : data.token
+      }};
+      const get_user_id = await fetch (`http://localhost:8000/user/${username}`,new_ops)
+      if (get_user_id.ok){
+        const data = await get_user_id.json()
+        sessionStorage.setItem("user_id", data.user_id)
+>>>>>>> dev
       }
       setToken(data.token);
       sessionStorage.setItem("username", username);

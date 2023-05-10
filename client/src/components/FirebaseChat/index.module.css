@@ -1,0 +1,82 @@
+/*
+sent-messages, sent-message / me, date-time, user, text-message, chatroom-container, groupchat-name
+*/
+
+.chatroom-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatroom-inner-container {
+  padding: 10px;
+}
+
+.sent-messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sent-message {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.sent-message.me {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.date-time {
+  font-size: 12px;
+  color: #000;
+  margin: 0 0 4px 0;
+}
+
+.user {
+  font-weight: bold;
+  margin: 0 0 4px 0;
+}
+
+.text-message {
+  margin: 0;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: row;
+  min-width: 100%;
+}
+
+.message-form input {
+  flex-grow: 100;
+  border-radius: 0px;
+  border: 1px solid #000;
+  border-left: none;
+  border-bottom: none;
+  height: 40px;
+  padding-left: 5px;
+}
+
+.message-form > input:focus {
+  flex-grow: 100;
+  border-radius: 0px;
+  border: 1px solid #000;
+  border-left: none;
+  border-bottom: none;
+  height: 40px;
+  padding-left: 5px;
+}
+
+.message-form button {
+  border: none;
+  border-top: 1px solid #000;
+  background-color: #FFF;
+  width: 40px;
+}
+
+.send-icon {
+  
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useProjects, useUser } from "../../context/index";
+import { useProjects } from "../../context";
 import "./searchform.css";
 
 export default function ProjectsSearch() {
@@ -7,8 +7,6 @@ export default function ProjectsSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const { user } = useUser();
-  console.log("user_id", user);
   useEffect(() => {
     projects.length > 0 && setIsLoading(false);
   }, [projects]);
@@ -32,20 +30,21 @@ export default function ProjectsSearch() {
     return <p>Loading...</p>;
   }
 
-  const handleApply = async () => {
+  const handleApply = async (e,project) => {
+    console.log("user",sessionStorage.getItem("user_id"))
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        project_id: 2,
-        user_id: 2,
-        name: "silvia",
-        level: "junior",
-        role: "developer",
+        user_id: sessionStorage.getItem("user_id"),
+        name: sessionStorage.getItem("username"),
+        level: 0,
+        role: "Team member"
       }),
     };
+    console.log(options)
     const response = await fetch(
-      `http://127.0.0.1:8000/teammember/${user}`,
+      `http://127.0.0.1:8000/teammember/${project.id}`,
       options
     );
     if (response.ok) {
@@ -54,7 +53,6 @@ export default function ProjectsSearch() {
     const data = await response.json();
     console.log(data);
   };
-
   return (
     <>
       <h2 className="page-heading">SearchBar</h2>
@@ -77,7 +75,7 @@ export default function ProjectsSearch() {
             <p className="project-description">
               Duration: {project.duration} days
             </p>
-            <button className="apply-button" onClick={handleApply}>
+            <button className="apply-button" onClick={(e)=>{handleApply(e,project)}}>
               Apply
             </button>
           </div>
