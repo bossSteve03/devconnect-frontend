@@ -1,6 +1,8 @@
 import styles from "./index.module.css";
 import { useState } from "react";
 import { useProjects } from "../../context";
+import { useNavigate } from "react-router-dom";
+
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -8,7 +10,7 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
-  
+  const navigate = useNavigate();
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -74,22 +76,15 @@ export default function ProjectForm() {
         console.log(data)
         createKanban(data["Project ID"]);
         
-        const projectMemberSetup = async () => {
-          const tokenData = sessionStorage.getItem('token');
-          const token = tokenData.slice(1, -1);
-          const response2 = await fetch(`http://localhost:8000/user/${sessionStorage.getItem('username')}`, {
-            headers: {
-              'x-access-token': token
-            }
-          });
+        const projectMemberSetup = async (id) => {
           const options2 = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              project_id: projectId,
+              project_id: id,
               user_id: sessionStorage.getItem("user_id"),
               name: sessionStorage.getItem('username'),
-              level: "4",
+              level: 1,
               role: 'Project Owner'
             })
           };
@@ -102,11 +97,10 @@ export default function ProjectForm() {
             console.log(await newResponse.json())
           };
         };
-        projectMemberSetup();
-        window.location.assign = "/dashboard";
         console.log("Project created successfully");
         createKanban(data["Project ID"]);
-        window.location.assign = "/dashboard";
+        projectMemberSetup(data["Project ID"]);
+        //navigate("/auth/dashboard")
       } else {
         console.log("Project creation failed");
       }

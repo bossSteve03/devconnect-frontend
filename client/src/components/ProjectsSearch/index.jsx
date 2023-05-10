@@ -32,19 +32,20 @@ export default function ProjectsSearch() {
   }
 
   const handleApply = async (e,project) => {
+    console.log("user",sessionStorage.getItem("user_id"))
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        project_id: project.id,
         user_id: sessionStorage.getItem("user_id"),
         name: sessionStorage.getItem("username"),
         level: 0,
-        role: "Team member",
+        role: "Team member"
       }),
     };
+    console.log(options)
     const response = await fetch(
-      `http://127.0.0.1:8000/teammember/${sessionStorage.getItem("user_id")}`,
+      `http://127.0.0.1:8000/teammember/${project.id}`,
       options
     );
     if (response.ok) {
