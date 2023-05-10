@@ -30,7 +30,6 @@ export default function FirebaseChat() {
     async function getProjectId() {
       const responsePI = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`);
       const PI = await responsePI.json();
-      console.log(PI[0].project_id)
       setProjectId(PI[0].project_id)
     }
     getProjectId()

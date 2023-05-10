@@ -10,7 +10,7 @@ export default function CreateProject() {
   async function getProjectMember() {
     const response = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`)
     const responseData = await response.json()
-    setData(responseData)
+    setData(JSON.parse(JSON.stringify(responseData)))
   }
 
   useEffect(() => {
@@ -18,11 +18,14 @@ export default function CreateProject() {
   }, [])
 
   useEffect(() => {
-    if (data) {
+    console.log(data)
+    if (data[0]) {
       setProjectExists(true)
+      console.log('data true ' + data[0])
     } else {
       setProjectExists(false)
       console.log('Not Found')
+      console.log('data false ' + data[0])
     }
   }, [data])
 

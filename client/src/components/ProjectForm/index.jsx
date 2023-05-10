@@ -57,6 +57,7 @@ export default function ProjectForm() {
         const data = await response.json();
         console.log(data["Project ID"]);
         setProjectId(data["Project ID"]);
+        const projectid = data["Project ID"];
         console.log("Project created successfully");
         const createKanban = async () => {
           const options = {
@@ -64,7 +65,7 @@ export default function ProjectForm() {
             headers: { "Content-Type": "application/json" },
           };
           const response = await fetch(
-            `http://127.0.0.1:8000/kanban/${projectId}`,
+            `http://127.0.0.1:8000/kanban/${projectid}`,
             options
           );
           console.log(response);
@@ -84,24 +85,25 @@ export default function ProjectForm() {
             }
           });
           const userInfo = await response2.json();
-          console.log(userInfo)
+          console.log(projectId)
           const options2 = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              // we will need to get chat room key from the backend
-              project_id: JSON.parse(projectId),
+              project_id: projectId,
               user_id: userInfo.user_id,
               name: sessionStorage.getItem('username'),
               level: 4,
               role: 'Project Owner'
             })
           };
-          const newResponse = fetch(`http://localhost:8000/teammember/${JSON.stringify(userInfo.user_id)}`, options2);
+          const newResponse = await fetch(`http://localhost:8000/teammember/${JSON.stringify(userInfo.user_id)}`, options2);
           if (newResponse.ok) {
             console.log('Team Member created successfully');
+            console.log(await newResponse.json())
           } else {
             console.log('Team Member not created successfully');
+            console.log(await newResponse.json())
           };
         };
         projectMemberSetup();
