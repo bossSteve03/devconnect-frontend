@@ -5,12 +5,25 @@
 }
 
 .column {
+
   width: 300px;
   padding: 10px;
   background-color: #f2f2f2;
   border-radius: 5px;
 }
-
+.Todo {
+  position: absolute;
+  left : 2%;
+}
+.Progress{
+  position: absolute;
+  top :2%;
+  right : 50%;
+}
+.Todo h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
 .column h3 {
   font-size: 18px;
   margin-bottom: 10px;
@@ -43,6 +56,7 @@
   color: #8f8d8d;
   border: none;
   border-radius: 5px;
+  margin : 5px;
   padding: 2px 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -56,5 +70,5 @@
 
 .taskContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }

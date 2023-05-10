@@ -8,7 +8,6 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
-  const [projectId, setProjectId] = useState("");
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -34,6 +33,20 @@ export default function ProjectForm() {
     setPositions(e.target.value);
   };
 
+  const createKanban = async (id) => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    };
+    const response = await fetch(`http://127.0.0.1:8000/kanban/${id}`, options);
+    console.log(response);
+    if (response.ok) {
+      console.log("Kanban created successfully");
+    } else {
+      console.log("Kanban creation failed");
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
@@ -42,6 +55,7 @@ export default function ProjectForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           // we will need to get chat room key from the backend
+          // we will need to change the user id(hard code) to the current user id
           user_id: 1,
           title: title,
           description: description,
@@ -108,6 +122,9 @@ export default function ProjectForm() {
         };
         projectMemberSetup();
         // window.location.assign = "/dashboard";
+        console.log("Project created successfully");
+        createKanban(data["Project ID"]);
+        window.location.assign = "/dashboard";
       } else {
         console.log("Project creation failed");
       }
