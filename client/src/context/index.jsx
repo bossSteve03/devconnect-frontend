@@ -13,8 +13,8 @@ export const ProjectsProvider = ({ children }) => {
 export const useProjects = () => useContext(ProjectsContext);
 
 export const UserContext = createContext()
-export const UserProvider = ({children}) =>{
-  const [user,setUser] = useState()
+export const UserProvider = ({ children }) =>{
+  const [user,setUser] = useState("")
   return (
     <UserContext.Provider value = {{user,setUser}}>
       {children}

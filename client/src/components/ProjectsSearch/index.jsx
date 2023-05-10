@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useProjects, useUser } from "../../context/index";
+import { useProjects , useUser } from "../../context";
 import "./searchform.css";
 
 export default function ProjectsSearch() {
@@ -7,12 +7,16 @@ export default function ProjectsSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const { user } = useUser();
+  const { user,setUser } = useUser();
+
+  useEffect(()=>{
+    console.log("user",user)
+  },[user])
 
   useEffect(() => {
+    console.log("asda",projects)
     projects.length > 0 && setIsLoading(false);
   }, [projects]);
-
   useEffect(() => {
     const filteredProjects = projects.filter((project) =>
       keys.some((key) =>
@@ -44,6 +48,7 @@ export default function ProjectsSearch() {
         role: "developer",
       }),
     };
+    console.log("user in",user)
     const response = await fetch(
       `http://127.0.0.1:8000/teammember/${user}`,
       options

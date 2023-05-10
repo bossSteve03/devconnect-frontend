@@ -1,6 +1,6 @@
 import styles from "./index.module.css";
 import { useState } from "react";
-
+import { useProjects , useUser } from "../../context";
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -8,7 +8,7 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
-
+  const {user} = useUser()
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -50,13 +50,14 @@ export default function ProjectForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
+      console.log(user)
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           // we will need to get chat room key from the backend
-          // we will need to change the user id(hard code) to the current user id
-          user_id: 1,
+          // we will need to change the user id(hard code) to the current use
+          user_id: user,
           title: title,
           description: description,
           number_of_collaborators: collaborators,
@@ -69,27 +70,9 @@ export default function ProjectForm() {
       const response = await fetch("http://127.0.0.1:8000/project/1", options);
       if (response.ok) {
         const data = await response.json();
-        console.log(data["Project ID"]);
-        setProjectId(data["Project ID"]);
-        const projectid = data["Project ID"];
         console.log("Project created successfully");
-        const createKanban = async () => {
-          const options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          };
-          const response = await fetch(
-            `http://127.0.0.1:8000/kanban/${projectid}`,
-            options
-          );
-          console.log(response);
-          if (response.ok) {
-            console.log("Kanban created successfully");
-          } else {
-            console.log("Kanban creation failed");
-          }
-        };
-        createKanban();
+        console.log(data)
+        createKanban(data["Project ID"]);
         const projectMemberSetup = async () => {
           const tokenData = sessionStorage.getItem('token');
           const token = tokenData.slice(1, -1);
@@ -99,7 +82,6 @@ export default function ProjectForm() {
             }
           });
           const userInfo = await response2.json();
-          console.log(projectId)
           const options2 = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
