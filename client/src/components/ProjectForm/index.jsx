@@ -98,8 +98,8 @@ export default function ProjectForm() {
           };
         };
         console.log("Project created successfully");
-        createKanban(data["Project ID"]);
-        projectMemberSetup(data["Project ID"]);
+        setTimeout(createKanban(data["Project ID"]),500 );
+        setTimeout(projectMemberSetup(data["Project ID"]), 500);
         //navigate("/auth/dashboard")
       } else {
         console.log("Project creation failed");
