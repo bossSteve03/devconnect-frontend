@@ -8,7 +8,7 @@ export default function ProjectsSearch() {
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
   const { user } = useUser();
-
+  console.log("user_id", user);
   useEffect(() => {
     projects.length > 0 && setIsLoading(false);
   }, [projects]);
@@ -58,7 +58,12 @@ export default function ProjectsSearch() {
   return (
     <>
       <h2 className="page-heading">SearchBar</h2>
-      <input type="text" placeholder="Search" onChange={searchHandler} />
+      <input
+        type="text"
+        placeholder="Search"
+        data-testid="search"
+        onChange={searchHandler}
+      />
       {projects.length === 0 ? (
         <p>No projects found.</p>
       ) : (

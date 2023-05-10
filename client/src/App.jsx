@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
 import { useProjects } from "../src/context";
 import tokenService from "./services/tokenService";
-import { UserProvider } from "../src/context";
+// import { UserProvider } from "../src/context";
 import {
   Landing,
   NotFound,
@@ -76,7 +76,7 @@ function App() {
 
   return (
     <>
-      <UserProvider>
+      {/* <UserProvider> */}
         <Routes>
           <Route path="/" element={<LandingNav />}>
             <Route index element={<Landing />} />
@@ -98,7 +98,7 @@ function App() {
             </Route>
           )}
         </Routes>
-      </UserProvider>
+      {/* </UserProvider> */}
     </>
   );
 }

@@ -3,25 +3,27 @@ import { describe, expect, beforeEach, afterEach, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import ProjectsSearch from ".";
-import { ProjectsProvider } from "../../context";
+import { ProjectsProvider, UserProvider } from "../../context";
 import matchers from "@testing-library/jest-dom/matchers";
 expect.extend(matchers);
 
 describe("ProjectsSearch", () => {
   beforeEach(() => {
     render(
-      <ProjectsProvider>
-        <BrowserRouter>
-          <ProjectsSearch />
-        </BrowserRouter>
-      </ProjectsProvider>
+      <UserProvider>
+        <ProjectsProvider>
+          <BrowserRouter>
+            <ProjectsSearch />
+          </BrowserRouter>
+        </ProjectsProvider>
+      </UserProvider>
     );
   });
 
   afterEach(cleanup);
 
   it("should render the search bar", () => {
-    const searchBar = screen.getByPlaceholderText("Search");
+    const searchBar = screen.getByTestId("search");
     expect(searchBar).toBeInTheDocument();
   });
 

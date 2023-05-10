@@ -139,6 +139,7 @@ export default function User() {
 
   return (
     <>
+      <h1>Profile Page</h1>
       <div className={styles["container"]}>
         {showForm ? (
           <input
