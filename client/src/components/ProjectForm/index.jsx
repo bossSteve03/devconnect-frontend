@@ -9,6 +9,7 @@ export default function ProjectForm() {
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
   const {user} = useUser()
+  
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -50,21 +51,21 @@ export default function ProjectForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
-      console.log(user)
+      console.log("user_id",sessionStorage.getItem("user_id"))
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           // we will need to get chat room key from the backend
           // we will need to change the user id(hard code) to the current use
-          user_id: user,
+          user_id: sessionStorage.getItem("user_id"),
           title: title,
           description: description,
           number_of_collaborators: collaborators,
           duration: duration,
-          tech_stack: techStack,
+          tech_stack: techStack || "",
           chatroom_key: "123c",
-          positions: positions,
+          positions: positions || ""
         }),
       };
       const response = await fetch("http://127.0.0.1:8000/project/1", options);
@@ -73,6 +74,7 @@ export default function ProjectForm() {
         console.log("Project created successfully");
         console.log(data)
         createKanban(data["Project ID"]);
+        
         const projectMemberSetup = async () => {
           const tokenData = sessionStorage.getItem('token');
           const token = tokenData.slice(1, -1);
@@ -81,19 +83,18 @@ export default function ProjectForm() {
               'x-access-token': token
             }
           });
-          const userInfo = await response2.json();
           const options2 = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               project_id: projectId,
-              user_id: userInfo.user_id,
+              user_id: sessionStorage.getItem("user_id"),
               name: sessionStorage.getItem('username'),
-              level: 4,
+              level: "4",
               role: 'Project Owner'
             })
           };
-          const newResponse = await fetch(`http://localhost:8000/teammember/${JSON.stringify(userInfo.user_id)}`, options2);
+          const newResponse = await fetch(`http://localhost:8000/teammember/${ sessionStorage.getItem("user_id") }`, options2);
           if (newResponse.ok) {
             console.log('Team Member created successfully');
             console.log(await newResponse.json())
@@ -103,7 +104,7 @@ export default function ProjectForm() {
           };
         };
         projectMemberSetup();
-        // window.location.assign = "/dashboard";
+        window.location.assign = "/dashboard";
         console.log("Project created successfully");
         createKanban(data["Project ID"]);
         window.location.assign = "/dashboard";

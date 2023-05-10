@@ -9,14 +9,10 @@ export default function ProjectsSearch() {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const { user,setUser } = useUser();
 
-  useEffect(()=>{
-    console.log("user",user)
-  },[user])
-
   useEffect(() => {
-    console.log("asda",projects)
     projects.length > 0 && setIsLoading(false);
   }, [projects]);
+
   useEffect(() => {
     const filteredProjects = projects.filter((project) =>
       keys.some((key) =>
@@ -36,21 +32,20 @@ export default function ProjectsSearch() {
     return <p>Loading...</p>;
   }
 
-  const handleApply = async () => {
+  const handleApply = async (e,project) => {
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        project_id: 2,
-        user_id: 2,
+        project_id: project.id,
+        user_id: sessionStorage.getItem("user_id"),
         name: "silvia",
         level: "junior",
         role: "developer",
       }),
     };
-    console.log("user in",user)
     const response = await fetch(
-      `http://127.0.0.1:8000/teammember/${user}`,
+      `http://127.0.0.1:8000/teammember/${sessionStorage.getItem("user_id")}`,
       options
     );
     if (response.ok) {
@@ -59,7 +54,6 @@ export default function ProjectsSearch() {
     const data = await response.json();
     console.log(data);
   };
-
   return (
     <>
       <h2 className="page-heading">SearchBar</h2>
@@ -77,7 +71,7 @@ export default function ProjectsSearch() {
             <p className="project-description">
               Duration: {project.duration} days
             </p>
-            <button className="apply-button" onClick={handleApply}>
+            <button className="apply-button" onClick={(e)=>{handleApply(e,project)}}>
               Apply
             </button>
           </div>
