@@ -10,10 +10,10 @@ import { useProjects } from "../../context";
 import parse from 'date-fns/parse'
 import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
-import enUS from 'date-fns/locale/en-US'
+import enGB from 'date-fns/locale/en-GB'
 
 const locales = {
-  'en-US': enUS,
+  'en-GB': enGB,
 }
 
 const localizer2 = dateFnsLocalizer({
@@ -100,7 +100,6 @@ export default function TeamCalendar() {
 
   return (
     <>
-      <div>This is a calendar</div>
       <Calendar 
         localizer={localizer2} 
         events={eventList} 
