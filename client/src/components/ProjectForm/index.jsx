@@ -49,6 +49,20 @@ export default function ProjectForm() {
     }
   };
 
+  const createCalendar = async (id) => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    };
+    const response = await fetch(`http://127.0.0.1:8000/calendar/${id}`, options);
+    console.log(response);
+    if (response.ok) {
+      console.log("Calendar created successfully");
+    } else {
+      console.log("Calendar creation failed");
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
@@ -57,8 +71,6 @@ export default function ProjectForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // we will need to get chat room key from the backend
-          // we will need to change the user id(hard code) to the current use
           user_id: sessionStorage.getItem("user_id"),
           title: title,
           description: description,
@@ -98,9 +110,10 @@ export default function ProjectForm() {
           };
         };
         console.log("Project created successfully");
-        setTimeout(createKanban(data["Project ID"]),500 );
-        setTimeout(projectMemberSetup(data["Project ID"]), 500);
-        //navigate("/auth/dashboard")
+        createKanban(data["Project ID"]);
+        createCalendar(data["Project ID"]);
+        projectMemberSetup(data["Project ID"]);
+        navigate("/auth/dashboard")
       } else {
         console.log("Project creation failed");
       }
