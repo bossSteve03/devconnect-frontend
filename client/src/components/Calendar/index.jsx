@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns'
-import { Calendar, momentLocalizer, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
 import { useEffect } from 'react';
 import CalendarModal from '../CalendarModal'
 import { useProjects } from "../../context";
@@ -16,15 +15,13 @@ const locales = {
   'en-GB': enGB,
 }
 
-const localizer2 = dateFnsLocalizer({
+const localizer = dateFnsLocalizer({
   format,
   parse,
   startOfWeek,
   getDay,
   locales,
 })
-
-const localizer = momentLocalizer(moment);
 
 export default function TeamCalendar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +98,7 @@ export default function TeamCalendar() {
   return (
     <>
       <Calendar 
-        localizer={localizer2} 
+        localizer={localizer} 
         events={eventList} 
         startAccessor="start" 
         endAccessor="end" 

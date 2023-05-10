@@ -258,8 +258,6 @@ const KanbanBoard = () => {
 
   const onDragEnd = async (result) => {
     const { source, destination } = result;
-    console.log('source', source);
-    console.log('dest', destination);
 
     // If dropped outside of droppable area
     if (!destination) {
@@ -297,8 +295,6 @@ const KanbanBoard = () => {
 
     // Update columns state
     const newColumns = [...columns];
-    console.log('newColumns', newColumns)
-
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
     destinationColumn.tasks.push(removed);
 
