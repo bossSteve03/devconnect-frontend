@@ -69,6 +69,59 @@ export default function ProjectForm() {
       const response = await fetch("http://127.0.0.1:8000/project/1", options);
       if (response.ok) {
         const data = await response.json();
+        console.log(data["Project ID"]);
+        setProjectId(data["Project ID"]);
+        const projectid = data["Project ID"];
+        console.log("Project created successfully");
+        const createKanban = async () => {
+          const options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          };
+          const response = await fetch(
+            `http://127.0.0.1:8000/kanban/${projectid}`,
+            options
+          );
+          console.log(response);
+          if (response.ok) {
+            console.log("Kanban created successfully");
+          } else {
+            console.log("Kanban creation failed");
+          }
+        };
+        createKanban();
+        const projectMemberSetup = async () => {
+          const tokenData = sessionStorage.getItem('token');
+          const token = tokenData.slice(1, -1);
+          const response2 = await fetch(`http://localhost:8000/user/${sessionStorage.getItem('username')}`, {
+            headers: {
+              'x-access-token': token
+            }
+          });
+          const userInfo = await response2.json();
+          console.log(projectId)
+          const options2 = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              project_id: projectId,
+              user_id: userInfo.user_id,
+              name: sessionStorage.getItem('username'),
+              level: 4,
+              role: 'Project Owner'
+            })
+          };
+          const newResponse = await fetch(`http://localhost:8000/teammember/${JSON.stringify(userInfo.user_id)}`, options2);
+          if (newResponse.ok) {
+            console.log('Team Member created successfully');
+            console.log(await newResponse.json())
+          } else {
+            console.log('Team Member not created successfully');
+            console.log(await newResponse.json())
+          };
+        };
+        projectMemberSetup();
+        // window.location.assign = "/dashboard";
         console.log("Project created successfully");
         createKanban(data["Project ID"]);
         window.location.assign = "/dashboard";
@@ -77,6 +130,7 @@ export default function ProjectForm() {
       }
     };
     projectSetup();
+    
   };
 
   return (
