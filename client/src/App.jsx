@@ -16,6 +16,7 @@ import {
   CurrentProject,
   SearchProjects,
   Dashboard,
+  TCalendar,
 } from "./pages";
 
 function App() {
@@ -87,9 +88,9 @@ function App() {
           </Route>
           {userIsLoggedIn && (
             <Route path="/auth" element={<SideNav />}>
-              {/* <Route path='/auth/calendar' element={<Calendar />} /> */}
-              <Route path="/auth/dashboard" element={<Dashboard />} />
-              <Route path="/auth/team" element={<CurrentProject />} />
+              <Route path='/auth/calendar' element={<TCalendar />} />
+              <Route path='/auth/dashboard' element={<Dashboard />} />
+              <Route path='/auth/team' element={<CurrentProject />} />
               <Route path="/auth/*" element={<NotFound />} />
               <Route path="/auth/user" element={<User />} />
               <Route path="/auth/kanban" element={<Kanban />} />

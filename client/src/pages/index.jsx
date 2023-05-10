@@ -9,3 +9,4 @@ export { default as Dashboard } from "./Dashboard";
 export { default as CurrentProject } from "./CurrentProject";
 export { default as CreateProject } from "./CreateProject";
 export { default as SearchProjects } from "./SearchProjects";
+export { default as TCalendar } from "./Calendar";

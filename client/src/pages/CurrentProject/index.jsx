@@ -1,6 +1,9 @@
+// import TeamCalendar from "../../components/Calendar";
 
 export default function CurrentProject() {
   return (
-    <div>CurrentProject</div>
+    <>
+      {/* <TeamCalendar /> */}
+    </>
   )
 }
