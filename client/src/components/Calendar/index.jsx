@@ -51,13 +51,13 @@ export default function TeamCalendar() {
         complete: "false"        
       }),
     };
-    console.log(projects[0].id)
-    const response = await fetch("http://127.0.0.1:8000/calendar/task/1", options);
+    // If the user can have more than one project, this needs to be changed.
+    const response = await fetch(`http://127.0.0.1:8000/calendar/task/${projects[0].id}`, options);
     if (response.ok) {
       // TODO : Add alert instead of message?
       const data = await response.json();
       console.log("Calendar Event Creation result:", data);
-      // window.location.reload();
+      window.location.reload();
     } else {
       console.error("Calendar event creation failed!");
     }
@@ -70,7 +70,7 @@ export default function TeamCalendar() {
         "Content-Type": "application/json" 
       }
     };
-    const response = await fetch("http://127.0.0.1:8000/calendar/task/1", options);
+    const response = await fetch(`http://127.0.0.1:8000/calendar/task/${projects[0].id}`, options);
     if (response.ok) {
       const data = await response.json();
       return data;
