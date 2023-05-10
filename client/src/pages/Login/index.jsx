@@ -1,15 +1,16 @@
 import { useState } from "react";
-import styles from "./index.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { Buffer } from "buffer";
-import tokenService from "../../services/tokenService";
+import styles from './index.module.css'
+import { Link, useNavigate } from 'react-router-dom'
+import { Buffer } from 'buffer'
+import { useUser } from "../../context";
+import  tokenService from "../../services/tokenService"
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = tokenService();
+  const {setUser} = useUser();
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleLogin(
@@ -17,19 +18,29 @@ export default function Login() {
     );
   };
 
-  const handleLogin = async (auth, e) => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${auth}`,
-      },
+  const handleLogin = async (auth) => {
+      const options = {
+        method: "GET",
+      headers: { 
+        "Content-Type": "application/json" ,
+        Authorization: `Basic ${auth}`
+      }      
     };
     const response = await fetch("http://localhost:8000/user/login", options);
     console.log(response);
     if (response.ok) {
       let data = await response.json();
-      console.log(data.public_id);
+      const new_ops = {
+      method : "GET",
+      headers : {
+        "Content-Type" : "application/json",
+        "x-access-token" : data.token
+      }};
+      const get_user_id = await fetch (`http://localhost:8000/user/${username}`,new_ops)
+      if (get_user_id.ok){
+        const data = await get_user_id.json()
+        setUser(data.user_id)
+      }
       setToken(data.token);
       sessionStorage.setItem("username", username);
       sessionStorage.setItem("id", data.public_id);

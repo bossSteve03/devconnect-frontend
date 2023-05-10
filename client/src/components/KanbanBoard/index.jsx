@@ -4,20 +4,17 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "./index.module.css";
 
 // Task component
-const handleDelete = async (id) => {
-  console.log("here!", id);
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`, {
-      method: "DELETE",
-    });
-    window.location.reload(); //find better method to reload! :)
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const Task = ({ task, index, key, category }) => {
-  category = category;
+const Task = ({ task, index, category, setSwitcher, switcher }) => {
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/kanban/task/${id}`, {
+        method: "DELETE",
+      });
+      setSwitcher(!switcher);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [inputbox, setInputBox] = useState(false);
   const handleUpdate = async (e, id, category) => {
     setInputBox(!inputbox);
@@ -40,7 +37,7 @@ const Task = ({ task, index, key, category }) => {
       );
       if (resp.ok) {
         console.log(await resp.json());
-        window.location.reload(true);
+        setSwitcher(!switcher);
       }
     } catch (e) {
       console.log(e);
@@ -82,7 +79,9 @@ const Task = ({ task, index, key, category }) => {
             )}
             <button
               className={styles.deleteBtn}
-              onClick={() => handleDelete(task.id)}
+              onClick={() => {
+                handleDelete(task.id);
+              }}
             >
               X
             </button>
@@ -98,10 +97,11 @@ const Task = ({ task, index, key, category }) => {
 // </button>
 //{openModal && <Modal closeModal={setOpenModal} />}
 // Column component
-const Column = ({ title, tasks, index }) => {
-  const style_title = title;
+const Column = ({ title, tasks, switcher, setSwitcher }) => {
+  console.log(title);
+  console.log(styles[`${title}`], styles.column);
   return (
-    <div className={styles.column}>
+    <div className={[styles[`${title}`], styles.column]}>
       <h3>{title}</h3>
       <Droppable droppableId={title}>
         {(provided) => (
@@ -110,6 +110,8 @@ const Column = ({ title, tasks, index }) => {
               {tasks &&
                 tasks.map((task, index) => (
                   <Task
+                    setSwitcher={setSwitcher}
+                    switcher={switcher}
                     category={title}
                     key={task.id}
                     task={task}
@@ -127,45 +129,50 @@ const Column = ({ title, tasks, index }) => {
 
 // Board component
 const KanbanBoard = () => {
+  const [switcher, setSwitcher] = useState(false);
   const [kanbanId, setKanbanId] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Todo");
   const [columns, setColumns] = useState([]);
-
   const { projects } = useProjects();
-  console.log("projects", projects);
+  const [loading, setloading] = useState(false);
+  const [have_cards, sethavecards] = useState(true);
 
   useEffect(() => {
     const getKanban = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/kanban/1");
+        const response = await fetch(
+          `http://127.0.0.1:8000/kanban/${projects[0].id}`
+        );
         const data = await response.json();
+
+        setloading(true);
         setKanbanId(data["ID"]);
       } catch (error) {
         console.log(error);
+        setloading(true);
       }
     };
-    getKanban();
-  });
-
-  const handlerTaskInput = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handlerTaskCategory = (e) => {
-    setCategory(e.target.value);
-  };
-  const getTasks = async () => {
+    if (projects.length === 0) {
+      console.log("Loading projects...");
+    } else {
+      console.log("Passed", projects);
+      getKanban();
+    }
+  }, [projects]);
+  async function getTasks() {
+    sethavecards(true);
     const response = await fetch(
       `http://127.0.0.1:8000/kanban/task/${kanbanId}`
     );
     const data = await response.json();
+    if (response.status == 404 || data.length === 0) {
+      sethavecards(false);
+    }
     const tasks = data;
-    // Create a map to store the columns
     const columnMap = {};
     tasks.forEach((task) => {
       const category = task.category;
-      // If the column for the category doesn't exist, create a new column
       if (!columnMap[category]) {
         columnMap[category] = {
           category: category,
@@ -178,7 +185,6 @@ const KanbanBoard = () => {
         title: task.name,
       });
     });
-
     // Convert the column map to an array
     const columns = Object.keys(columnMap).map((category) => {
       return columnMap[category];
@@ -186,11 +192,37 @@ const KanbanBoard = () => {
 
     // Update the columns state with the new columns
     setColumns(columns);
+  }
+
+  useEffect(() => {
+    getTasks();
+  }, [kanbanId]);
+
+  const handlerTaskInput = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handlerTaskCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   const handlerAdd = async (e) => {
     e.preventDefault();
-    getTasks();
+    /* ADD THIS TO BACKEND below POST : (this will return missing field incase of error! :)
+            info = request.json
+            required_fields = ["name", "category", "objective", "complete"]
+            name = info.get("name")
+            category = info.get("category")
+            objective = info.get("objective")
+            complete = info.get("complete")
+            kanban_id = id
+        
+            missing_fields = [field for field in required_fields if field not in info]
+
+            if missing_fields:
+               raise ValueError("Missing fields: {}".format(", ".join(missing_fields)))            
+            complete_return = (lambda a,b,c :a if (c == "true") else b )(True,False,complete)
+    */
     setTitle("");
     const options = {
       method: "POST",
@@ -210,17 +242,17 @@ const KanbanBoard = () => {
       if (response.ok) {
         setTitle("");
       }
-      console.log("resp for post", response);
       const data = await response.json();
-      console.log(data);
+      getTasks();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
+    console.log("loading?", loading);
     getTasks();
-  }, [kanbanId, title, category]);
+  }, [category, switcher]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -265,20 +297,32 @@ const KanbanBoard = () => {
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
     destinationColumn.tasks.splice(destination.index, 0, removed);
     setColumns(newColumns);
+
+    getTasks();
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <h1>Kanban Board</h1>
       <div className={styles.board}>
-        {columns.map((column, index) => (
-          <Column
-            key={column.category}
-            title={column.category}
-            tasks={column.tasks}
-            index={index}
-          />
-        ))}
+        {loading ? (
+          have_cards && !kanbanId == "" ? (
+            columns.map((column, index) => (
+              <Column
+                switcher={switcher}
+                setSwitcher={setSwitcher}
+                key={column.category}
+                title={column.category}
+                tasks={column.tasks}
+                index={index}
+              />
+            ))
+          ) : (
+            <h1>No current cards</h1>
+          )
+        ) : (
+          <h1>Loading Content . . .</h1>
+        )}
       </div>
       <form>
         <input
@@ -293,7 +337,7 @@ const KanbanBoard = () => {
           placeholder="Category"
         >
           <option value="Todo">Todo</option>
-          <option value="In Progress">In Progress</option>
+          <option value="Progress">In Progress</option>
           <option value="Testing">Testing</option>
           <option value="Done">Done</option>
         </select>

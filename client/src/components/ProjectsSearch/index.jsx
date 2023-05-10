@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useProjects } from "../../context/index";
+import { useProjects, useUser } from "../../context/index";
 import "./searchform.css";
 
 export default function ProjectsSearch() {
@@ -7,6 +7,7 @@ export default function ProjectsSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const { user } = useUser();
 
   useEffect(() => {
     projects.length > 0 && setIsLoading(false);
@@ -43,7 +44,10 @@ export default function ProjectsSearch() {
         role: "developer",
       }),
     };
-    const response = await fetch(`http://127.0.0.1:8000/teammember/2`, options);
+    const response = await fetch(
+      `http://127.0.0.1:8000/teammember/${user}`,
+      options
+    );
     if (response.ok) {
       alert("welcome to the Team!");
     }
@@ -61,9 +65,13 @@ export default function ProjectsSearch() {
         filteredProjects.map((project, i) => (
           <div key={i}>
             <h3 className="project-title">{project.title}</h3>
-            <p className="project-description">{project.description}</p>
-            <p className="project-description">{project.positions}</p>
-            <p className="project-description">{project.duration} days</p>
+            <p className="project-description">
+              Description: {project.description}
+            </p>
+            <p className="project-description">Pos: {project.positions}</p>
+            <p className="project-description">
+              Duration: {project.duration} days
+            </p>
             <button className="apply-button" onClick={handleApply}>
               Apply
             </button>
