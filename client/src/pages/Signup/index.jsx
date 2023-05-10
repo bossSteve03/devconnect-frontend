@@ -24,15 +24,20 @@ export default function Login() {
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: payload,
+      body: payload
     };
-    const response = await fetch("http://localhost:8000/user/", options);
-    if (response.ok) {
-      navigate('/login');
-    } else {
-      alert('Error creation user'); // TODO : Find a fancier thing
+    try{
+      
+      const response = await fetch("http://localhost:8000/user/", options);
+      if (response.ok) {
+        console.log("here! ",await response.json())
+        navigate('/login');
+      }
     }
-  };
+    catch (e){
+      console.log(e)
+    }
+  }
 
   return (
     <>

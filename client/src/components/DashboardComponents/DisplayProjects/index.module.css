@@ -1,0 +1,18 @@
+.projectsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 20px;
+  gap: 10px;
+}
+
+.projectContent {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 150px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  text-align: center;
+}
