@@ -134,7 +134,7 @@ const KanbanBoard = () => {
   const { projects } = useProjects();
   const [loading, setloading] = useState(false);
   const [have_cards, sethavecards] = useState(true);
-
+  console.log("asd",projects)
   useEffect(() => {
     const getKanban = async () => {
       try {
@@ -142,7 +142,6 @@ const KanbanBoard = () => {
           `http://127.0.0.1:8000/kanban/${projects[0].id}`
         );
         const data = await response.json();
-
         setloading(true);
         setKanbanId(data["ID"]);
       } catch (error) {
@@ -157,6 +156,7 @@ const KanbanBoard = () => {
       getKanban();
     }
   }, [projects]);
+
   async function getTasks() {
     sethavecards(true);
     const response = await fetch(
