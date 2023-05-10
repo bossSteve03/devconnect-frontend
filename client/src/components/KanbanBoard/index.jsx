@@ -294,6 +294,8 @@ const KanbanBoard = () => {
     }
 
     // Update columns state
+    // TODO: If want to keep the order the user added the card, check the property index from 'destination'
+    // And make sure to regen the 'destinationColumn' with the items in the desired order
     const newColumns = [...columns];
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
     destinationColumn.tasks.push(removed);
