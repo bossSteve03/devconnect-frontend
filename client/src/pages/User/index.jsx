@@ -6,10 +6,17 @@ export default function User() {
   const [loaded, setLoaded] = useState(false);
   const [data, setData] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [showName, setShowName] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showRole, setShowRole] = useState(false);
+  const [showSkillLevel, setShowSl] = useState(false)
+  const [show_Skills, set_Show_Skills] = useState(false)
   const [name, setName] = useState('');
   const [role, setRole] = useState([]);
+  const [custom_role,set_custom_role] = useState("")
   const [skillLevel, setSkillLevel] = useState('');
   const [skills, setSkills] = useState([]);
+  const [wantCustom,setWantCustom] = useState(false)
 
   async function handleData() {
     const username = sessionStorage.getItem('username');
@@ -86,15 +93,15 @@ export default function User() {
     setName(event.target.value);
   }
 
-  const handleRChange = (event) => {
-    const value = event.target.value;
-    if (event.target.checked) {
-      setRole([...role, value]);
-      console.log(role)
-    } else {
-      setSkills(role.filter((role) => role !== value));
-    }
-  }
+  // const handleRChange = (event) => {
+  //   const value = event.target.value;
+  //   if (event.target.checked) {
+  //     setRole([...role, value]);
+  //     console.log(role)
+  //   } else {
+  //     //setSkills(role.filter((role) => role !== value));
+  //   }
+  // }
 
   const handleSLChange = (event) => {
     setSkillLevel(event.target.value);
@@ -110,21 +117,29 @@ export default function User() {
       setSkills(skills.filter((skill) => skill !== value));
     }
   }
-
+  //{ showEmail ? <input id="username" type="text" value={data.username} disabled /> : <p onDoubleClick={()=>setShowEmail(true)}>{data.name ? data.username : 'no name yet'}</p>}
   return (
     <>
       <div className={styles["container"]}>
-        { showForm ? <input id="name" type="text" placeholder={data.name ? data.name : 'Enter name here.'} /> : <h1 className={styles["username"]}>{data.name ? data.name : data.username}</h1>}
-        { showForm ? <input id="username" type="text" value={data.username} disabled /> : <p>{data.name ? data.username : 'no name yet'}</p>}
-        { showForm ? <input id="email" type='text' value={data.email} disabled /> : <p>{data.email}</p>}
-        { showForm ? <div className={styles['form-input']}><select multiple id="role" value={role} onChange={handleRChange} >
+       <h1 className={styles["username"]}>{data.username}</h1>
+        { showName ?( <><input id="name" value = {name} type="text" onChange={(e)=>{setName(e.target.value)}}  placeholder={data.name ? data.name : 'Enter name here.'}/> <button onClick={()=>setShowName(false)}>Y</button> </>):<p1 onDoubleClick={()=>{setShowName(true)}} className={styles["username"]}> Name: {data.name || name ? data.name || name : "No Current Name"}</p1>}
+        { showEmail ? <input id="email" type='text' value={data.email}  /> : <p>Email: {data.email}</p>}
+        { showRole ? <div className={styles['form-input']}><select multiple id="role" value={role} onChange={(e)=>{setRole(e.target.value); setShowRole(false);setWantCustom(false)}}>
           <option value="Choose">Choose your role</option>
           <option value="Developer">Developer</option>
           <option value="Designer">Designer</option>
-        </select><input type="text" value={role} disabled /></div> : <p>{data.role ? data.role : 'no role yet'}</p>}
-        { showForm ? <input id="skill_level" type="select" placeholder={data.skill_level ? data.skill_level : 'Choose your skill level.'} multiple={false} /> : <p>{data.skill_level ? data.skill_level : 'no skill level yet'}</p>}
-        { showForm ? <input id="skills" type="text" placeholder={data.skills ? data.skills : 'Write down a list of what languages you know here.'} /> : <p>{data.skills ? data.skills : 'no skills yet'}</p>}
-        { showForm ? <><button onClick={handleCloseForm}>Save changes</button><button onClick={handleShowForm}>Cancel changes</button></> : <button onClick={handleShowForm}>Edit details</button>}
+          <option value ="Backend">Backend</option>
+          <option value ="Frontend">Frontend</option>
+        </select><input type = "text" value = {custom_role} placeholder='Custom Role'  onChange = {(e)=>{set_custom_role(e.target.value);setWantCustom(true)}}/><button onClick={()=>setShowRole(false)}>Y</button></div> : <p onDoubleClick={()=>setShowRole(true)}>Role: {wantCustom? custom_role : role ? role : data.role ? data.role : 'no role yet'  } </p>}
+        { showSkillLevel ?<div className={styles['form-input']}> <select multiple value = {skillLevel} id="skill_level" onChange ={(e)=>{setSkillLevel(e.target.value); setShowSl(false);setWantCustom(false)}}>
+          <option value= "Beginner">Beginner</option>
+          <option value="Some Experience">Some Experience</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value = "Veteran">Veteran</option>
+          </select>
+        </div> : <p onDoubleClick={()=>setShowSl(true)}>Skill Level: {skillLevel ?  skillLevel : data.skill_level ? data.skill_level:'no skill level yet'}</p>}
+        { show_Skills ?(<><input id="skills" type="text" onChange ={(e)=>{setSkills(e.target.value)}} placeholder={'Write down a list of what languages you know here.'} /><button onClick={()=>set_Show_Skills(false)}>y</button><br/></>) : <p onDoubleClick={()=>set_Show_Skills(true)}>Skills: {data.skills || skills ? data.skills || skills : 'no skills yet'}</p>}
+        <button onClick={handleCloseForm}>Save changes</button>
       </div>
     </>
   );
