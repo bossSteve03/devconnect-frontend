@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { LandingNav, SideNav } from "./layouts";
 import { useProjects } from "../src/context";
-import  tokenService from "./services/tokenService";
+import tokenService from "./services/tokenService";
 import { UserProvider } from "../src/context";
 import {
   Landing,
@@ -17,14 +17,13 @@ import {
   SearchProjects,
   Dashboard,
 } from "./pages";
-import { useProjects } from "./context";
 
 function App() {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
   const { token } = tokenService();
   const location = useLocation();
   const navigate = useNavigate();
-  const {projects , setProjects} = useProjects();
+  const { projects, setProjects } = useProjects();
   useEffect(() => {
     const getProjects = async () => {
       try {
@@ -35,11 +34,11 @@ function App() {
           title: project.title,
           description: project.description,
           positions: project.positions,
-          duration: project.duration
+          duration: project.duration,
         }));
         setProjects(mapProjects);
       } catch (error) {
-        console.log(error); 
+        console.log(error);
       }
     };
 
@@ -77,7 +76,7 @@ function App() {
 
   return (
     <>
-        <UserProvider>
+      <UserProvider>
         <Routes>
           <Route path="/" element={<LandingNav />}>
             <Route index element={<Landing />} />
@@ -86,20 +85,20 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Route>
-          {userIsLoggedIn && 
+          {userIsLoggedIn && (
             <Route path="/auth" element={<SideNav />}>
               {/* <Route path='/auth/calendar' element={<Calendar />} /> */}
-              <Route path='/auth/dashboard' element={<Dashboard />} />
-              <Route path='/auth/team' element={<CurrentProject />} />
+              <Route path="/auth/dashboard" element={<Dashboard />} />
+              <Route path="/auth/team" element={<CurrentProject />} />
               <Route path="/auth/*" element={<NotFound />} />
               <Route path="/auth/user" element={<User />} />
               <Route path="/auth/kanban" element={<Kanban />} />
               <Route path="/auth/new-project" element={<CreateProject />} />
               <Route path="/auth/projects" element={<SearchProjects />} />
             </Route>
-          }
+          )}
         </Routes>
-          </UserProvider>
+      </UserProvider>
     </>
   );
 }

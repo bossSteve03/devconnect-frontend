@@ -306,7 +306,6 @@ const KanbanBoard = () => {
         name: destinationColumn.tasks[last - 1].title,
         category: destinationColumn.category,
         objective: "asd",
-        complete: "false",
       }),
     };
     try {
