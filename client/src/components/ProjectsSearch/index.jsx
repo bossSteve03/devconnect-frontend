@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useProjects , useUser } from "../../context";
+import { useProjects } from "../../context";
 import "./searchform.css";
 
 export default function ProjectsSearch() {
@@ -38,9 +38,9 @@ export default function ProjectsSearch() {
       body: JSON.stringify({
         project_id: project.id,
         user_id: sessionStorage.getItem("user_id"),
-        name: "silvia",
-        level: "junior",
-        role: "developer",
+        name: sessionStorage.getItem("username"),
+        level: 0,
+        role: "Team member",
       }),
     };
     const response = await fetch(
