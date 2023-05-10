@@ -50,6 +50,7 @@ export default function ProjectsSearch() {
     );
     if (response.ok) {
       alert("welcome to the Team!");
+      sessionStorage.setItem('project_id', project.id)
     }
     const data = await response.json();
     console.log(data);

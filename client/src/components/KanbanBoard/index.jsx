@@ -139,11 +139,13 @@ const KanbanBoard = () => {
     const getKanban = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/kanban/${projects[0].id}`
+          `http://127.0.0.1:8000/kanban/${sessionStorage.getItem('project_id')}`
         );
         const data = await response.json();
+        console.log(data + 'kanban');
         setloading(true);
         setKanbanId(data["ID"]);
+        console.log(data['ID'])
       } catch (error) {
         console.log(error);
         setloading(true);

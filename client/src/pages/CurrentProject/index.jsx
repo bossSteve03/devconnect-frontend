@@ -6,12 +6,13 @@ export default function CurrentProject() {
 
   const [projectExists, setProjectExists] = useState(false)
   const [data, setData] = useState({})
-
+  
   async function getProjectMember() {
-    const response = await fetch(`http://localhost:8000/teammember/${sessionStorage.getItem('user_id')}`)
-    const data = await response.json()
-    console.log("info got!", data)
-    setData(JSON.parse(JSON.stringify(responseData)))
+    const response = await fetch(`http://localhost:8000/teammember/${sessionStorage.getItem('project_id')}`)
+    console.log(response.status)
+    const responsedata = await response.json()
+    console.log("info got!", responsedata)
+    setData(responsedata[0])
   }
 
   useEffect(() => {
@@ -19,14 +20,14 @@ export default function CurrentProject() {
   }, [])
 
   useEffect(() => {
-    console.log(data[0])
-    if (data[0]) {
-      setProjectExists(true)
-      
-    } else {
-      setProjectExists(false)
-      console.log('Not Found')
-    }
+    console.log(data + 'current team data')
+      if (data !== null) {
+        setProjectExists(true)
+        console.log(data + 'project exists')
+      } else {
+        setProjectExists(false)
+        console.log('Not Found')
+      }
   }, [data])
 
   return (

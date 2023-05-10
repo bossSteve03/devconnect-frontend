@@ -29,7 +29,6 @@ function App() {
       try {
         const response = await fetch(`http://127.0.0.1:8000/project/`);
         const data = await response.json();
-        console.log(data)
         const mapProjects = data.map((project) => ({
           id: project.id,
           title: project.title,

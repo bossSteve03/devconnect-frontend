@@ -35,38 +35,37 @@ export default function ProjectForm() {
     setPositions(e.target.value);
   };
 
-  const createKanban = async (id) => {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    };
-    const response = await fetch(`http://127.0.0.1:8000/kanban/${id}`, options);
-    console.log(response);
-    if (response.ok) {
-      console.log("Kanban created successfully");
-    } else {
-      console.log("Kanban creation failed");
-    }
-  };
+  // const createKanban = async (id) => {
+  //   const options = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   const response = await fetch(`http://127.0.0.1:8000/kanban/${id}`, options);
+  //   console.log(response);
+  //   if (response.ok) {
+  //     console.log("Kanban created successfully");
+  //   } else {
+  //     console.log("Kanban creation failed");
+  //   }
+  // };
 
-  const createCalendar = async (id) => {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    };
-    const response = await fetch(`http://127.0.0.1:8000/calendar/${id}`, options);
-    console.log(response);
-    if (response.ok) {
-      console.log("Calendar created successfully");
-    } else {
-      console.log("Calendar creation failed");
-    }
-  };
+  // const createCalendar = async (id) => {
+  //   const options = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   const response = await fetch(`http://127.0.0.1:8000/calendar/${id}`, options);
+  //   console.log(response);
+  //   if (response.ok) {
+  //     console.log("Calendar created successfully");
+  //   } else {
+  //     console.log("Calendar creation failed");
+  //   }
+  // };
 
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
-      console.log("user_id",sessionStorage.getItem("user_id"))
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,41 +77,44 @@ export default function ProjectForm() {
           duration: duration,
           tech_stack: techStack || "",
           chatroom_key: "123c",
-          positions: positions || ""
+          positions: positions || "",
+          name: sessionStorage.getItem('username'),
+          level: 1,
+          role: 'Project Owner'
         }),
       };
-      const response = await fetch("http://127.0.0.1:8000/project/1", options);
+      const response = await fetch("http://127.0.0.1:8000/project/create", options);
       if (response.ok) {
         const data = await response.json();
         console.log("Project created successfully");
         console.log(data)
-        createKanban(data["Project ID"]);
+        // createKanban(data["Project ID"]);
         
-        const projectMemberSetup = async (id) => {
-          const options2 = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              project_id: id,
-              user_id: sessionStorage.getItem("user_id"),
-              name: sessionStorage.getItem('username'),
-              level: 1,
-              role: 'Project Owner'
-            })
-          };
-          const newResponse = await fetch(`http://localhost:8000/teammember/${ sessionStorage.getItem("user_id") }`, options2);
-          if (newResponse.ok) {
-            console.log('Team Member created successfully');
-            console.log(await newResponse.json())
-          } else {
-            console.log('Team Member not created successfully');
-            console.log(await newResponse.json())
-          };
-        };
-        console.log("Project created successfully");
-        createKanban(data["Project ID"]);
-        createCalendar(data["Project ID"]);
-        projectMemberSetup(data["Project ID"]);
+        // const projectMemberSetup = async (id) => {
+        //   const options2 = {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({
+        //       project_id: id,
+        //       user_id: sessionStorage.getItem("user_id"),
+        //       name: sessionStorage.getItem('username'),
+        //       level: 1,
+        //       role: 'Project Owner'
+        //     })
+        //   };
+        //   const newResponse = await fetch(`http://localhost:8000/teammember/${ sessionStorage.getItem("user_id") }`, options2);
+        //   if (newResponse.ok) {
+        //     console.log('Team Member created successfully');
+        //     console.log(await newResponse.json())
+        //   } else {
+        //     console.log('Team Member not created successfully');
+        //     console.log(await newResponse.json())
+        //   };
+        // };
+        // setTimeout(createKanban(data["Project ID"]), 500);
+        // setTimeout(createCalendar(data["Project ID"]), 500);
+        // setTimeout(projectMemberSetup(data["Project ID"]), 500);
+        sessionStorage.setItem('project_id', data.project_id)
         navigate("/auth/dashboard")
       } else {
         console.log("Project creation failed");

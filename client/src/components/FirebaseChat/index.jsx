@@ -23,22 +23,10 @@ export default function FirebaseChat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState(null);
-  const [projectId, setProjectId] = useState('')
 
-
-  useEffect(() => {
-    async function getProjectId() {
-      const responsePI = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`);
-      const PI = await responsePI.json();
-      setProjectId(PI[0].project_id)
-    }
-    getProjectId()
-  }, [])
-
-  useEffect(() => {
-    if (projectId !== '') {  
+  useEffect(() => { 
       // Reference the "messages" node in the Firebase Realtime Database
-      const messagesRef = ref(db, `chatrooms/chatroom${projectId}/messages`);
+      const messagesRef = ref(db, `chatrooms/chatroom${sessionStorage.getItem('project_id')}/messages`);
   
       // Listen for new messages in the Firebase Realtime Database
       const messagesListener = onValue(messagesRef, (snapshot) => {
@@ -78,8 +66,7 @@ export default function FirebaseChat() {
         // Detach the onAuthStateChanged listener
         authListener();
       };
-    }
-  }, [projectId]);
+  }, []);
 
   const handleNewMessage = (event) => {
     setNewMessage(event.target.value);
@@ -90,7 +77,7 @@ export default function FirebaseChat() {
     // Check if the user is signed in
     if (user) {
       // Push the new message to the "messages" node in the Firebase Realtime Database
-      push(ref(db, `chatrooms/chatroom${projectId}/messages`), {
+      push(ref(db, `chatrooms/chatroom${sessionStorage.getItem('project_id')}/messages`), {
         text: newMessage,
         timestamp: Date.now(),
         uid: user.uid,
@@ -107,7 +94,7 @@ export default function FirebaseChat() {
   return (
     <div className={styles['chatroom-container']}>
       <div className={styles["chatroom-inner-container"]}>
-        <h1 className={styles['groupchat-name']}>Group Chat Room</h1>
+        <h1 className={styles['groupchat-name']}>Chat</h1>
         <ul>
           {messages.map((message) => (
             <li key={message.timestamp} className={styles[`sent-messages`]}>
