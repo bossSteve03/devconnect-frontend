@@ -39,7 +39,7 @@ export default function Login() {
       const get_user_id = await fetch (`http://localhost:8000/user/${username}`,new_ops)
       if (get_user_id.ok){
         const data = await get_user_id.json()
-        setUser(data.user_id)
+        sessionStorage.setItem("user_id", data.user_id)
       }
       setToken(data.token);
       sessionStorage.setItem("username", username);
