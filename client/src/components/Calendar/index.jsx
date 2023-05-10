@@ -1,10 +1,28 @@
 import React, { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { format } from 'date-fns'
+import { Calendar, momentLocalizer, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { useEffect } from 'react';
 import CalendarModal from '../CalendarModal'
 import { useProjects } from "../../context";
+
+import parse from 'date-fns/parse'
+import startOfWeek from 'date-fns/startOfWeek'
+import getDay from 'date-fns/getDay'
+import enUS from 'date-fns/locale/en-US'
+
+const locales = {
+  'en-US': enUS,
+}
+
+const localizer2 = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+})
 
 const localizer = momentLocalizer(moment);
 
@@ -15,18 +33,18 @@ export default function TeamCalendar() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState(new Date());
   const [eventEndDate, setEventEndDate] = useState(new Date());
-  const { projects, setProjects } = useProjects();
-
+  const { projects } = useProjects();
 
   useEffect(() => {
     async function populateEvents() {
       const fetchedEvents = await fetchEvents();
-      const eventsMapped = fetchedEvents.map(x => ({ id: x.id, title: x.name, start: Date.parse(x.start_date), end: Date.parse(x.due_date) }));
+      const eventsMapped = fetchedEvents.map(x => ({ id: x.id, title: x.name, start: new Date(x.start_date), end: new Date(x.due_date) }));
       setEventList(eventsMapped);
     }
-
-    populateEvents();
-  }, []);
+    if (projects.length > 0) {
+      populateEvents();
+    }
+  }, [projects]);
 
   const handleEventSelection = (e) => {
     setIsOpen(true);
@@ -84,7 +102,7 @@ export default function TeamCalendar() {
     <>
       <div>This is a calendar</div>
       <Calendar 
-        localizer={localizer} 
+        localizer={localizer2} 
         events={eventList} 
         startAccessor="start" 
         endAccessor="end" 
