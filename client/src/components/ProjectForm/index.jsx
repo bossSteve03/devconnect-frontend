@@ -1,6 +1,6 @@
 import styles from "./index.module.css";
 import { useState } from "react";
-import { useProjects , useUser } from "../../context";
+import { useProjects } from "../../context";
 export default function ProjectForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -8,7 +8,6 @@ export default function ProjectForm() {
   const [collaborators, setCollaborators] = useState("");
   const [techStack, setTechStack] = useState("");
   const [positions, setPositions] = useState("");
-  const {user} = useUser()
   
   const titleHandler = (e) => {
     setTitle(e.target.value);
