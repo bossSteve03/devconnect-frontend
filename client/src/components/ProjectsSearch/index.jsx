@@ -7,7 +7,6 @@ export default function ProjectsSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const { user,setUser } = useUser();
 
   useEffect(() => {
     projects.length > 0 && setIsLoading(false);

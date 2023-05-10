@@ -8,8 +8,9 @@ export default function DisplayProjects() {
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/project/1");
+        const response = await fetch(`http://127.0.0.1:8000/project/${sessionStorage.getItem("user_id")}`);
         const data = await response.json();
+        console.log(data)
         const mapProjects = data["user projects"].map((project) => ({
           id: project.id,
           title: project.title,
