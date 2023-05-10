@@ -2,14 +2,12 @@ import { useState } from "react";
 import styles from './index.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { Buffer } from 'buffer'
-import { useUser } from "../../context";
 import  tokenService from "../../services/tokenService"
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = tokenService();
-  const {setUser} = useUser();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();

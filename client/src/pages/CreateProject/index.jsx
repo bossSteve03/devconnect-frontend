@@ -8,7 +8,7 @@ export default function CreateProject() {
   const [data, setData] = useState({})
 
   async function getProjectMember() {
-    const response = await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${sessionStorage.getItem('username')}`)
+    const response = await fetch(`http://localhost:8000/teammember/${sessionStorage.getItem('user_id')}`)
     const responseData = await response.json()
     setData(JSON.parse(JSON.stringify(responseData)))
   }

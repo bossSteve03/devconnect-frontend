@@ -27,9 +27,10 @@ function App() {
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/project/1");
+        const response = await fetch(`http://127.0.0.1:8000/project/`);
         const data = await response.json();
-        const mapProjects = data["user projects"].map((project) => ({
+        console.log(data)
+        const mapProjects = data.map((project) => ({
           id: project.id,
           title: project.title,
           description: project.description,
