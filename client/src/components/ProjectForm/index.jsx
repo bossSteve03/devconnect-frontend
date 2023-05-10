@@ -47,6 +47,20 @@ export default function ProjectForm() {
     }
   };
 
+  const createCalendar = async (id) => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    };
+    const response = await fetch(`http://127.0.0.1:8000/calendar/${id}`, options);
+    console.log(response);
+    if (response.ok) {
+      console.log("Calendar created successfully");
+    } else {
+      console.log("Calendar creation failed");
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const projectSetup = async () => {
@@ -71,6 +85,7 @@ export default function ProjectForm() {
         const data = await response.json();
         console.log("Project created successfully");
         createKanban(data["Project ID"]);
+        createCalendar(data["Project ID"]);
         window.location.assign = "/dashboard";
       } else {
         console.log("Project creation failed");

@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
-import { Calendar, dateFnsLocalizer, momentLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { useEffect } from 'react';
+import CalendarModal from '../CalendarModal'
+import { useProjects } from "../../context";
 
-// let data = require('date-fns/locale/en-GB')
-// const locales = { 'en-GB': data };
-// const localizer = dateFnsLocalizer({
-//   format,
-//   parse,
-//   startOfWeek,
-//   getDay,
-//   locales
-// })
 const localizer = momentLocalizer(moment);
 
 export default function TeamCalendar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState({title: '', start: '', end: ''});
   const [eventList, setEventList] = useState([]);
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState(new Date());
   const [eventEndDate, setEventEndDate] = useState(new Date());
+  const { projects, setProjects } = useProjects();
 
 
   useEffect(() => {
     async function populateEvents() {
       const fetchedEvents = await fetchEvents();
-      const eventsMapped = fetchedEvents.map(x => ({ title: x.name, start: x.start_date, end: x.due_date }));
+      const eventsMapped = fetchedEvents.map(x => ({ id: x.id, title: x.name, start: Date.parse(x.start_date), end: Date.parse(x.due_date) }));
       setEventList(eventsMapped);
     }
 
@@ -33,7 +29,8 @@ export default function TeamCalendar() {
   }, []);
 
   const handleEventSelection = (e) => {
-    console.log(e, "Event data");
+    setIsOpen(true);
+    setSelectedEvent(e);
   };
 
   const submitHandler = (e) => {
@@ -54,12 +51,13 @@ export default function TeamCalendar() {
         complete: "false"        
       }),
     };
+    console.log(projects[0].id)
     const response = await fetch("http://127.0.0.1:8000/calendar/task/1", options);
     if (response.ok) {
       // TODO : Add alert instead of message?
       const data = await response.json();
       console.log("Calendar Event Creation result:", data);
-      window.location.reload();
+      // window.location.reload();
     } else {
       console.error("Calendar event creation failed!");
     }
@@ -92,6 +90,7 @@ export default function TeamCalendar() {
         endAccessor="end" 
         style={{height: 500, margin: "50px"}}
         onSelectEvent={handleEventSelection}  />
+      { isOpen && <CalendarModal closeModal={ setIsOpen } eventList={ eventList } setEventList={ setEventList } selectedEvent={ selectedEvent } /> }
 
       <form onSubmit={submitHandler}>
         <label>Title
