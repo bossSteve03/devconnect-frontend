@@ -149,7 +149,7 @@ export default function ProjectForm() {
         />
 
         <label htmlFor="duration" className={styles["project-form-label"]}>
-          Duration
+          Duration (in days)
         </label>
         <input
           id="duration"

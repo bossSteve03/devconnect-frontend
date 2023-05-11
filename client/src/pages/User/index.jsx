@@ -44,7 +44,6 @@ export default function User() {
         setSkills(skills);
       }
     }
-    console.log(name, role, skillLevel, skills);
   }, [loaded]);
 
   const handleChanges = async () => {
@@ -67,9 +66,7 @@ export default function User() {
         `http://localhost:8000/user/${username}`,
         options
       );
-      console.log(response);
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +105,6 @@ export default function User() {
   };
 
   const handleSLChange = (event) => {
-    console.log(event.target.value);
     setSkillLevel(event.target.value);
   };
 
@@ -135,11 +131,9 @@ export default function User() {
     setSkills((prevState) => [...prevState, event]);
   };
 
-  console.log(name, role, skillLevel, skills);
-
   return (
     <>
-      <div className={styles["container"]}>
+      <div className={styles["userpage-container"]}>
         {showForm ? (
           <input
             id="name"

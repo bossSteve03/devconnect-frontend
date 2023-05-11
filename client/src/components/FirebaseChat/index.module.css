@@ -1,9 +1,6 @@
 /*
 sent-messages, sent-message / me, date-time, user, text-message, chatroom-container, groupchat-name
 */
-* {
-  font-family: Poppins;
-}
 
 .chatroom-container {
   display: flex;
@@ -111,7 +108,7 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
 .message-form input {
   flex-grow: 100;
   border-radius: 0px;
-  border: 1px solid #000;
+  border: 0px solid #000;
   border-left: none;
   border-bottom: none;
   height: 60px;
@@ -125,7 +122,7 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
 
 .message-form button {
   border: none;
-  border-top: 1px solid #000;
+  border-top: 0px solid #000;
   background-color: #FFF;
   width: 60px;
   transition: 0.2s

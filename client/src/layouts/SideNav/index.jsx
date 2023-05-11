@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BrandName, Sidebar, SidebarCollapsed } from '../../components'
 import styles from './index.module.css';
+import greenbg from '../../../public/greenbg.jpeg'
   
 
 export default function SideNav() {
