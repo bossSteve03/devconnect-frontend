@@ -30,37 +30,37 @@ export default function Dashboard() {
       },
     });
     const userInfo = await response.json();
+    console.log(userInfo)
     setData(userInfo);
-  }
-
-  function checkDetails() {
-    if (data.name !== "" && data.name !== null) {
+    if (userInfo.name !== "") {
       setNameExists(true);
     }
-    if (data.role !== "" && data.role !== null) {
-      setNameExists(true);
+    if (userInfo.role !== "{}") {
+      setRoleExists(true);
     }
-    if (data.skill_level !== "" && data.skill_level !== null) {
-      setNameExists(true);
+    if (userInfo.skill_level !== "") {
+      setSkillLevelExists(true);
     }
-    if (data.skills !== "" && data.skills !== null) {
-      setNameExists(true);
+    if (userInfo.skills !== "{}") {
+      setSkillsExists(true);
     }
   }
 
   useEffect(() => {
     handleData();
-    checkDetails();
   }, []);
 
   return (
-    <div>
+    <div className={styles['dashboardcontainer']}>
       <DisplayTasks />
       <DisplayProjects />
+      <h1 className={styles['profiletasksh1']}>Profile Tasks</h1>
+      <div className={styles["profiletasks"]}>
       {nameExists ? <HasName /> : <NeedsName />}
       {skillLevelExists ? <HasSkillLevel /> : <NeedsSkillLevel />}
       {skillsExists ? <HasSkills /> : <NeedsSkills />}
       {roleExists ? <HasRole /> : <NeedsRole />}
+      </div>
     </div>
   );
 }

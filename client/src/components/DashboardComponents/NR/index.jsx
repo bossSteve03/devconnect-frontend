@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import '../dashboardTasks.css'
+import styles from '../index.module.css'
 
 export default function NeedsRole() {
   return (
-    <div className="containerBorder">
-      <div className="messageContainer">
-        <h1 className="messageTitle">
-          You have not set your <strong className="messageTitle">role</strong> yet.
+    <div className={styles["containerBorder"]}>
+      <div className={styles["messageContainer"]}>
+        <h1 className={styles["messageTitle"]}>
+          You have not set your <strong className={styles["messageTitle"]}>role</strong> yet.
         </h1>
-        <p className="messageContent">
-          Please go to <Link className="messageContent">User Profile</Link> and fill your <strong className="messageContent">role</strong> field.
+        <p className={styles["messageContent"]}>
+          Please go to <Link className={styles["messageContent"]}>User Profile</Link> and fill your <strong className={styles["messageContent"]}>role</strong> field.
         </p>
       </div>
     </div>
