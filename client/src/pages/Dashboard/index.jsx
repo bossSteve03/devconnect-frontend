@@ -52,6 +52,7 @@ export default function Dashboard() {
 
   return (
     <div className={styles['dashboardcontainer']}>
+      <div className={styles["welcomemessage"]}><h1 className={styles["welcomeuser"]}>Welcome,</h1><h1 className={styles['welcomeusername']}>{sessionStorage.getItem('username')}</h1></div>
       <DisplayTasks />
       <DisplayProjects />
       <h1 className={styles['profiletasksh1']}>Profile Tasks</h1>
