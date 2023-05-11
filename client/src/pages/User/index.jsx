@@ -133,42 +133,47 @@ export default function User() {
 
   return (
     <>
-      <div className={styles["userpage-container"]}>
+      <div className={styles["user-container"]}>
         {showForm ? (
           <input
             id="name"
             type="text"
             placeholder={data.name ? data.name : "Enter name here."}
             onChange={handleNChange}
+            className={styles["name-input"]}
           />
         ) : (
           <h1 className={styles["username"]}>
-          {data.name ? data.name : data.username}
+            Hi, {data.name ? data.name : data.username}
           </h1>
         )}
         {showForm ? (
-          <input id="username" type="text" value={data.username} disabled />
-        ) : (
-          <p>{data.name ? data.username : "no name yet"}</p>
-        )}
-        {showForm ? (
-          <input id="email" type="text" value={data.email} disabled />
-        ) : (
-          <p>{data.email}</p>
-        )}
-        {showForm ? (
-          <Multiselect
-            isObject={false}
-            onRemove={handleRemove}
-            onSelect={handleRChange}
-            options={optionsRole}
-            placeholder="Choose your role."
+          <input
+            className={styles["username-input"]}
+            id="username"
+            type="text"
+            value={data.username}
+            disabled
           />
         ) : (
-          <p>{data.role ? data.role.slice(1, -1) : "no role yet"}</p>
+          <p className={styles["name"]}>
+            {data.name ? data.username : "no name yet"}
+          </p>
+        )}
+        {showForm ? (
+          <input
+            className={styles["email-input"]}
+            id="email"
+            type="text"
+            value={data.email}
+            disabled
+          />
+        ) : (
+          <p className={styles["email"]}>{data.email}</p>
         )}
         {showForm ? (
           <select
+            className={styles["skill-input"]}
             id="skill_level"
             type="select"
             placeholder={
@@ -182,33 +187,61 @@ export default function User() {
             <option value="Advanced">Advanced</option>
           </select>
         ) : (
-          <p>{data.skill_level ? data.skill_level : "no skill level yet"}</p>
+          <p className={styles["skill-level"]}>
+            {data.skill_level ? data.skill_level : "no skill level yet"}
+          </p>
         )}
-        {showForm ? (
-          <Multiselect
-            placeholder="Choose your stacks"
-            isObject={false}
-            onRemove={handleRSkillChange}
-            onSelect={handleSChange}
-            options={optionStacks}
-          />
-        ) : (
-          <p>{data.skills ? data.skills.slice(1, -1) : "no skills yet"}</p>
-        )}
+        <div className={styles["multiselect"]}>
+          {showForm ? (
+            <Multiselect
+              isObject={false}
+              onRemove={handleRemove}
+              onSelect={handleRChange}
+              options={optionsRole}
+              placeholder="Choose your role."
+              className={styles["searchWrapper"]}
+            />
+          ) : (
+            <p className={styles["role"]}>
+              {data.role ? data.role.slice(1, -1) : "no role yet"}
+            </p>
+          )}
+          {showForm ? (
+            <Multiselect
+              className={styles["searchWrapper"]}
+              placeholder="Choose your stacks"
+              isObject={false}
+              onRemove={handleRSkillChange}
+              onSelect={handleSChange}
+              options={optionStacks}
+            />
+          ) : (
+            <p className={styles["skills"]}>
+              {data.skills ? data.skills.slice(1, -1) : "no skills yet"}
+            </p>
+          )}
+        </div>
         {showForm ? (
           <>
-            <button
-              onClick={() => {
-                handleCloseForm();
-                window.location.reload();
-              }}
-            >
-              Save changes
-            </button>
-            <button onClick={handleShowForm}>Cancel changes</button>
+            <div className={styles["btn-container"]}>
+              <button
+                className={styles["save-btn"]}
+                onClick={() => {
+                  handleCloseForm();
+                  window.location.reload();
+                }}
+              >
+                Save changes
+              </button>
+              <button className={styles["cancel-btn"]} onClick={handleShowForm}>
+                Cancel changes
+              </button>
+            </div>
           </>
         ) : (
-          <button onClick={handleShowForm}>Edit details</button>
+          <button className={styles["edit-btn"]} onClick={handleShowForm}>
+            Edit details
+          </button>
         )}
       </div>
     </>
