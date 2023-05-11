@@ -100,17 +100,25 @@
 .searchWrapper,
 .search-wrapper {
   font-size: 1.5rem;
-  padding: 1rem;
+  /* padding: 1rem; */
   margin-bottom: 1rem;
   border: 2px solid #40cf4e;
   border-radius: 8px;
+  background: #FFF;
+  /* width: 789px; */
 }
 
 .multiSelectContainer {
-  width: 789px;
+  /* width: 789px; */
 }
 
 .multiselect {
   display: flex;
   gap: 25px;
+  /* width: 789px; */
+}
+
+.searchWrapper input {
+  width: 560px;
+  height: 50px;
 }
