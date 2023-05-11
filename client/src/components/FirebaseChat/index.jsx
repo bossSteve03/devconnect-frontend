@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import { FaPaperPlane } from 'react-icons/fa'
 import { getDatabase, ref, onValue, push, set } from "firebase/database";
@@ -23,6 +23,11 @@ export default function FirebaseChat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState(null);
+  const chatroomRef = useRef(null)
+
+  useEffect(() => {
+    chatroomRef.current.scroll(0, chatroomRef.current.scrollHeight);
+  }, [messages])
 
   useEffect(() => { 
       // Reference the "messages" node in the Firebase Realtime Database
@@ -93,19 +98,19 @@ export default function FirebaseChat() {
 
   return (
     <div className={styles['chatroom-container']}>
-      <div className={styles["chatroom-inner-container"]}>
+      <div className={styles["chatroom-inner-container"]} ref={chatroomRef}>
         <h1 className={styles['groupchat-name']}>Chat</h1>
-        <ul>
           {messages.map((message) => (
-            <li key={message.timestamp} className={styles[`sent-messages`]}>
+            <div key={message.timestamp} className={styles[`sent-messages`]}>
               <div className={`${styles['sent-message']} ${styles[(sessionStorage.getItem('username')==message.username)?'me':'']}`}>
-                <p className={styles["date-time"]}>{new Date(message.timestamp).toLocaleString()}</p>
-                <p className={styles["user"]}>{message.username}</p>
+                <div className={styles["top-of-message"]}>
+                  <p className={styles["date-time"]}>{new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                  <p className={styles["user"]}>{message.username}</p>
+                </div>
                 <p className={styles["text-message"]}>{message.text}</p>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
       </div>
       <form className={styles['message-form']} onSubmit={handleSendMessage}>
         <input

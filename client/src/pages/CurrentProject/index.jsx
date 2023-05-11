@@ -39,10 +39,7 @@ export default function CurrentProject() {
       <div className={styles["team-container"]}>
       <p>team</p>
       </div>
-      <div className={styles["left-side"]}>
-        <div className={styles["tasks-container"]}>
-        <p>tasks</p>
-        </div>
+      <div className={styles['left-side']}>
         <div className={styles["chat-container"]}>
           <FirebaseChat />
         </div>

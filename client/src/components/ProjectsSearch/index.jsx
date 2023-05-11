@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useProjects } from "../../context";
-import "./searchform.css";
+import styles from './index.module.css'
 
 export default function ProjectsSearch() {
   const { projects } = useProjects();
@@ -57,14 +57,18 @@ export default function ProjectsSearch() {
   };
   return (
     <>
-      <h2 className="page-heading">SearchBar</h2>
-      <input type="text" placeholder="Search" onChange={searchHandler} />
+    <section className="Header">
+      <h2 className="page-heading"><strong>Projects</strong></h2>
+      <input type="text" placeholder="Search" className="searchbar" onChange={searchHandler} />
+    </section>
+      <section className="project-container">
+
       {projects.length === 0 ? (
         <p>No projects found.</p>
-      ) : (
-        filteredProjects.map((project, i) => (
-          <div key={i}>
-            <h3 className="project-title">{project.title}</h3>
+        ) : (
+          filteredProjects.map((project, i) => (
+            <div className="container" key={i}>
+            <h3 className="project-title"><strong>{project.title}</strong></h3>
             <p className="project-description">
               Description: {project.description}
             </p>
@@ -77,7 +81,8 @@ export default function ProjectsSearch() {
             </button>
           </div>
         ))
-      )}
+        )}
+      </section>
     </>
   );
 }

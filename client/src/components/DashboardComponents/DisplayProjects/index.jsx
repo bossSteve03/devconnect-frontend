@@ -27,7 +27,7 @@ export default function DisplayProjects() {
   }, [setProjects]);
   return (
     <>
-      <h1>Your Projects</h1>
+      <h1 className={styles['projectsh1']}>Your Projects</h1>
       <div className={styles.projectsContainer}>
         {projects.map((project, i) => (
           <Link to={`/team/${project.id}`}>

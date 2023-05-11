@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BrandName, Sidebar, SidebarCollapsed } from '../../components'
 import styles from './index.module.css';
+import greenbg from '../../../public/greenbg.png'
   
 
 export default function SideNav() {
@@ -28,7 +29,7 @@ export default function SideNav() {
     {collapsed ? <Sidebar /> : <SidebarCollapsed />}
     <RxHamburgerMenu className={styles['sidebar-space']}/>
   </div>
-  <div className={`${collapsed ? styles['content'] : styles['contentCollapsed']}`}>
+  <div style={{backgroundImage:`url(${greenbg})`}} className={`${collapsed ? styles['content'] : styles['contentCollapsed']}`}>
     <Outlet />
   </div>
 </div>
