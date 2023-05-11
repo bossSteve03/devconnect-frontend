@@ -23,7 +23,7 @@ function App() {
   const { token } = tokenService();
   const location = useLocation();
   const navigate = useNavigate();
-  const {projects, setProjects} = useProjects()
+  const { setProjects} = useProjects()
   useEffect(() => {
     const getProjects = async () => {
       try {

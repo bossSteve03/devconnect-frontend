@@ -134,7 +134,7 @@ const KanbanBoard = () => {
   const { projects } = useProjects();
   const [loading, setloading] = useState(false);
   const [have_cards, sethavecards] = useState(true);
-  console.log("asd",projects)
+  
   useEffect(() => {
     const getKanban = async () => {
       try {
@@ -142,12 +142,10 @@ const KanbanBoard = () => {
           `http://127.0.0.1:8000/kanban/${sessionStorage.getItem('project_id')}`
         );
         const data = await response.json();
-        console.log(data + 'kanban');
         setloading(true);
         setKanbanId(data["ID"]);
-        console.log(data['ID'])
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setloading(true);
       }
     };
@@ -169,7 +167,13 @@ const KanbanBoard = () => {
       sethavecards(false);
     }
     const tasks = data;
-    const columnMap = {};
+    const columnMap = { 
+      'Todo': { category: 'Todo', tasks: [] }, 
+      'Progress': { category: 'Progress', tasks: [] }, 
+      'Testing': { category: 'Testing', tasks: [] }, 
+      'Done': { category: 'Done', tasks: [] }
+    };
+    
     tasks.forEach((task) => {
       const category = task.category;
       if (!columnMap[category]) {
@@ -278,7 +282,6 @@ const KanbanBoard = () => {
       );
       return;
     }
-    console.log("asdasdasdasdas", source);
     // Find destination column
     const destinationColumn = columns.find(
       (column) => column.category === destination.droppableId
@@ -291,38 +294,34 @@ const KanbanBoard = () => {
     }
 
     // Update columns state
+    // TODO: If want to keep the order the user added the card, check the property index from 'destination'
+    // And make sure to regen the 'destinationColumn' with the items in the desired order
     const newColumns = [...columns];
     const [removed] = sourceColumn.tasks.splice(source.index, 1);
-    destinationColumn.tasks.splice(destination.index, 0, removed);
-    console.log("here!", destinationColumn.category);
+    destinationColumn.tasks.push(removed);
+
     setColumns(newColumns);
-    console.log("column", sourceColumn);
-    const last = destinationColumn.tasks.length;
-    console.log("asda", destinationColumn.tasks);
+    const last = destinationColumn.tasks[destinationColumn.tasks.length - 1];
     const options = {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        name: destinationColumn.tasks[last - 1].title,
+        name: last.title,
         category: destinationColumn.category,
-        objective: "asd",
+        objective: "none",
       }),
     };
+
     try {
-      const resp = await fetch(
-        `http://127.0.0.1:8000/kanban/task/${
-          destinationColumn.tasks[last - 1].id
-        }`,
-        options
-      );
+      const resp = await fetch(`http://127.0.0.1:8000/kanban/task/${last.id}`, options);
       if (resp.ok) {
         console.log("UPDATED!");
         setSwitcher(!switcher);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
     getTasks();
   };
