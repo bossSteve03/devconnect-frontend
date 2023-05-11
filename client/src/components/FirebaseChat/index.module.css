@@ -15,7 +15,7 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
   padding: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #96C597;
+  background-color: #96c597;
   /* display: flex; */
   flex-direction: column;
 }
@@ -124,15 +124,15 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
 .message-form button {
   border: none;
   border-top: 0px solid #000;
-  background-color: #FFF;
+  background-color: #fff;
   width: 60px;
-  transition: 0.2s
+  transition: 0.2s;
 }
 
 .message-form button:hover {
-  background-color: #4CAF50;
-  color: #FFF;
-  transition: 0.2s
+  background-color: #4caf50;
+  color: #fff;
+  transition: 0.2s;
 }
 
 .send-icon {

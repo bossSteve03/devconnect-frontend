@@ -1,54 +1,93 @@
+.search-heading {
+  font-size: 4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 5rem;
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+.searchbar {
+  width: 35%;
+  border: 2px solid #40cf4e;
+  text-align: center;
+  border-radius: 25px;
+  padding: 1rem;
+}
 .project-title,
 .project-description,
 .page-heading,
 .apply-button {
   color: black;
 }
+
+.project-title {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  padding: 1.2rem;
+}
+
 .container {
-  padding : 5px;
-  width : 100%;
-  height: 33%;
-  display:flex;
+  padding: 5px;
+  width: 550px;
+  height: 60%;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   text-align: center;
-  border: grey 1px solid;
   border-radius: 25px;
   background-color: white;
+  margin-top: 4rem;
 }
-.project-container{
-  height : 90%;
-  width : 40%;
-  display:flex;
-  flex-wrap: wrap;
+
+.project-title-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 28px;
+}
+
+.project-description {
+  margin: 0 auto;
+}
+
+.project-container {
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  gap: 30px;
+  /* flex-wrap: wrap; */
+  margin-right: 15px;
+  margin-left: 15px;
   flex-direction: row;
-  align-items:flex-start;
+  align-items: flex-start;
 }
-.apply-button{
-  margin-left: 35%;
-  width : 30% ;
-  border: none;
-  background-color: white;
-  transition-duration: 0.5s ;
+.apply-button {
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid #40cf4e;
+  border-radius: 8px;
+  background-color: #40cf4e;
+  color: white;
+  cursor: pointer;
+  width: 25%;
+  margin: 0 auto;
 }
-.apply-button:hover{
+.apply-button:hover {
   transform: scale(1.1);
 }
-.page-heading{
+.page-heading {
   margin-right: 2%;
 }
-.Header{
-  display:flex;
-  width:  100%;
-  height : 10%;
+.Header {
+  display: flex;
+  width: 100%;
+  height: 10%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-.searchbar{
-  height : 30%;
-  border: grey 1px solid;
-
-  text-align: center;
-  border-radius: 10px;
 }
