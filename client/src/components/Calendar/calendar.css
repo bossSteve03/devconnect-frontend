@@ -1,0 +1,17 @@
+/* className={styles["containerBorder"]} */
+
+.e-calendar {
+    background-color: #FAF9F6;
+    border: 1px solid rgb(162, 162, 162);
+    padding: 1em;
+    border-radius: 15px;
+}
+
+.rbc-day-bg.rbc-today {
+    background-color: #72FF75;
+    opacity: 30%;
+}
+
+body {
+    color: rgb(67, 67, 67);
+}
