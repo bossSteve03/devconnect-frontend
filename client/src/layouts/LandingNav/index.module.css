@@ -1,3 +1,7 @@
 #Navbar {
   color: #012326
 }
+
+.outlet {
+  overflow-y: scroll;
+}

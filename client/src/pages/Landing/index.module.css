@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+
 .page-content {
   background-color: #FFF;
 }
@@ -13,10 +15,19 @@
 }
 
 #brand-bs-btn {
-  background-color:#5FD562;
+  background-color:#72FF75;
   border:#4CAA4E;
 }
 
 #brand-bs-btn:hover {
-  background-color: #4CAA4E;
+  background-color: #012326;
+  
+}
+
+.homepage-logo-green {
+  color: #53d255;
+}
+
+* {
+  font-family: Poppins, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
