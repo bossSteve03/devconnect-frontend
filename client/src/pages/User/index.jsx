@@ -191,7 +191,7 @@ export default function User() {
             {data.skill_level ? data.skill_level : "no skill level yet"}
           </p>
         )}
-        <div className={styles["multiselect"]}>
+        {/* <div className={styles["multiselect"]}> */}
           {showForm ? (
             <Multiselect
               isObject={false}
@@ -220,7 +220,7 @@ export default function User() {
               {data.skills ? data.skills.slice(1, -1) : "no skills yet"}
             </p>
           )}
-        </div>
+        {/* </div> */}
         {showForm ? (
           <>
             <div className={styles["btn-container"]}>

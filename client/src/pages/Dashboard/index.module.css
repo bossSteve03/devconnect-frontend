@@ -2,6 +2,26 @@
   color: #fff;
 }
 
+.welcomeuser {
+  font-size: 80px;
+  color: #fff;
+  margin: 20px 0px 30px 0px;
+  font-weight: bolder;
+}
+
+.welcomeusername {
+  font-size: 80px;
+  color: #72FF75;
+  margin: 20px 0px 30px 0px;
+  font-weight: bolder;
+}
+
+.welcomemessage {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
 .dashboardcontainer {
   padding: 20px;
   overflow-y: scroll;
