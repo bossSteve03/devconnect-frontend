@@ -149,7 +149,7 @@ export default function User() {
           />
         ) : (
           <h1 className={styles["username"]}>
-          Hello {data.name ? data.name : data.username}!
+          {data.name ? data.name : data.username}
           </h1>
         )}
         {showForm ? (
