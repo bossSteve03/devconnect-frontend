@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useProjects } from "../../context";
-import "./searchform.css";
+import styles from './index.module.css'
 
 export default function ProjectsSearch() {
   const { projects } = useProjects();
