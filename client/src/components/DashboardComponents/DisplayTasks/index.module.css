@@ -3,14 +3,16 @@
   flex-wrap: wrap;
   flex-direction: row;
   padding: 20px;
-  gap: 10px;
+  gap: 15px;
+  overflow-x: scroll;
 }
 
 .taskContent {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: 150px;
+  width: 275px;
+  height: 150px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
