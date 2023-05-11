@@ -8,27 +8,27 @@ export default function CurrentProject() {
   const [data, setData] = useState({})
   
   async function getProjectMember() {
-    const response = await fetch(`http://localhost:8000/teammember/${sessionStorage.getItem('project_id')}`)
-    console.log(response.status)
-    const responsedata = await response.json()
-    console.log("info got!", responsedata)
-    setData(responsedata[0])
+    try{
+      console.log("id !", sessionStorage.getItem('project_id'))
+      if (sessionStorage.getItem('project_id') === null){
+        setProjectExists(false)
+      }
+      else {
+        const response = await fetch(`http://localhost:8000/teammember/${sessionStorage.getItem('project_id')}`)
+        console.log(response.status)
+        const responsedata = await response.json()
+        setProjectExists(true)
+        setData(responsedata[0])
+      }
+    }
+    catch (e){
+      console.log(e)
+    }
   }
 
   useEffect(() => {
     getProjectMember()
   }, [])
-
-  useEffect(() => {
-    console.log(data + 'current team data')
-      if (data !== null) {
-        setProjectExists(true)
-        console.log(data + 'project exists')
-      } else {
-        setProjectExists(false)
-        console.log('Not Found')
-      }
-  }, [data])
 
   return (
     <>
@@ -37,7 +37,10 @@ export default function CurrentProject() {
     ?
     <div className={styles["page-container"]}>
       <div className={styles["team-container"]}>
-      <p>team</p>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
       </div>
       <div className={styles['left-side']}>
         <div className={styles["chat-container"]}>

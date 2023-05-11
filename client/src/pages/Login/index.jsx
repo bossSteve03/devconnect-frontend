@@ -42,8 +42,12 @@ export default function Login() {
       setToken(data.token);
       sessionStorage.setItem("username", username);
       sessionStorage.setItem("id", data.public_id);
+       const check =await (await fetch(`http://localhost:8000/teammember/getProjectMemberByUsername/${username}`)).json()
+       if (check){
+        sessionStorage.setItem("project_id",check[0].project_id)
+       }
       navigate("/auth/dashboard");
-      window.location.reload();
+      window.location.reload()
     } else {
       alert("Invalid Credentials");
     }
