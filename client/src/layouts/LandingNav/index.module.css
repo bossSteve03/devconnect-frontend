@@ -5,3 +5,7 @@
 .outlet {
   overflow-y: scroll;
 }
+
+* {
+  font-family: Poppins;
+}

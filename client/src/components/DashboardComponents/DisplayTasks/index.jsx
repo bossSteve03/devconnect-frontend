@@ -7,7 +7,7 @@ export default function DisplayTasks() {
 
   const getKanban = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/kanban/1");
+      const response = await fetch(`http://127.0.0.1:8000/kanban/${sessionStorage.getItem("project_id")}`);
       const data = await response.json();
       setKanbanId(data["ID"]);
     } catch (error) {
@@ -34,9 +34,8 @@ export default function DisplayTasks() {
 
   return (
     <>
-      <h1>Welcome Back, UserName</h1>
       <div className={styles.tasksContainer}>
-        <h1>Your Tasks - Project Name</h1>
+        <h1 className={styles['kanbantasksh1']}>Kanban Tasks</h1>
         <div className={styles.task}>
           {tasks.map((task) => (
             <div key={task.id} className={styles.taskContent}>
