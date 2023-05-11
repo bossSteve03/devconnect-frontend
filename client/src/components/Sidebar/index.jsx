@@ -14,10 +14,6 @@ export default function Sidebar() {
 
   function logout() {
     removeToken();
-    sessionStorage.removeItem("user_id")
-    sessionStorage.removeItem("id")
-    sessionStorage.removeItem("username")
-    sessionStorage.removeItem("project_id")
     navigate('/')
     window.location.reload();
   }

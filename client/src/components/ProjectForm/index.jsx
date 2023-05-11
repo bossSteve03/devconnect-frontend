@@ -127,6 +127,7 @@ export default function ProjectForm() {
   return (
     <>
       <h1>Project Form</h1>
+      {sessionStorage.getItem("project_id") == 0 ? 
       <form className={styles["project-form-container"]}>
         <label htmlFor="title" className={styles["project-form-label"]}>
           Title
@@ -197,7 +198,7 @@ export default function ProjectForm() {
         >
           Submit
         </button>
-      </form>
+      </form> : <h1>User already has project!</h1>}
     </>
   );
 }
