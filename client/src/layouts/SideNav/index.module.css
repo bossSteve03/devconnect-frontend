@@ -103,6 +103,9 @@
   width: 100%;
   height: 100vh;
   transition: margin-left 1s ease;
+  background: repeat;
+  background-size: contain;
+  overflow-y: scroll;
 }
 
 .contentCollapsed {
@@ -111,4 +114,7 @@
   width: 100%;
   height: 100vh;
   transition: margin-left 1s ease;
+  background: repeat;
+  background-size: contain;
+  overflow-y: scroll;
 }
