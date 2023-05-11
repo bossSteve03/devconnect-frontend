@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import '../dashboardTasks.css'
+import styles from '../index.module.css'
 
 export default function NeedsSkills() {
   return (
-    <div className="containerBorder">
-      <div className="messageContainer">
-        <h1 className="messageTitle">
-          You have not set your <strong className="messageTitle">skills</strong> yet.
+    <div className={styles["containerBorder"]}>
+      <div className={styles["messageContainer"]}>
+        <h1 className={styles["messageTitle"]}>
+          You have not set your <strong className={styles["messageTitle"]}>skills</strong> yet.
         </h1>
-        <p className="messageContent">
-          Please go to <Link className="messageContent">User Profile</Link> and fill your <strong className="messageContent">skills</strong> field.
+        <p className={styles["messageContent"]}>
+          Please go to <Link className={styles["messageContent"]}>User Profile</Link> and fill your <strong className={styles["messageContent"]}>skills</strong> field.
         </p>
       </div>
     </div>

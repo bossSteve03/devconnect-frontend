@@ -15,7 +15,7 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
   padding: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #4A725A;
+  background-color: #96C597;
   /* display: flex; */
   flex-direction: column;
 }
@@ -94,7 +94,8 @@ sent-messages, sent-message / me, date-time, user, text-message, chatroom-contai
 }
 
 .sent-message.me > .text-message {
-  background: linear-gradient(to top right, #4CAF50, #40CF4E);
+  /* background: linear-gradient(to top right, #4CAF50, #40CF4E); */
+  background: #012326;
   margin-right: 0;
   margin-left: auto;
 }

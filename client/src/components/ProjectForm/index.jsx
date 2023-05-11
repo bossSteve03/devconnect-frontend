@@ -78,18 +78,21 @@ export default function ProjectForm() {
           tech_stack: techStack || "",
           chatroom_key: "123c",
           positions: positions || "",
-          name: sessionStorage.getItem('username'),
+          name: sessionStorage.getItem("username"),
           level: 1,
-          role: 'Project Owner'
+          role: "Project Owner",
         }),
       };
-      const response = await fetch("http://127.0.0.1:8000/project/create", options);
+      const response = await fetch(
+        "http://127.0.0.1:8000/project/create",
+        options
+      );
       if (response.ok) {
         const data = await response.json();
         console.log("Project created successfully");
-        console.log(data)
+        console.log(data);
         // createKanban(data["Project ID"]);
-        
+
         // const projectMemberSetup = async (id) => {
         //   const options2 = {
         //     method: "POST",
@@ -114,19 +117,18 @@ export default function ProjectForm() {
         // setTimeout(createKanban(data["Project ID"]), 500);
         // setTimeout(createCalendar(data["Project ID"]), 500);
         // setTimeout(projectMemberSetup(data["Project ID"]), 500);
-        sessionStorage.setItem('project_id', data.project_id)
-        navigate("/auth/dashboard")
+        sessionStorage.setItem("project_id", data.project_id);
+        navigate("/auth/dashboard");
       } else {
         console.log("Project creation failed");
       }
     };
     projectSetup();
-    
   };
 
   return (
     <>
-      <h1>Project Form</h1>
+      <h1 className={styles["project-form-title"]}>Create Your Project</h1>
       {sessionStorage.getItem("project_id") == 0 ? 
       <form className={styles["project-form-container"]}>
         <label htmlFor="title" className={styles["project-form-label"]}>
@@ -185,7 +187,7 @@ export default function ProjectForm() {
         </label>
         <input
           id="positions"
-          className={styles["positions-input"]}
+          className={styles["project-form-input"]}
           type="text"
           placeholder="Frontend, UX designer"
           onChange={positionsHandler}

@@ -34,9 +34,8 @@ export default function DisplayTasks() {
 
   return (
     <>
-      <h1>Welcome Back, UserName</h1>
       <div className={styles.tasksContainer}>
-        <h1>Your Tasks - Project Name</h1>
+        <h1 className={styles['kanbantasksh1']}>Kanban Tasks</h1>
         <div className={styles.task}>
           {tasks.map((task) => (
             <div key={task.id} className={styles.taskContent}>
