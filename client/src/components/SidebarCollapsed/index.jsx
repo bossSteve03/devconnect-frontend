@@ -18,7 +18,6 @@ export default function SidebarCollapsed() {
     navigate('/')
     window.location.reload();
   }
-
   return (
     <div className={styles['icon-list']}>
       <Link to='/auth/dashboard'><div className={styles['list-item']}><RxDashboard className={styles['icon-btn']}/><p>Dashboard</p></div></Link>
