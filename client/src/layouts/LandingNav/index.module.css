@@ -2,6 +2,10 @@
   color: #012326
 }
 
+.outlet {
+  overflow-y: scroll;
+}
+
 * {
   font-family: Poppins;
 }

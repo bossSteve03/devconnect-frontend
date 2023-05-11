@@ -27,13 +27,13 @@ export function Footer() {
       <Container className='py-4'>
         <section className='mb-4'>
           <p>
-          The DevConnect team is dedicated to providing a platform for like-minded individuals to connect and build projects of any scale, all while gaining practical experience and building their skills. Join our community today and start building your next project!
+          The DevConnect team is dedicated to providing a platform for like-minded individuals to connect and build projects of any scale. Join our community today and start building your next project!
           </p>
         </section>
         <section className='mb-4'>
-          <Button variant='outline-light' className='m-1' href='#!' role='button'><FaLinkedinIn /></Button>
+          <Button variant='outline-light' className='m-1' href='https://www.linkedin.com' role='button'><FaLinkedinIn /></Button>
 
-          <Button variant='outline-light' className='m-1' href='#!' role='button'><FaGithub /></Button>
+          <Button variant='outline-light' className='m-1' href='https://github.com' role='button'><FaGithub /></Button>
         </section>
       </Container>
 

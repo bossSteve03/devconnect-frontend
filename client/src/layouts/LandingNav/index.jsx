@@ -34,7 +34,9 @@ export default function LandingNav() {
         </Navbar.Collapse>
       </div>
     </Navbar>
-    <Outlet />
+    <div className={styles['outlet']}>
+      <Outlet />
+    </div>
     <Footer />
     </>
   );

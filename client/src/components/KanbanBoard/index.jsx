@@ -134,12 +134,12 @@ const KanbanBoard = () => {
   const { projects } = useProjects();
   const [loading, setloading] = useState(false);
   const [have_cards, sethavecards] = useState(true);
-  
+
   useEffect(() => {
     const getKanban = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/kanban/${sessionStorage.getItem('project_id')}`
+          `http://127.0.0.1:8000/kanban/${sessionStorage.getItem("project_id")}`
         );
         const data = await response.json();
         setloading(true);
@@ -167,13 +167,13 @@ const KanbanBoard = () => {
       sethavecards(false);
     }
     const tasks = data;
-    const columnMap = { 
-      'Todo': { category: 'Todo', tasks: [] }, 
-      'Progress': { category: 'Progress', tasks: [] }, 
-      'Testing': { category: 'Testing', tasks: [] }, 
-      'Done': { category: 'Done', tasks: [] }
+    const columnMap = {
+      Todo: { category: "Todo", tasks: [] },
+      Progress: { category: "Progress", tasks: [] },
+      Testing: { category: "Testing", tasks: [] },
+      Done: { category: "Done", tasks: [] },
     };
-    
+
     tasks.forEach((task) => {
       const category = task.category;
       if (!columnMap[category]) {
@@ -315,7 +315,10 @@ const KanbanBoard = () => {
     };
 
     try {
-      const resp = await fetch(`http://127.0.0.1:8000/kanban/task/${last.id}`, options);
+      const resp = await fetch(
+        `http://127.0.0.1:8000/kanban/task/${last.id}`,
+        options
+      );
       if (resp.ok) {
         console.log("UPDATED!");
         setSwitcher(!switcher);
@@ -328,48 +331,56 @@ const KanbanBoard = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <h1>Kanban Board</h1>
-      <div className={styles.board}>
-        {loading ? (
-          have_cards && !kanbanId == "" ? (
-            columns.map((column, index) => (
-              <Column
-                switcher={switcher}
-                setSwitcher={setSwitcher}
-                key={column.category}
-                title={column.category}
-                tasks={column.tasks}
-                index={index}
-              />
-            ))
+      <div className={styles["kanban-container-page"]}>
+        <h1 className={styles["kanban-title"]}>Kanban Board</h1>
+        <form className={styles["kanban-form"]}>
+          <input
+            type="text"
+            placeholder="your task"
+            value={title}
+            onChange={handlerTaskInput}
+            className={styles["kanban-input"]}
+          />
+          <select
+            onChange={handlerTaskCategory}
+            id="categories"
+            placeholder="Category"
+            className={styles["kanban-select"]}
+          >
+            <option value="Todo">Todo</option>
+            <option value="Progress">In Progress</option>
+            <option value="Testing">Testing</option>
+            <option value="Done">Done</option>
+          </select>
+          <button
+            type="submit"
+            onClick={handlerAdd}
+            className={styles["kanban-add-btn"]}
+          >
+            Add
+          </button>
+        </form>
+        <div className={styles.board}>
+          {loading ? (
+            have_cards && !kanbanId == "" ? (
+              columns.map((column, index) => (
+                <Column
+                  switcher={switcher}
+                  setSwitcher={setSwitcher}
+                  key={column.category}
+                  title={column.category}
+                  tasks={column.tasks}
+                  index={index}
+                />
+              ))
+            ) : (
+              <h1>No current cards</h1>
+            )
           ) : (
-            <h1>No current cards</h1>
-          )
-        ) : (
-          <h1>Loading Content . . .</h1>
-        )}
+            <h1>Loading Content . . .</h1>
+          )}
+        </div>
       </div>
-      <form>
-        <input
-          type="text"
-          placeholder="your task"
-          value={title}
-          onChange={handlerTaskInput}
-        />
-        <select
-          onChange={handlerTaskCategory}
-          id="categories"
-          placeholder="Category"
-        >
-          <option value="Todo">Todo</option>
-          <option value="Progress">In Progress</option>
-          <option value="Testing">Testing</option>
-          <option value="Done">Done</option>
-        </select>
-        <button type="submit" onClick={handlerAdd}>
-          Add
-        </button>
-      </form>
     </DragDropContext>
   );
 };
