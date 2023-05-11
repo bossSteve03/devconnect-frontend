@@ -20,19 +20,9 @@
   flex-grow: 1;
 }
 
-.tasks-container {
-  padding: 10px;
-  height: 50vh;
-  border-right: 1px solid #000;
-  min-width: 400px;
-  overflow-x: scroll;
-}
-
 .chat-container {
   padding: 0px;
-  height: 50vh;
-  border-top: 1px solid #000;
+  height: 100vh;
   border-right: 1px solid #000;
   min-width: 400px;
-  overflow-y: scroll;
 }
