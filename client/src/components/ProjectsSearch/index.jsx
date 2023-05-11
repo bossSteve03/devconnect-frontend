@@ -32,29 +32,33 @@ export default function ProjectsSearch() {
   }
 
   const handleApply = async (e,project) => {
-    console.log("user",sessionStorage.getItem("user_id"))
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: sessionStorage.getItem("user_id"),
-        name: sessionStorage.getItem("username"),
-        level: 0,
-        role: "Team member"
-      }),
-    };
-    console.log(options)
-    const response = await fetch(
-      `http://127.0.0.1:8000/teammember/${project.id}`,
-      options
-    );
-    if (response.ok) {
-      alert("welcome to the Team!");
-      sessionStorage.setItem('project_id', project.id)
+    if (sessionStorage.getItem("project_id")!= 0){
+      alert("already apart of a project!")
+      return;
     }
-    const data = await response.json();
-    console.log(data);
-  };
+    else{
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: sessionStorage.getItem("user_id"),
+          name: sessionStorage.getItem("username"),
+          level: 0,
+          role: "Team member"
+        }),
+      };
+      console.log(options)
+      const response = await fetch(
+        `http://127.0.0.1:8000/teammember/${project.id}`,
+        options
+      );
+      if (response.ok) {
+        sessionStorage.setItem('project_id', project.id)
+        alert("welcome to the Team!");
+      }
+      const data = await response.json();
+    };
+  }
   return (
     <>
     <section className="Header">
