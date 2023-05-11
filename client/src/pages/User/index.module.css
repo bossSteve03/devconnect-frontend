@@ -6,10 +6,13 @@
   justify-content: center;
   text-align: left;
   margin: 0px auto;
-  padding: 100px;
-  width: 500px;
+  padding: 20px;
+  width: 400px;
   gap: 15px;
-  border: 1px #000 solid;
+  background-color: #FFF;
+  border-radius: 30px;
+  height: 80vh;
+  margin-top: 50px;
 }
 
 .userpage-container p, .userpage-container h1 {
