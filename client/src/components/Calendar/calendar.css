@@ -1,17 +1,71 @@
 /* className={styles["containerBorder"]} */
 
 .e-calendar {
-    background-color: #FAF9F6;
-    border: 1px solid rgb(162, 162, 162);
-    padding: 1em;
-    border-radius: 15px;
+  background-color: #faf9f6;
+  border: 1px solid rgb(162, 162, 162);
+  padding: 1em;
+  border-radius: 15px;
+  margin: 5rem 2rem;
+  height: 500px;
 }
 
 .rbc-day-bg.rbc-today {
-    background-color: #72FF75;
-    opacity: 30%;
+  background-color: #72ff75;
+  opacity: 30%;
 }
 
 body {
-    color: rgb(67, 67, 67);
+  color: rgb(67, 67, 67);
+}
+
+.calendar-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255);
+  padding: 1rem;
+  border-radius: 8px;
+  gap: 1rem;
+}
+
+.calendar-head-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #fff;
+}
+
+.calendar-input,
+.calendar-input-title {
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid #40cf4e;
+  border-radius: 8px;
+}
+
+.calendar-input {
+  width: 30%;
+}
+
+.calendar-input-title {
+  width: 50%;
+}
+
+.calendar-title {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.calendar-submit {
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid #40cf4e;
+  border-radius: 8px;
+  background-color: #40cf4e;
+  color: white;
+  cursor: pointer;
 }
