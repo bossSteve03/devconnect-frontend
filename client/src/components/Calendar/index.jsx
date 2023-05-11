@@ -5,11 +5,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useEffect } from 'react';
 import CalendarModal from '../CalendarModal'
 import { useProjects } from "../../context";
-
 import parse from 'date-fns/parse'
 import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import enGB from 'date-fns/locale/en-GB'
+import './calendar.css';
+
 
 const locales = {
   'en-GB': enGB,
@@ -98,12 +99,18 @@ export default function TeamCalendar() {
   return (
     <>
       <Calendar 
+        className='e-calendar'
         localizer={localizer} 
         events={eventList} 
         startAccessor="start" 
         endAccessor="end" 
         style={{height: 500, margin: "50px"}}
-        onSelectEvent={handleEventSelection}  />
+        onSelectEvent={handleEventSelection}
+        eventPropGetter={() => {
+          const backgroundColor = 'lightgreen';
+          const textShadow = '0px 0px 2px #2C6A52';
+          return { style: { backgroundColor, textShadow } }
+        }}  />
       { isOpen && <CalendarModal closeModal={ setIsOpen } eventList={ eventList } setEventList={ setEventList } selectedEvent={ selectedEvent } /> }
 
       <form onSubmit={submitHandler}>
