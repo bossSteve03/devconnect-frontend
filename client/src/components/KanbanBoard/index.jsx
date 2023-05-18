@@ -258,7 +258,8 @@ const KanbanBoard = () => {
 
   const onDragEnd = async (result) => {
     const { source, destination } = result;
-
+    console.log("result", result);
+    console.log("source", source, destination);
     // If dropped outside of droppable area
     if (!destination) {
       return;
